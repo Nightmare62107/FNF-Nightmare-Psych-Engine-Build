@@ -1,0 +1,21 @@
+{
+	"songs": [
+		["Ugh Erect", "tankman", [225, 225, 225]]
+	],
+
+	"weekCharacters": [
+		"tankman-erect",
+		"bf-erect",
+		"gf-erect"
+	],
+	"weekBackground": "tank_erect",
+
+	"storyName": "Week 7 Erect",
+	"weekBefore": "week6Erect",
+	"weekName": "Week 7 Erect",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Erect, Nightmare"
+}

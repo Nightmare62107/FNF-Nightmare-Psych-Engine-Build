@@ -1,0 +1,20 @@
+{
+	"songs": [
+	],
+
+	"weekCharacters": [
+		"senpai-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "school_picomix",
+
+	"storyName": "Week 6 Pico Mix",
+	"weekBefore": "week5PicoMix",
+	"weekName": "Week 6 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

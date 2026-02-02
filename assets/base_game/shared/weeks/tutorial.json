@@ -1,0 +1,20 @@
+{
+	"songs": [
+		["Tutorial", "gf", [165, 0, 77]]
+	],
+
+	"weekCharacters": [
+		"",
+		"bf-normal",
+		"gf-normal"
+	],
+	"weekBackground": "stage_normal",
+
+	"storyName": "TEACHING TIME",
+	"weekBefore": "test",
+	"weekName": "Tutorial",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false
+}

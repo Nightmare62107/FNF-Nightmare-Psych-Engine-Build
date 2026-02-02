@@ -1,0 +1,20 @@
+{
+	"songs": [
+	],
+
+	"weekCharacters": [
+		"parents-christmas-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "christmas_picomix",
+
+	"storyName": "Week 5 Pico Mix",
+	"weekBefore": "week4PicoMix",
+	"weekName": "Week 5 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

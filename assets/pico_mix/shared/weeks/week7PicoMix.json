@@ -1,0 +1,22 @@
+{
+	"songs": [
+		["Ugh Pico Mix", "tankman", [225, 225, 225]],
+		["Stress Pico Mix", "tankman", [225, 225, 225]]
+	],
+
+	"weekCharacters": [
+		"tankman-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "tank_picomix",
+
+	"storyName": "Week 7 Pico Mix",
+	"weekBefore": "week6PicoMix",
+	"weekName": "Week 7 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

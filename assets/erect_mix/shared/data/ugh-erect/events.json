@@ -1,0 +1,23 @@
+{
+	"events": [
+		[
+			5647.05882352941,
+			[
+				["Play Animation", "singUP-alt", "Dad", "", "", ""]
+			]
+		],
+		[
+			48000,
+			[
+				["Play Animation", "singUP-alt", "Dad", "", "", ""]
+			]
+		],
+		[
+			73411.7647058823,
+			[
+				["Play Animation", "singUP-alt", "Dad", "", "", ""]
+			]
+		]
+	],
+	"format": "psych_v1"
+}

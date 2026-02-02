@@ -1,0 +1,23 @@
+{
+	"songs": [
+		["Bopeebo Erect", "dad", [175, 102, 206]],
+		["Fresh Erect", "dad", [175, 102, 206]],
+		["Dad Battle Erect", "dad", [175, 102, 206]]
+	],
+
+	"weekCharacters": [
+		"dad-erect",
+		"bf-erect",
+		"gf-erect"
+	],
+	"weekBackground": "stage_erect",
+
+	"storyName": "Week 1 Erect",
+	"weekBefore": "weekend1BFMix",
+	"weekName": "Week 1 Erect",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Erect, Nightmare"
+}

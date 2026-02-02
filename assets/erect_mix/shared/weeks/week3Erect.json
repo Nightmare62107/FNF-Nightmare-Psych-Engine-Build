@@ -1,0 +1,23 @@
+{
+	"songs": [
+		["Pico Erect", "pico", [183, 216, 85]],
+		["Philly Nice Erect", "pico", [183, 216, 85]],
+		["Blammed Erect", "pico", [183, 216, 85]]
+	],
+
+	"weekCharacters": [
+		"pico-erect",
+		"bf-erect",
+		"gf-erect"
+	],
+	"weekBackground": "philly_erect",
+
+	"storyName": "Week 3 Erect",
+	"weekBefore": "week2Erect",
+	"weekName": "Week 3 Erect",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Erect, Nightmare"
+}

@@ -1,0 +1,22 @@
+{
+	"songs": [
+		["Darnell BF Mix", "darnell", [115, 94, 176]],
+		["Lit Up BF Mix", "darnell", [115, 94, 176]]
+	],
+
+	"weekCharacters": [
+		"darnell-normal",
+		"bf-normal",
+		"gf-normal"
+	],
+	"weekBackground": "phillystreets_normal",
+
+	"storyName": "Weekend 1 BF Mix",
+	"weekBefore": "week7PicoMix",
+	"weekName": "Weekend 1 BF Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

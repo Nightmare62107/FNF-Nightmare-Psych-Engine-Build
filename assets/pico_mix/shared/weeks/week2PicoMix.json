@@ -1,0 +1,22 @@
+{
+	"songs": [
+		["Spookeez Pico Mix", "spooky", [213, 126, 0]],
+		["South Pico Mix", "spooky", [213, 126, 0]],
+	],
+
+	"weekCharacters": [
+		"spooky-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "halloween_picomix",
+
+	"storyName": "Week 2 Pico Mix",
+	"weekBefore": "week1PicoMix",
+	"weekName": "Week 2 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

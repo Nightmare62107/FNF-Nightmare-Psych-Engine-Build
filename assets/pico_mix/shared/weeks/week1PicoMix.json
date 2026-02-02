@@ -1,0 +1,23 @@
+{
+	"songs": [
+		["Bopeebo Pico Mix", "dad", [175, 102, 206]],
+		["Fresh Pico Mix", "dad", [175, 102, 206]],
+		["Dad Battle Pico Mix", "dad", [175, 102, 206]]
+	],
+
+	"weekCharacters": [
+		"dad-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "stage_picomix",
+
+	"storyName": "Week 1 Pico Mix",
+	"weekBefore": "weekend1",
+	"weekName": "Week 1 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

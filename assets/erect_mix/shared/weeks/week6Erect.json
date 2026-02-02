@@ -1,0 +1,23 @@
+{
+	"songs": [
+		["Senpai Erect", "senpai-pixel", [255, 170, 111]],
+		["Roses Erect", "senpai-pixel", [255, 170, 111]],
+		["Thorns Erect", "spirit-pixel", [255, 60, 110]]
+	],
+
+	"weekCharacters": [
+		"senpai-erect",
+		"bf-erect",
+		"gf-erect"
+	],
+	"weekBackground": "school_erect",
+
+	"storyName": "Week 6 Erect",
+	"weekBefore": "week5Erect",
+	"weekName": "Week 6 Erect",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Erect, Nightmare"
+}

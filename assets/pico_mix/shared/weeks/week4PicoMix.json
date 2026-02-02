@@ -1,0 +1,20 @@
+{
+	"songs": [
+	],
+
+	"weekCharacters": [
+		"mom-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "limo_picomix",
+
+	"storyName": "Week 4 Pico Mix",
+	"weekBefore": "week3PicoMix",
+	"weekName": "Week 4 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

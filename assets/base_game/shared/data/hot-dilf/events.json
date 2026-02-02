@@ -1,0 +1,843 @@
+{
+	"events": [
+		[
+			-6000,
+			[
+				["Set GF Speed", "2", ""]
+			]
+		],
+		[
+			9587.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			9600,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			10387.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			10400,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			12787.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			12800,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			13587.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			13600,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			15987.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			16000,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			17600,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			19187.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			19200,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			20150,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			20200,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			22387.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			22400,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			23187.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			23200,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			25587.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			25600,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			26400,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			28787.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			28800,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			29587.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			29600,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			31987.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			32000,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			32787.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			32800,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			35187.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			35200,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			35987.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			36000,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			38387.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			38400,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			39200,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			41587.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			41600,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			42287.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			42300,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			44787.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			44800,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			45587.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			45600,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			47987.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			48000,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			48775,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			48800,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			51187.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			51200,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			52000,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			54387.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			54400,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			55187.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			55200,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			57587.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			57600,
+			[
+				["Screen Shake", "0.9, 0.015", "0.9, 0.015"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			58387.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			58400,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			60775,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			60800,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			61550,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			61600,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			62350,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			62387.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			62400,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			62800,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			63200,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			63987.5,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			64000,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			64400,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			64750,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			64800,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			65300,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			65575,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			65587.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			65600,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			66400,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			66700,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			67187.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			67200,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			68000,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			68300,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			68750,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			68787.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			68800,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			68900,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			69550,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			69600,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			70350,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			70400,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			71150,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			71200,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			71950,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			72000,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			72787.5,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			72800,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			73575,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			73600,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			74350,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			74400,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			75150,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			75200,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			75600,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			76000,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			76775,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			76800,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			77550,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			77600,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			78350,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			78375,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			78400,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			79200,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			79600,
+			[
+				["Camera Follow Pos", "500", "550"]
+			]
+		],
+		[
+			79950,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			80000,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			80750,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			80800,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			81550,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			81600,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			82350,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			82400,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			83150,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			83200,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			83950,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			84000,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			84750,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		],
+		[
+			84800,
+			[
+				["Screen Shake", "0.8, 0.02", "0.8, 0.02"],
+				["Play Animation", "dilf", "0"]
+			]
+		],
+		[
+			85550,
+			[
+				["Camera Follow Pos", "", ""]
+			]
+		],
+		[
+			85600,
+			[
+				["Play Animation", "idle", "0"]
+			]
+		]
+	],
+	"format": "psych_v1"
+}

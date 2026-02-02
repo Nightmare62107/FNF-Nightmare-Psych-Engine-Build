@@ -1,0 +1,22 @@
+{
+	"songs": [
+		["Spookeez Erect", "spooky", [213, 126, 0]],
+		["South Erect", "spooky", [213, 126, 0]],
+	],
+
+	"weekCharacters": [
+		"spooky-erect",
+		"bf-erect",
+		"gf-erect"
+	],
+	"weekBackground": "halloween_erect",
+
+	"storyName": "Week 2 Erect",
+	"weekBefore": "week1Erect",
+	"weekName": "Week 2 Erect",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Erect, Nightmare"
+}

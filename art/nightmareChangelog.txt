@@ -1,0 +1,88 @@
+Nightmare62107's Build V4:
+
+- Pressing BACK on the title screen now closes the game.
+
+- Added Kade Engine's caching menu for archival and testing porting menus over from older engine versions.
+
+- Fixed the change color easter eggs on title screen. Now the enter text changes colors with it.
+
+- Changed the way certain aspects of the engine compiles. folders following the "base_game" format include: "vs_sonic_exe", "pico_mix", "bf_mix", "erect_mix".
+
+- Added the "freeplayRandom" music to the freeplay menu.
+
+- The "Ring" text inside the available note skins list.txt now adds or removes it automatically depending on if "vs_sonic_exe" is active.
+
+- The "girlfriend's ringtone" easter egg on title screen now only adds when compiling if the psych engine title easter eggs are also active.
+
+- Added text in the main menu bottom left corner stating the version of the Nightmare build you are currently using.
+
+- Moved the achievement button in main menu up a little to account for the build version text.
+
+- ring counter now has a pixel counterpart for pixel stages.
+
+- Ring notes now have an actual texture for normal and pixel. Furthermore, you can now use the "Ring" note skin within settings.
+
+- Added an Opponent Health Drain feature inside of the gameplay changers menu.
+
+- Added more introText inside "introText.txt".
+
+- Added Shubs easter egg back into the engine (for archival purposes). Also added them back in the credits menu under Ex-Programmer. Even if there was drama, credit is always due if you like it or not.
+
+- Added my own Discord Rich Presence to the build.
+
+- Changed the way the way the Psych Engine discord server is added in the Credits menu. Also added my server (Nightmare's Closet) to the credits menu.
+
+
+
+
+
+Nightmare's Build V5:
+
+- Fixed the max misses counter going into the negatives when max misses and practice mode are on at the same time.
+
+- Fixed the botplaysine starting at a weird timing when turned on via pause menu in charting mode.
+
+- Changed "Camera Flash" event to use value 2 to change the color of the flash.
+
+- Added losing icons to freeplay when the song is selected.
+
+- Added a "Random" option to freeplay that will randomly choose a song within the difficulty of your choosing (Work In Progress! May Be Buggy!). EDITORS NOTE: Mod songs under the name "Random" will NOT function due to how I hard coded this. Will fix in the future.
+
+- Added new note types. "Player Sing", "Opponent Sing", "GF + Player Sing", "GF + Opponent Sing", "Player + Opponent Sing", "Player + Opponent + GF Sing".
+
+- Added an option to toggle the Miss Sounds in options.
+
+- Added death icons on game over when using Discord Rich Presence.
+
+- Added an option in Visual Settings to change the rating and combo to the color of the notes pressed.
+
+- Fixed the offsets on the majority of images in FNF to align all of them to the center of the image.
+
+- Added 2 new Time Bar types, "Elapsed / Duration" and "Duration / Left".
+
+- Added the "Piracy Note" note type and it's mechanic from the Baldi's Basics In Funkin' mod. If you get the blue screen, press BACK to close the game. That screen is a soft lock, just like in the original mod.
+
+- Added more Erect Mixes and BF Mixes.
+
+- Added the "Ruler Note" note type from the Baldi's Basics In Funkin' mod.
+
+- Added a Screenshot feature. Press F9 to take a screenshot, and it will be sent to the "screenshots" folder.
+
+- Rings can now prevent you from taking a miss if you have them, just like the original VS Sonic.exe mod.
+
+
+
+
+
+
+
+BUILDS/MODS/ENGINES I'VE TAKEN FROM:
+
+- Psych Engine: https://github.com/ShadowMario/FNF-PsychEngine
+- Official FNF Engine/Build: https://github.com/FunkinCrew/Funkin
+- Kade Engine: https://github.com/kadedev/Kade-Engine
+- VS Sonic.exe 2.0: https://github.com/CheesecakeForever/Sonic.exe-source-1.5-and-2
+- Baldi's Basics In Funkin': https://github.com/alexlolxp/baldi-source
+- Modernized Psych Engine (My Old Build): https://github.com/Nightmare62107/FNF-ModernizedPsychEngine
+- Corruption Reimagined: https://github.com/Honton129/Funkin-Corruption-Reimagined-LegacyMain
+- Triple Trouble Ring (Psych Engine Port): https://gamebanana.com/mods/402437

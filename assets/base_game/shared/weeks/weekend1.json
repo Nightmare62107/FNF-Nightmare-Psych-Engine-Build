@@ -1,0 +1,24 @@
+{
+	"songs": [
+		["Darnell", "darnell", [115, 94, 176]],
+		["Lit Up", "darnell", [115, 94, 176]],
+		["2Hot", "darnell", [115, 94, 176]],
+		["Blazin'", "darnell", [115, 94, 176]],
+	],
+
+	"weekCharacters": [
+		"darnell-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "phillystreets_picomix",
+
+	"storyName": "DUE DEBTS",
+	"weekBefore": "week7",
+	"weekName": "Weekend 1",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

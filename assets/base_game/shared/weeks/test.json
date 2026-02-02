@@ -1,0 +1,21 @@
+{
+	"songs": [
+		["Test", "bf-pixel", [123, 214, 246]]
+	],
+
+	"weekCharacters": [
+		"bf-opponent-normal",
+		"bf-normal",
+		"gf-normal"
+	],
+	"weekBackground": "stage_normal",
+
+	"storyName": "Test",
+	"weekBefore": "",
+	"weekName": "Test",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}

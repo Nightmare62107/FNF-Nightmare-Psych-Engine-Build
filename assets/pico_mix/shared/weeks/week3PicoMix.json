@@ -1,0 +1,20 @@
+{
+	"songs": [
+	],
+
+	"weekCharacters": [
+		"pico-picomix",
+		"pico-player-picomix",
+		"nene-picomix"
+	],
+	"weekBackground": "philly_picomix",
+
+	"storyName": "Week 3 Pico Mix",
+	"weekBefore": "week2PicoMix",
+	"weekName": "Week 3 Pico Mix",
+	"startUnlocked": true,
+
+	"hideStoryMode": false,
+	"hideFreeplay": false,
+	"difficulties": "Easy, Normal, Hard"
+}
