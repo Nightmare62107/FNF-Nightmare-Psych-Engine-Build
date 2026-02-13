@@ -76,18 +76,20 @@ class PhillyBlazin extends BaseStage
 			add(additionalLighten);
 		}
 
-		abot = new ABotSpeaker(gfGroup.x, gfGroup.y + 550);
-		add(abot);
+		abot = new ABotSpeaker(0, 550);
+		gfGroup.add(abot);
 		
-		if(ClientPrefs.data.shaders)
+		if (ClientPrefs.data.shaders)
+		{
 			setupRainShader();
+		}
 
 		var _song = PlayState.SONG;
-		if(_song.gameOverSound == null || _song.gameOverSound.trim().length < 1) GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pico-gutpunch';
-		if(_song.gameOverLoop == null || _song.gameOverLoop.trim().length < 1) GameOverSubstate.loopSoundName = 'gameOver-pico';
-		if(_song.gameOverEnd == null || _song.gameOverEnd.trim().length < 1) GameOverSubstate.endSoundName = 'gameOverEnd-pico';
-		if(_song.pauseBreakfast == null || _song.pauseBreakfast.trim().length < 1) PauseSubState.pauseBreakfastName = 'breakfast-pico';
-		if(_song.gameOverChar == null || _song.gameOverChar.trim().length < 1) GameOverSubstate.characterName = 'pico-blazin';
+		if (_song.gameOverSound == null || _song.gameOverSound.trim().length < 1) GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pico-gutpunch';
+		if (_song.gameOverLoop == null || _song.gameOverLoop.trim().length < 1) GameOverSubstate.loopSoundName = 'gameOver-pico';
+		if (_song.gameOverEnd == null || _song.gameOverEnd.trim().length < 1) GameOverSubstate.endSoundName = 'gameOverEnd-pico';
+		if (_song.pauseBreakfast == null || _song.pauseBreakfast.trim().length < 1) PauseSubState.pauseBreakfastName = 'breakfast-pico';
+		if (_song.gameOverChar == null || _song.gameOverChar.trim().length < 1) GameOverSubstate.characterName = 'pico-blazin';
 		GameOverSubstate.deathDelay = 0.15;
 
 		setDefaultGF('nene');
@@ -98,6 +100,7 @@ class PhillyBlazin extends BaseStage
 			switch (songName)
 			{
 				case 'blazin':
+				{
 					setEndCallback(function()
 					{
 						game.endingSong = true;
@@ -108,6 +111,7 @@ class PhillyBlazin extends BaseStage
 						camHUD.visible = false;
 						game.startVideo('blazinCutscene');
 					});
+				}
 			}
 		}
 	}
@@ -119,25 +123,28 @@ class PhillyBlazin extends BaseStage
 
 		for (character in boyfriendGroup.members)
 		{
-			if(character == null) continue;
+			if (character == null) continue;
 			character.color = 0xFFDEDEDE;
 		}
+
 		for (character in dadGroup.members)
 		{
-			if(character == null) continue;
+			if (character == null) continue;
 			character.color = 0xFFDEDEDE;
 		}
+
 		for (character in gfGroup.members)
 		{
-			if(character == null) continue;
+			if (character == null) continue;
 			character.color = 0xFF888888;
 		}
+
 		abot.color = 0xFF888888;
 
 		var unspawnNotes:Array<Note> = cast game.unspawnNotes;
 		for (note in unspawnNotes)
 		{
-			if(note == null) continue;
+			if (note == null) continue;
 
 			//override animations for note types
 			note.noAnimation = true;
@@ -149,7 +156,7 @@ class PhillyBlazin extends BaseStage
 
 	override function beatHit()
 	{
-		//if(curBeat % 2 == 0) abot.beatHit();
+		//if (curBeat % 2 == 0) abot.beatHit();
 	}
 	
 	override function startSong()
@@ -175,9 +182,9 @@ class PhillyBlazin extends BaseStage
 
 	override function update(elapsed:Float)
 	{
-		if(scrollingSky != null) scrollingSky.scrollX -= elapsed * 35;
+		if (scrollingSky != null) scrollingSky.scrollX -= elapsed * 35;
 
-		if(rainShader != null)
+		if (rainShader != null)
 		{
 			rainShader.updateViewInfo(FlxG.width, FlxG.height, FlxG.camera);
 			rainShader.update(elapsed * rainTimeScale);
@@ -194,7 +201,7 @@ class PhillyBlazin extends BaseStage
 	
 	function applyLightning():Void
 	{
-		if(ClientPrefs.data.lowQuality || game.endingSong) return;
+		if (ClientPrefs.data.lowQuality || game.endingSong) return;
 
 		final LIGHTNING_FULL_DURATION = 1.5;
 		final LIGHTNING_FADE_DURATION = 0.3;
@@ -220,10 +227,8 @@ class PhillyBlazin extends BaseStage
 		lightning.visible = true;
 		lightning.animation.play('lightning0', true);
 
-		if(FlxG.random.bool(65))
-			lightning.x = FlxG.random.int(-250, 280);
-		else
-			lightning.x = FlxG.random.int(780, 900);
+		if (FlxG.random.bool(65)) lightning.x = FlxG.random.int(-250, 280);
+		else lightning.x = FlxG.random.int(780, 900);
 
 		// Darken characters
 		FlxTween.color(boyfriend, LIGHTNING_FADE_DURATION, 0xFF606060, 0xFFDEDEDE);

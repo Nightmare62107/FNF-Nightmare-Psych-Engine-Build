@@ -147,6 +147,9 @@ class PsychUISlider extends FlxSpriteGroup
 		_updatePositions();
 		return labelText.text;
 	}
+
 	function get_label()
+	{
 		return labelText.text;
+	}
 }

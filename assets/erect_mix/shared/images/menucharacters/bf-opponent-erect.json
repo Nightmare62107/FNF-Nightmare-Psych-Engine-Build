@@ -1,6 +1,5 @@
 {
 	"antialiasing": true,
-	"confirm_anim": "M bf HEY",
 	"idle_anim": "M BF Idle",
 	"position": [53, -90],
 	"scale": 0.7,

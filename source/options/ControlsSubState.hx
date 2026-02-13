@@ -307,8 +307,9 @@ class ControlsSubState extends MusicBeatSubstate
 
 		if (!binding)
 		{
-			if (FlxG.keys.justPressed.ESCAPE || FlxG.gamepads.anyJustPressed(B))
+			if (FlxG.keys.justPressed.ESCAPE || FlxG.keys.justPressed.BACKSPACE || FlxG.gamepads.anyJustPressed(B))
 			{
+				FlxG.sound.play(Paths.sound('cancelMenu'));
 				close();
 				return;
 			}
@@ -331,8 +332,12 @@ class ControlsSubState extends MusicBeatSubstate
 			{
 				updateText(1);
 			}
+			else if (FlxG.mouse.wheel != 0)
+			{
+				updateText(-FlxG.mouse.wheel);
+			}
 
-			if (FlxG.keys.justPressed.ENTER || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
+			if (FlxG.keys.justPressed.ENTER && !FlxG.keys.pressed.ALT || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{
 				if (options[curOptions[curSelected]][1] != defaultKey)
 				{

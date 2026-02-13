@@ -682,7 +682,12 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		}
 
 		for (num => key in keysArray)
+		{
 			_keysPressedBuffer[num] = FlxG.keys.checkStatus(key, JUST_PRESSED);
+			// Ignore ENTER key when Alt is held (for Alt+Enter fullscreen)
+			if(key == FlxKey.ENTER && FlxG.keys.pressed.ALT)
+				_keysPressedBuffer[num] = false;
+		}
 
 		if(autoSaveCap > 0)
 		{
@@ -986,7 +991,7 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		{
 			var doCut:Bool = false;
 			var canContinue:Bool = true;
-			if(FlxG.keys.justPressed.ENTER)
+			if(FlxG.keys.justPressed.ENTER && !FlxG.keys.pressed.ALT)
 			{
 				goToPlayState();
 				return;

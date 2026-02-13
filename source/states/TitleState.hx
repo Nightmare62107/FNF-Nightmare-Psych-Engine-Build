@@ -40,9 +40,9 @@ typedef TitleData =
 
 class TitleState extends MusicBeatState
 {
-	public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
-	public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
-	public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
+	// public static var muteKeys:Array<FlxKey> = [FlxKey.ZERO];
+	// public static var volumeDownKeys:Array<FlxKey> = [FlxKey.NUMPADMINUS, FlxKey.MINUS];
+	// public static var volumeUpKeys:Array<FlxKey> = [FlxKey.NUMPADPLUS, FlxKey.PLUS];
 
 	public static var initialized:Bool = false;
 
@@ -121,8 +121,8 @@ class TitleState extends MusicBeatState
 
 		if(!initialized)
 		{
-			ClientPrefs.loadPrefs();
-			Language.reloadPhrases();
+			//ClientPrefs.loadPrefs();
+			//Language.reloadPhrases();
 		}
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -200,9 +200,8 @@ class TitleState extends MusicBeatState
 			gfDance.animation.play('idle');
 		}
 
-
 		var animFrames:Array<FlxFrame> = [];
-		titleText = new FlxSprite(enterPosition.x, enterPosition.y);
+		titleText = new FlxSprite(enterPosition.x + 39, enterPosition.y); // Added 39 to x to center it better.
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		@:privateAccess
 		{
@@ -399,7 +398,8 @@ class TitleState extends MusicBeatState
 		}
 		#end
 
-		var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || controls.ACCEPT;
+		// Ignore Alt+Enter (fullscreen) as a normal Enter press
+		var pressedEnter:Bool = (FlxG.keys.justPressed.ENTER && !FlxG.keys.pressed.ALT) || controls.ACCEPT;
 
 		#if mobile
 		for (touch in FlxG.touches.list)

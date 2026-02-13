@@ -90,15 +90,27 @@ class NoteOffsetState extends MusicBeatState
 		add(comboNums);
 
 		var seperatedScore:Array<Int> = [];
-		for (i in 0...3)
+		for (i in 0...4)
 		{
 			seperatedScore.push(FlxG.random.int(0, 9));
 		}
 
+		// If trim leading zeros is enabled, remove them for display
+		var displayScore = seperatedScore.copy();
+		if (ClientPrefs.data.comboTrimLeadingZeros) {
+			// Remove leading zeros, but always show at least one digit
+			while (displayScore.length > 1 && displayScore[0] == 0) displayScore.shift();
+		}
+
 		var daLoop:Int = 0;
-		for (i in seperatedScore)
+		var totalDigits = 4;
+		var digitWidth = 43;
+		var baseOffset = 0;
+		// Shift so the rightmost digit is always in the same place as if it were 4 digits
+		var offset = baseOffset + digitWidth * (totalDigits - displayScore.length);
+		for (i in displayScore)
 		{
-			var numScore:FlxSprite = new FlxSprite(43 * daLoop).loadGraphic(Paths.image('num' + i));
+			var numScore:FlxSprite = new FlxSprite((digitWidth * daLoop) + offset).loadGraphic(Paths.image('num' + i));
 			numScore.cameras = [camHUD];
 			numScore.antialiasing = ClientPrefs.data.antialiasing;
 			numScore.setGraphicSize(Std.int(numScore.width * 0.5));

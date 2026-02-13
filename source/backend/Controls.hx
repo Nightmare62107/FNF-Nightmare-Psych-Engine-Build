@@ -89,24 +89,54 @@ class Controls
 	public var gamepadBinds:Map<String, Array<FlxGamepadInputID>>;
 	public function justPressed(key:String)
 	{
-		var result:Bool = (FlxG.keys.anyJustPressed(keyboardBinds[key]) == true);
-		if(result) controllerMode = false;
+		// If Alt is held, ignore ENTER key presses completely
+		if(FlxG.keys.pressed.ALT && FlxG.keys.justPressed.ENTER)
+		{
+			return false;
+		}
+		
+		var keys = keyboardBinds[key];
+		var result:Bool = (FlxG.keys.anyJustPressed(keys) == true);
+		if(result)
+		{
+			controllerMode = false;
+		}
 
 		return result || _myGamepadJustPressed(gamepadBinds[key]) == true;
 	}
 
 	public function pressed(key:String)
 	{
-		var result:Bool = (FlxG.keys.anyPressed(keyboardBinds[key]) == true);
-		if(result) controllerMode = false;
+		// If Alt is held, ignore ENTER key presses completely
+		if(FlxG.keys.pressed.ALT && FlxG.keys.pressed.ENTER)
+		{
+			return false;
+		}
+		
+		var keys = keyboardBinds[key];
+		var result:Bool = (FlxG.keys.anyPressed(keys) == true);
+		if(result)
+		{
+			controllerMode = false;
+		}
 
 		return result || _myGamepadPressed(gamepadBinds[key]) == true;
 	}
 
 	public function justReleased(key:String)
 	{
-		var result:Bool = (FlxG.keys.anyJustReleased(keyboardBinds[key]) == true);
-		if(result) controllerMode = false;
+		// If Alt is held and ENTER was just released, ignore it
+		if(FlxG.keys.pressed.ALT && FlxG.keys.justReleased.ENTER)
+		{
+			return false;
+		}
+		
+		var keys = keyboardBinds[key];
+		var result:Bool = (FlxG.keys.anyJustReleased(keys) == true);
+		if(result)
+		{
+			controllerMode = false;
+		}
 
 		return result || _myGamepadJustReleased(gamepadBinds[key]) == true;
 	}

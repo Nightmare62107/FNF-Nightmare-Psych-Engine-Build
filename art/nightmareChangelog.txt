@@ -75,6 +75,54 @@ Nightmare's Build V5:
 
 
 
+Nightmare's Build V6:
+
+- Fixed the opponent bf doing "hey" animation when a week is clicked on in Story Mode.
+
+- Added a fail safe to Story Mode similar to Freeplay where if you click on a week that doesn't have any songs, it brings up an error pop up to prevent the game from softlocking.
+
+- Added two new note types. "Lavender Onslaught Note" and "Black Onslaught Note". Both are from the Bob's Onslaught mod. Lavender Note must be hit or it drains health, and Black Note must be avoided or it drains health.
+
+- Changed the way color combo is handled with note types (now has its own variable).
+
+- Pressing "BACKSPACE" on your keyboard now closes the Controls Substate (just like ESCAPE). So now you can use either one to close it.
+
+- Added an option to trim leading zeros from the combo numbers (so if its "0 0 3" it will only show "3". This option also changes the note offset state's numbers.
+
+- Changed the combo numbers in note offset state to have a 4th digit.
+
+- Story Mode difficulty image now aligns within the left and right arrows perfectly.
+
+- Story Mode's changing difficulty arrows now have centered press frames.
+
+- Added a "drop up" psych ui type in the code.
+
+- Added mouse scrolling to every menu that allows vertical movement.
+
+- Added a combo break pop up that shows the combo numbers you broke at, with a minus sign next to them.
+
+- Added Color Filters option to Visuals settings. This included 3 colorblind filters, as well as a greyscale and inverted filter.
+
+- Fixed the "ERROR WHILE LOADING CHART" pop up closing the state when pressing BACK to close the pop up.
+
+- Fixed alt + enter counting as a ACCEPT press when trying to go into or out of fullscreen.
+
+- Re-Added the bf-old icon easter egg, so when you press NINE when a bf is currently the player, it switches back and forth each time you press it. I completely re-worked this easter egg to work with the latest tech we have in Psych Engine, including when the character switch event happens.
+
+- Fixed null/no icon to be "face". I also added a pixel version of it for pixel stages. Also, I know the engine is supposed to already do this, but it didn't work for some reason.
+
+- Added 2 new note types, "Orange Bones Note" and "Blue Bones Note". These are both from the Indie Cross mod.
+
+- Fixed charting state and main menu state counting enter as a press when pressing alt + enter to fullscreen toggle.
+
+- Added a health bar background to the health bar. You can toggle it's alpha separately in visual settings.
+
+- Added a way to disable the breakfast music changing from the chart file's breakfast music choice. Also added Pixel and Pico breakfast music as pause music options.
+
+
+
+
+
 
 BUILDS/MODS/ENGINES I'VE TAKEN FROM:
 
@@ -83,6 +131,8 @@ BUILDS/MODS/ENGINES I'VE TAKEN FROM:
 - Kade Engine: https://github.com/kadedev/Kade-Engine
 - VS Sonic.exe 2.0: https://github.com/CheesecakeForever/Sonic.exe-source-1.5-and-2
 - Baldi's Basics In Funkin': https://github.com/alexlolxp/baldi-source
+- Bob's Onslaught: https://github.com/wildythomas/mmmbob
+- Indie Cross: https://github.com/brightfyregit/Indie-Cross-Public
 - Modernized Psych Engine (My Old Build): https://github.com/Nightmare62107/FNF-ModernizedPsychEngine
 - Corruption Reimagined: https://github.com/Honton129/Funkin-Corruption-Reimagined-LegacyMain
 - Triple Trouble Ring (Psych Engine Port): https://gamebanana.com/mods/402437

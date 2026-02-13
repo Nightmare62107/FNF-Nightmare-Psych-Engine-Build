@@ -164,7 +164,7 @@ class PauseSubState extends MusicBeatSubstate
 	function getPauseSong()
 	{
 		var formattedSongName:String = (songName != null ? Paths.formatToSongPath(songName) : '');
-		var formattedPauseMusic:String = if(ClientPrefs.data.pauseMusic == 'Breakfast') Paths.formatToSongPath(pauseBreakfastName) else Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
+		var formattedPauseMusic:String = if(ClientPrefs.data.pauseMusic == 'Breakfast') if (ClientPrefs.data.pauseMusicChanges == true) Paths.formatToSongPath(ClientPrefs.data.pauseMusic) else Paths.formatToSongPath(pauseBreakfastName) else Paths.formatToSongPath(ClientPrefs.data.pauseMusic);
 		if (formattedSongName == 'none' || (formattedSongName != 'none' && formattedPauseMusic == 'none')) return null;
 
 		return (formattedSongName != '') ? formattedSongName : formattedPauseMusic;
@@ -360,7 +360,14 @@ class PauseSubState extends MusicBeatSubstate
 					{
 						if (ClientPrefs.data.pauseMusic == 'Breakfast')
 						{
-							FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(pauseBreakfastName)), pauseMusic.volume);
+							if (ClientPrefs.data.pauseMusicChanges == true)
+							{
+								FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(pauseBreakfastName)), pauseMusic.volume);
+							}
+							else
+							{
+								FlxG.sound.playMusic(Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic)), pauseMusic.volume);
+							}
 						}
 						else
 						{

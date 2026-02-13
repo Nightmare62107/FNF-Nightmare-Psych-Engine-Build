@@ -8,6 +8,7 @@ class StageWeek1 extends BaseStage
 	var dadbattleBlack:BGSprite;
 	var dadbattleLight:BGSprite;
 	var dadbattleFog:DadBattleFog;
+	var speaker:NormalSpeaker;
 	override function create()
 	{
 		var bg:BGSprite = new BGSprite('stageback', -600, -200, 0.9, 0.9);
@@ -17,7 +18,8 @@ class StageWeek1 extends BaseStage
 		stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
 		stageFront.updateHitbox();
 		add(stageFront);
-		if(!ClientPrefs.data.lowQuality) {
+		if (!ClientPrefs.data.lowQuality)
+		{
 			var stageLight:BGSprite = new BGSprite('stage_light', -125, -100, 0.9, 0.9);
 			stageLight.setGraphicSize(Std.int(stageLight.width * 1.1));
 			stageLight.updateHitbox();
@@ -32,8 +34,29 @@ class StageWeek1 extends BaseStage
 			stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
 			stageCurtains.updateHitbox();
 			add(stageCurtains);
+		}		
+		/*
+		if (!(FlxG.state is options.NoteOffsetState))
+		{
+			speaker = new NormalSpeaker(-50, 0);
+			gfGroup.add(speaker);
 		}
+		*/
 	}
+
+	override function createPost()
+	{
+		/*
+		// GF is created after stages; adjust her position now so she sits on the speaker
+		if (gf != null)
+		{
+			Nudge GF slightly right and a bit down to sit naturally on the speaker
+			gf.x += 20;
+			gf.y -= 217; // moved 7px down compared to previous value (-250 -> -217)
+		}
+		*/
+	}
+
 	override function eventPushed(event:objects.Note.EventNote)
 	{
 		switch(event.event)
@@ -62,13 +85,15 @@ class StageWeek1 extends BaseStage
 		switch(eventName)
 		{
 			case "Dadbattle Spotlight":
-				if(flValue1 == null) flValue1 = 0;
+			{
+				if (flValue1 == null) flValue1 = 0;
 				var val:Int = Math.round(flValue1);
 
 				switch(val)
 				{
 					case 1, 2, 3: //enable and target dad
-						if(val == 1) //enable
+					{
+						if (val == 1) //enable
 						{
 							dadbattleBlack.visible = true;
 							dadbattleLight.visible = true;
@@ -77,21 +102,32 @@ class StageWeek1 extends BaseStage
 						}
 
 						var who:Character = dad;
-						if(val > 2) who = boyfriend;
+						if (val > 2) who = boyfriend;
 						//2 only targets dad
 						dadbattleLight.alpha = 0;
-						new FlxTimer().start(0.12, function(tmr:FlxTimer) {
+						new FlxTimer().start(0.12, function(tmr:FlxTimer)
+						{
 							dadbattleLight.alpha = 0.375;
 						});
 						dadbattleLight.setPosition(who.getGraphicMidpoint().x - dadbattleLight.width / 2, who.y + who.height - dadbattleLight.height + 50);
 						FlxTween.tween(dadbattleFog, {alpha: 0.7}, 1.5, {ease: FlxEase.quadInOut});
+					}
 
 					default:
+					{
 						dadbattleBlack.visible = false;
 						dadbattleLight.visible = false;
 						defaultCamZoom -= 0.12;
 						FlxTween.tween(dadbattleFog, {alpha: 0}, 0.7, {onComplete: function(twn:FlxTween) dadbattleFog.visible = false});
+					}
 				}
+			}
 		}
+	}
+	
+	override function beatHit()
+	{
+		super.beatHit();
+		//if (speaker != null) speaker.beatHit();
 	}
 }

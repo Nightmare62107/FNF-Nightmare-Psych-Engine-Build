@@ -140,6 +140,11 @@ class BaseOptionsMenu extends MusicBeatSubstate
 			bindingKeyUpdate(elapsed);
 			return;
 		}
+		
+		if (FlxG.mouse.wheel != 0)
+		{
+			changeSelection(-FlxG.mouse.wheel);
+		}
 
 		if (controls.UI_UP_P)
 		{

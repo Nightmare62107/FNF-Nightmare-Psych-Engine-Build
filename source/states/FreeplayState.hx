@@ -50,6 +50,8 @@ class FreeplayState extends MusicBeatState
 	var missingTextBG:FlxSprite;
 	var missingText:FlxText;
 
+	var showingMissingPopup:Bool = false;
+
 	var bottomString:String;
 	var bottomText:FlxText;
 	var bottomBG:FlxSprite;
@@ -414,6 +416,20 @@ class FreeplayState extends MusicBeatState
 		while(ratingSplit[1].length < 2) //Less than 2 decimals in it, add decimals then
 			ratingSplit[1] += '0';
 
+		// If the missing/chart error popup is shown, only allow BACK to close it
+		if (showingMissingPopup)
+		{
+			if (controls.BACK)
+			{
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				missingText.visible = false;
+				missingTextBG.visible = false;
+				showingMissingPopup = false;
+			}
+			super.update(elapsed);
+			return;
+		}
+
 		var shiftMult:Int = 1;
 		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
@@ -667,6 +683,7 @@ class FreeplayState extends MusicBeatState
 				missingText.screenCenter(Y);
 				missingText.visible = true;
 				missingTextBG.visible = true;
+				showingMissingPopup = true;
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 
 				updateTexts(elapsed);
@@ -746,6 +763,7 @@ class FreeplayState extends MusicBeatState
 		positionHighscore();
 		missingText.visible = false;
 		missingTextBG.visible = false;
+		showingMissingPopup = false;
 	}
 
 	function changeSelection(change:Int = 0, playSound:Bool = true)

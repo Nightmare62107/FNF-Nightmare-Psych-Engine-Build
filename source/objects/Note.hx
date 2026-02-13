@@ -7,6 +7,8 @@ import backend.NoteTypesConfig;
 import shaders.RGBPalette;
 import shaders.RGBPalette.RGBShaderReference;
 
+import shaders.ColorSwap;
+
 import objects.StrumNote;
 
 import flixel.math.FlxRect;
@@ -56,6 +58,14 @@ class Note extends FlxSprite
 		'Ruler Note',
 		'Piracy Note',
 		#end
+		#if BOBS_ONSLAUGHT_FILES
+		'Lavender Onslaught Note',
+		'Black Onslaught Note',
+		#end
+		#if INDIE_CROSS_FILES
+		'Orange Bones Note',
+		'Blue Bones Note',
+		#end
 		'No Animation',
 		'GF Sing',
 		'Player Sing',
@@ -101,8 +111,10 @@ class Note extends FlxSprite
 	public var eventVal2:String = '';
 
 	public var rgbShader:RGBShaderReference;
+	public var colorSwap:ColorSwap = null;
 	public static var globalRgbShaders:Array<RGBPalette> = [];
 	public var inEditor:Bool = false;
+	public var comboColor:FlxColor = 0;
 
 	public var animSuffix:String = '';
 	public var gfNote:Bool = false;
@@ -132,6 +144,8 @@ class Note extends FlxSprite
 		b: -1,
 		a: ClientPrefs.data.splashAlpha
 	};
+
+
 
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
@@ -211,6 +225,8 @@ class Note extends FlxSprite
 			rgbShader.g = 0xFF00FF00;
 			rgbShader.b = 0xFF0000FF;
 		}
+
+
 	}
 
 	private function set_noteType(value:String):String
@@ -218,10 +234,12 @@ class Note extends FlxSprite
 		noteSplashData.texture = PlayState.SONG != null ? PlayState.SONG.splashSkin : 'noteSplashes/noteSplashes';
 		defaultRGB();
 
+
+
 		if (noteData > -1 && noteType != value)
 		{
 			switch(value)
-		{
+			{
 				case 'Hurt Note':
 				{
 					ignoreNote = mustPress;
@@ -233,6 +251,7 @@ class Note extends FlxSprite
 					rgbShader.r = 0xFF101010;
 					rgbShader.g = 0xFFFF0000;
 					rgbShader.b = 0xFF990022;
+					comboColor = 0xFFFF0000;
 
 					// splash data and colors
 					noteSplashData.r = 0xFFFF0000;
@@ -261,6 +280,7 @@ class Note extends FlxSprite
 						rgbShader.r = 0xFFFFCC33;
 						rgbShader.g = 0xFFFFF5FC;
 						rgbShader.b = 0xFF974C00;
+						comboColor = 0xFFFFCC33;
 
 						// splash data and colors
 						noteSplashData.r = 0xFF974C00;
@@ -270,8 +290,9 @@ class Note extends FlxSprite
 					{
 						// note colors
 						rgbShader.r = 0xFFFFCC33;
-						rgbShader.g = 0xFFFFFFFF;
+						rgbShader.g = 0xFFF0F0F0;
 						rgbShader.b = 0xFFCC6600;
+						comboColor = 0xFFFFCC33;
 
 						// splash data and colors
 						noteSplashData.r = 0xFFCC6600;
@@ -295,12 +316,14 @@ class Note extends FlxSprite
 						rgbShader.r = 0xFFF9A800;
 						rgbShader.g = 0xFFFA0A00;
 						rgbShader.b = 0xFF420012;
+						comboColor = 0xFFF9A800;
 					}
 					else
 					{
 						reloadNote('NOTE_ruler');
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFFF9A800;
 					}
 
 					// splash data and colors
@@ -324,24 +347,151 @@ class Note extends FlxSprite
 						// note colors
 						rgbShader.r = 0xFF01017F;
 						rgbShader.g = 0xFF0000FE;
-						rgbShader.b = 0xFFFFFFFF;
+						rgbShader.b = 0xFFF0F0F0;
+						comboColor = 0xFF0000FE;
 					}
 					else
 					{
 						reloadNote('BSOD_NOTES_ASSETS');
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFF0000FE;
 					}
 
 					// splash data and colors
-					noteSplashData.r = 0xFFFFFFFF;
+					noteSplashData.r = 0xFFF0F0F0;
 					noteSplashData.g = 0xFF01017F;
 					noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
 
 					// gameplay data
 					lowPriority = true;
 					hitCausesMiss = false;
+					missHealth = isSustainNote ? 0 : 0;
 					//hitsound = 'creeperCrash';
+					hitsoundChartEditor = false;
+				}
+				#end
+
+				#if BOBS_ONSLAUGHT_FILES
+				case 'Lavender Onslaught Note':
+				{
+					if (PlayState.isPixelStage)
+					{
+						// note colors
+						rgbShader.r = 0xFF97A5CF;
+						rgbShader.g = 0xFF5E6680;
+						rgbShader.b = 0xFF5E6680;
+						comboColor = 0xFF97A5CF;
+					}
+					else
+					{
+						reloadNote('Lavender_Note_Onslaught');
+						//this used to change the note texture to HURTNOTE_assets.png,
+						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFF97A5CF;
+					}
+
+					// splash data and colors
+					noteSplashData.r = 0xFF5E6680;
+					noteSplashData.g = 0xFF97A5CF;
+					noteSplashData.texture = 'noteSplashes/noteSplashes';
+
+					// gameplay data
+					lowPriority = true;
+					missHealth = isSustainNote ? 0 : 0;
+					hitsoundChartEditor = true;
+				}
+
+				case 'Black Onslaught Note':
+				{
+					ignoreNote = mustPress;
+					if (PlayState.isPixelStage)
+					{
+						// note colors
+						rgbShader.r = 0xFF101010;
+						rgbShader.g = 0xFFF0F0F0;
+						rgbShader.b = 0xFFF0F0F0;
+						comboColor = 0xFFF0F0F0;
+					}
+					else
+					{
+						reloadNote('Black_Note_Onslaught');
+						//this used to change the note texture to HURTNOTE_assets.png,
+						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFFF0F0F0;
+					}
+
+					// splash data and colors
+					noteSplashData.r = 0xFFF0F0F0;
+					noteSplashData.g = 0xFF101010;
+					noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+
+					// gameplay data
+					lowPriority = true;
+					missHealth = isSustainNote ? 0 : 0;
+					hitCausesMiss = true;
+					hitsoundChartEditor = false;
+				}
+				#end
+
+				#if INDIE_CROSS_FILES
+				case 'Orange Bones Note':
+				{
+					if (PlayState.isPixelStage)
+					{
+						// note colors
+						rgbShader.r = 0xFF101010;
+						rgbShader.g = 0xFFF0F0F0;
+						rgbShader.b = 0xFFFF9900;
+						comboColor = 0xFFFF9900;
+					}
+					else
+					{
+						reloadNote('NOTE_bones_orange');
+						//this used to change the note texture to HURTNOTE_assets.png,
+						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFFFF9900;
+					}
+
+					// splash data and colors
+					noteSplashData.r = 0xFFFF9900;
+					noteSplashData.g = 0xFF101010;
+					noteSplashData.texture = 'noteSplashes/noteSplashes';
+
+					// gameplay data
+					lowPriority = true;
+					missHealth = isSustainNote ? 0.25 : 0.8;
+					hitsoundChartEditor = true;
+				}
+
+				case 'Blue Bones Note':
+				{
+					ignoreNote = mustPress;
+					if (PlayState.isPixelStage)
+					{
+						// note colors
+						rgbShader.r = 0xFF101010;
+						rgbShader.g = 0xFFF0F0F0;
+						rgbShader.b = 0xFF3332CB;
+						comboColor = 0xFF3332CB;
+					}
+					else
+					{
+						reloadNote('NOTE_bones_blue');
+						//this used to change the note texture to HURTNOTE_assets.png,
+						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFF3332CB;
+					}
+
+					// splash data and colors
+					noteSplashData.r = 0xFF3332CB;
+					noteSplashData.g = 0xFF101010;
+					noteSplashData.texture = 'noteSplashes/noteSplashes-electric';
+
+					// gameplay data
+					lowPriority = true;
+					missHealth = isSustainNote ? 0.25 : 0.8;
+					hitCausesMiss = true;
 					hitsoundChartEditor = false;
 				}
 				#end
@@ -420,7 +570,7 @@ class Note extends FlxSprite
 		// MAKE SURE ITS DEFINITELY OFF SCREEN?
 		y -= 2000;
 		this.strumTime = strumTime;
-		if(!inEditor) this.strumTime += ClientPrefs.data.noteOffset;
+		if (!inEditor) this.strumTime += ClientPrefs.data.noteOffset;
 
 		this.noteData = noteData;
 
@@ -498,7 +648,6 @@ class Note extends FlxSprite
 		{
 			var newRGB:RGBPalette = new RGBPalette();
 			var arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[noteData] : ClientPrefs.data.arrowRGBPixel[noteData];
-			
 			if (arr != null && noteData > -1 && noteData <= arr.length)
 			{
 				newRGB.r = arr[0];
@@ -511,6 +660,7 @@ class Note extends FlxSprite
 				newRGB.g = 0xFF00FF00;
 				newRGB.b = 0xFF0000FF;
 			}
+
 			
 			globalRgbShaders[noteData] = newRGB;
 		}

@@ -47,7 +47,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		var option:Option = new Option('Framerate',
-			"Pretty self explanatory, isn't it?",
+			"How many frames do you want per second?\nMinimum is 60. Maximum is 240.",
 			'framerate',
 			INT);
 		addOption(option);

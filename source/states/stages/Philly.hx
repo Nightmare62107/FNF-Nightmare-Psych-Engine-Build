@@ -20,7 +20,8 @@ class Philly extends BaseStage
 
 	override function create()
 	{
-		if(!ClientPrefs.data.lowQuality) {
+		if (!ClientPrefs.data.lowQuality)
+		{
 			var bg:BGSprite = new BGSprite('philly/sky', -100, 0, 0.1, 0.1);
 			add(bg);
 		}
@@ -37,7 +38,8 @@ class Philly extends BaseStage
 		add(phillyWindow);
 		phillyWindow.alpha = 0;
 
-		if(!ClientPrefs.data.lowQuality) {
+		if (!ClientPrefs.data.lowQuality)
+		{
 			var streetBehind:BGSprite = new BGSprite('philly/behindTrain', -40, 50);
 			add(streetBehind);
 		}
@@ -48,11 +50,13 @@ class Philly extends BaseStage
 		phillyStreet = new BGSprite('philly/street', -40, 50);
 		add(phillyStreet);
 	}
+
 	override function eventPushed(event:objects.Note.EventNote)
 	{
 		switch(event.event)
 		{
 			case "Philly Glow":
+			{
 				blammedLightsBlack = new FlxSprite(FlxG.width * -0.5, FlxG.height * -0.5).makeGraphic(Std.int(FlxG.width * 2), Std.int(FlxG.height * 2), FlxColor.BLACK);
 				blammedLightsBlack.visible = false;
 				insert(members.indexOf(phillyStreet), blammedLightsBlack);
@@ -66,24 +70,27 @@ class Philly extends BaseStage
 				phillyGlowGradient = new PhillyGlowGradient(-400, 225);
 				phillyGlowGradient.visible = false;
 				insert(members.indexOf(blammedLightsBlack) + 1, phillyGlowGradient);
-				if(!ClientPrefs.data.flashing) phillyGlowGradient.intendedAlpha = 0.7;
+				if (!ClientPrefs.data.flashing) phillyGlowGradient.intendedAlpha = 0.7;
 
 				Paths.image('philly/particle'); //precache philly glow particle image
 				phillyGlowParticles = new FlxTypedGroup<PhillyGlowParticle>();
 				phillyGlowParticles.visible = false;
 				insert(members.indexOf(phillyGlowGradient) + 1, phillyGlowParticles);
+			}
 		}
 	}
 
 	override function update(elapsed:Float)
 	{
 		phillyWindow.alpha -= (Conductor.crochet / 1000) * elapsed * 1.5;
-		if(phillyGlowParticles != null)
+		if (phillyGlowParticles != null)
 		{
 			phillyGlowParticles.forEachAlive(function(particle:PhillyGlowParticle)
 			{
-				if(particle.alpha <= 0)
+				if (particle.alpha <= 0)
+				{
 					particle.kill();
+				}
 			});
 		}
 	}
@@ -104,17 +111,19 @@ class Philly extends BaseStage
 		switch(eventName)
 		{
 			case "Philly Glow":
-				if(flValue1 == null || flValue1 <= 0) flValue1 = 0;
+			{
+				if (flValue1 == null || flValue1 <= 0) flValue1 = 0;
 				var lightId:Int = Math.round(flValue1);
 
 				var chars:Array<Character> = [boyfriend, gf, dad];
 				switch(lightId)
 				{
 					case 0:
-						if(phillyGlowGradient.visible)
+					{
+						if (phillyGlowGradient.visible)
 						{
 							doFlash();
-							if(ClientPrefs.data.camZooms)
+							if (ClientPrefs.data.camZooms)
 							{
 								FlxG.camera.zoom += 0.5;
 								camHUD.zoom += 0.1;
@@ -132,15 +141,17 @@ class Philly extends BaseStage
 							}
 							phillyStreet.color = FlxColor.WHITE;
 						}
+					}
 
 					case 1: //turn on
+					{
 						curLightEvent = FlxG.random.int(0, phillyLightsColors.length-1, [curLightEvent]);
 						var color:FlxColor = phillyLightsColors[curLightEvent];
 
-						if(!phillyGlowGradient.visible)
+						if (!phillyGlowGradient.visible)
 						{
 							doFlash();
-							if(ClientPrefs.data.camZooms)
+							if (ClientPrefs.data.camZooms)
 							{
 								FlxG.camera.zoom += 0.5;
 								camHUD.zoom += 0.1;
@@ -152,7 +163,7 @@ class Philly extends BaseStage
 							phillyGlowGradient.visible = true;
 							phillyGlowParticles.visible = true;
 						}
-						else if(ClientPrefs.data.flashing)
+						else if (ClientPrefs.data.flashing)
 						{
 							var colorButLower:FlxColor = color;
 							colorButLower.alphaFloat = 0.25;
@@ -160,7 +171,7 @@ class Philly extends BaseStage
 						}
 
 						var charColor:FlxColor = color;
-						if(!ClientPrefs.data.flashing) charColor.saturation *= 0.5;
+						if (!ClientPrefs.data.flashing) charColor.saturation *= 0.5;
 						else charColor.saturation *= 0.75;
 
 						for (who in chars)
@@ -176,9 +187,11 @@ class Philly extends BaseStage
 
 						color.brightness *= 0.5;
 						phillyStreet.color = color;
+					}
 
 					case 2: // spawn particles
-						if(!ClientPrefs.data.lowQuality)
+					{
+						if (!ClientPrefs.data.lowQuality)
 						{
 							var particlesNum:Int = FlxG.random.int(8, 12);
 							var width:Float = (2000 / particlesNum);
@@ -197,7 +210,9 @@ class Philly extends BaseStage
 							}
 						}
 						phillyGlowGradient.bop();
+					}
 				}
+			}
 		}
 	}
 

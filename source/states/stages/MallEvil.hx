@@ -24,7 +24,9 @@ class MallEvil extends BaseStage
 			switch(songName)
 			{
 				case 'winter-horrorland':
+				{
 					setStartCallback(winterHorrorlandCutscene);
+				}
 			}
 		}
 	}
@@ -43,9 +45,11 @@ class MallEvil extends BaseStage
 		blackScreen.scrollFactor.set();
 		add(blackScreen);
 
-		FlxTween.tween(blackScreen, {alpha: 0}, 0.7, {
+		FlxTween.tween(blackScreen, {alpha: 0}, 0.7,
+		{
 			ease: FlxEase.linear,
-			onComplete: function(twn:FlxTween) {
+			onComplete: function(twn:FlxTween)
+			{
 				remove(blackScreen);
 			}
 		});
@@ -54,7 +58,8 @@ class MallEvil extends BaseStage
 		new FlxTimer().start(0.8, function(tmr:FlxTimer)
 		{
 			camHUD.visible = true;
-			FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5, {
+			FlxTween.tween(FlxG.camera, {zoom: defaultCamZoom}, 2.5,
+			{
 				ease: FlxEase.quadInOut,
 				onComplete: function(twn:FlxTween)
 				{

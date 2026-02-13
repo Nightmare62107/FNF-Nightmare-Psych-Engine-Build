@@ -4,6 +4,7 @@ import objects.Note;
 import objects.StrumNote;
 import objects.NoteSplash;
 import objects.Alphabet;
+import shaders.ColorFilters;
 
 class VisualsSettingsSubState extends BaseOptionsMenu
 {
@@ -124,6 +125,17 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
+
+		var option:Option = new Option('Health Bar BG Opacity',
+			'How much transparent should the health bar background be.',
+			'healthBarBGAlpha',
+			PERCENT);
+		option.scrollSpeed = 1.6;
+		option.minValue = 0.0;
+		option.maxValue = 1;
+		option.changeValue = 0.1;
+		option.decimals = 1;
+		addOption(option);
 		
 		#if !mobile
 		var option:Option = new Option('FPS Counter',
@@ -138,9 +150,15 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			"What song do you prefer for the Pause Screen?",
 			'pauseMusic',
 			STRING,
-			['None', 'Tea Time', 'Breakfast']);
+			['None', 'Tea Time', 'Breakfast' #if BASE_GAME_FILES , 'Breakfast Pixel', 'Breakfast Pico' #end]);
 		addOption(option);
 		option.onChange = onChangePauseMusic;
+
+		var option:Option = new Option('Pause Music Changes',
+			'If checked, the Pause Music will change using the one from the chart file.\nThis only works when \"Breakfast\" is chosen.',
+			'pauseMusicChanges',
+			BOOL);
+		addOption(option);
 		
 		#if CHECK_FOR_UPDATES
 		var option:Option = new Option('Check for Updates',
@@ -152,14 +170,14 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 
 		#if DISCORD_ALLOWED
 		var option:Option = new Option('Discord Rich Presence',
-			"Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord",
+			"Uncheck this to prevent accidental leaks, it will hide the Application from your \"Playing\" box on Discord.",
 			'discordRPC',
 			BOOL);
 		addOption(option);
 		#end
 
 		var option:Option = new Option('Combo Stacking',
-			"If unchecked, Ratings and Combo won't stack, saving on System Memory and making them easier to read",
+			"If unchecked, Ratings and Combo won't stack, saving on System Memory and making them easier to read.",
 			'comboStacking',
 			BOOL);
 		addOption(option);
@@ -168,6 +186,20 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			"If checked, Ratings and Combo will change color based on the note color.",
 			'comboColorChange',
 			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Trim Combo Leading Zeros',
+			'If checked, combo numbers will not show leading zeros\n(e.g. 7 instead of 0 0 7).',
+			'comboTrimLeadingZeros',
+			BOOL);
+		addOption(option);
+
+		var option:Option = new Option('Color Filter:',
+			'Apply a color filter to the game (has colorblind modes).',
+			'colorFilter',
+			STRING,
+			['None', 'Deuteranopia', 'Protanopia', 'Tritanopia', 'Greyscale', 'Inverted']);
+		option.onChange = ColorFilters.applyFiltersOnGame;
 		addOption(option);
 
 		super();

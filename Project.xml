@@ -38,6 +38,8 @@
 		<define name="BASE_GAME_FILES" />
 		<define name="VS_SONIC_EXE_FILES" />
 		<define name="BALDIS_BASICS_IN_FUNKIN_FILES" />
+		<define name="BOBS_ONSLAUGHT_FILES" />
+		<define name="INDIE_CROSS_FILES" />
 	</section>
 
 	<section if="BASE_GAME_FILES">
@@ -129,6 +131,16 @@
 		<assets path="assets/baldis_basics_in_funkin" rename="assets" exclude="*.mp3"  unless="web"/>
 	</section>
 
+	<section if="BOBS_ONSLAUGHT_FILES">
+		<assets path="assets/bobs_onslaught" rename="assets" exclude="*.ogg" if="web"/>
+		<assets path="assets/bobs_onslaught" rename="assets" exclude="*.mp3"  unless="web"/>
+	</section>
+
+	<section if="INDIE_CROSS_FILES">
+		<assets path="assets/indie_cross" rename="assets" exclude="*.ogg" if="web"/>
+		<assets path="assets/indie_cross" rename="assets" exclude="*.mp3"  unless="web"/>
+	</section>
+
 	<define name="CHECK_FOR_UPDATES" if="desktop officialBuild"/>
 
 	<section if="MODS_ALLOWED">
@@ -154,6 +166,7 @@
 	<haxelib name="flixel" version="5.6.1"/>
 	<haxelib name="flixel-addons" version="3.2.2"/>
 	<haxelib name="tjson" version="1.4.0"/>
+	<haxelib name="newgrounds"/>
 
 	<!--Psych stuff needed-->
 	<haxelib name="linc_luajit" if="LUA_ALLOWED"/>

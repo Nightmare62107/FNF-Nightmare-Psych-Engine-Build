@@ -28,7 +28,6 @@ class Template extends BaseStage
 	{
 		// Code here
 	}
-
 	
 	override function countdownTick(count:Countdown, num:Int)
 	{

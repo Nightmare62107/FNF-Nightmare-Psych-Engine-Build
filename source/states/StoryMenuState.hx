@@ -41,6 +41,11 @@ class StoryMenuState extends MusicBeatState
 	var leftArrow:FlxSprite;
 	var rightArrow:FlxSprite;
 
+	var missingTextBG:FlxSprite;
+	var missingText:FlxText;
+
+	var showingMissingPopup:Bool = false;
+
 	var loadedWeeks:Array<WeekData> = [];
 
 	override function create()
@@ -144,6 +149,7 @@ class StoryMenuState extends MusicBeatState
 		leftArrow.animation.addByPrefix('idle', "arrow left");
 		leftArrow.animation.addByPrefix('press', "arrow push left");
 		leftArrow.animation.play('idle');
+		leftArrow.offset.set(0, 0);
 		difficultySelectors.add(leftArrow);
 
 		Difficulty.resetList();
@@ -163,6 +169,7 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.addByPrefix('idle', 'arrow right');
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
 		rightArrow.animation.play('idle');
+		rightArrow.offset.set(0, 0);
 		difficultySelectors.add(rightArrow);
 
 		add(bgYellow);
@@ -182,13 +189,25 @@ class StoryMenuState extends MusicBeatState
 		add(scoreText);
 		add(txtWeekTitle);
 
+		missingTextBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		missingTextBG.alpha = 0.6;
+		missingTextBG.visible = false;
+		add(missingTextBG);
+		
+		missingText = new FlxText(50, 0, FlxG.width - 100, '', 24);
+		missingText.setFormat(Paths.font("vcr.ttf"), 24, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		missingText.scrollFactor.set();
+		missingText.visible = false;
+		add(missingText);
+
 		changeWeek();
 		changeDifficulty();
 
 		super.create();
 	}
 
-	override function closeSubState() {
+	override function closeSubState()
+	{
 		persistentUpdate = true;
 		changeWeek();
 		super.closeSubState();
@@ -196,7 +215,7 @@ class StoryMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if(WeekData.weeksList.length < 1)
+		if (WeekData.weeksList.length < 1)
 		{
 			if (controls.BACK && !movedBack && !selectedWeek)
 			{
@@ -221,6 +240,20 @@ class StoryMenuState extends MusicBeatState
 
 		if (!movedBack && !selectedWeek)
 		{
+			// Handle missing popup
+			if (showingMissingPopup)
+			{
+				if (controls.BACK)
+				{
+					FlxG.sound.play(Paths.sound('cancelMenu'));
+					missingText.visible = false;
+					missingTextBG.visible = false;
+					showingMissingPopup = false;
+				}
+				super.update(elapsed);
+				return;
+			}
+
 			var changeDiff = false;
 			if (controls.UI_UP_P)
 			{
@@ -300,11 +333,27 @@ class StoryMenuState extends MusicBeatState
 	{
 		if (!weekIsLocked(loadedWeeks[curWeek].fileName))
 		{
+			// Check if week has any playable songs
+			var leWeek:WeekData = loadedWeeks[curWeek];
+			var hasSongs:Bool = leWeek.songs.length > 0;
+			
+			if (!hasSongs)
+			{
+				missingText.text = 'NO SONGS AVAILABLE IN THIS WEEK';
+				missingText.screenCenter(Y);
+				missingText.visible = true;
+				missingTextBG.visible = true;
+				showingMissingPopup = true;
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				return;
+			}
+			
 			// We can't use Dynamic Array .copy() because that crashes HTML5, here's a workaround.
 			var songArray:Array<String> = [];
-			var leWeek:Array<Dynamic> = loadedWeeks[curWeek].songs;
-			for (i in 0...leWeek.length) {
-				songArray.push(leWeek[i][0]);
+			var leWeekSongs:Array<Dynamic> = leWeek.songs;
+			for (i in 0...leWeekSongs.length)
+			{
+				songArray.push(leWeekSongs[i][0]);
 			}
 
 			// Nevermind that's stupid lmao
@@ -313,7 +362,7 @@ class StoryMenuState extends MusicBeatState
 				PlayState.storyPlaylist = songArray;
 				PlayState.isStoryMode = true;
 				selectedWeek = true;
-	
+
 				var diffic = Difficulty.getFilePath(curDifficulty);
 				if(diffic == null) diffic = '';
 	
@@ -387,13 +436,18 @@ class StoryMenuState extends MusicBeatState
 		if(sprDifficulty.graphic != newImage)
 		{
 			sprDifficulty.loadGraphic(newImage);
-			sprDifficulty.x = leftArrow.x + 60;
-			sprDifficulty.x += (308 - sprDifficulty.width) / 3;
+			// Center sprDifficulty exactly between leftArrow and rightArrow (horizontal)
+			var leftX = leftArrow.x + leftArrow.width;
+			var rightX = rightArrow.x;
+			sprDifficulty.x = leftX + ((rightX - leftX) / 2) - (sprDifficulty.width / 2);
+			// Center vertically between leftArrow and rightArrow
+			var topY = Math.min(leftArrow.y, rightArrow.y);
+			var bottomY = Math.max(leftArrow.y + leftArrow.height, rightArrow.y + rightArrow.height);
+			sprDifficulty.y = topY + ((bottomY - topY) / 2) - (sprDifficulty.height / 2);
 			sprDifficulty.alpha = 0;
-			sprDifficulty.y = leftArrow.y - sprDifficulty.height + 50;
 
 			FlxTween.cancelTweensOf(sprDifficulty);
-			FlxTween.tween(sprDifficulty, {y: sprDifficulty.y + 30, alpha: 1}, 0.07);
+			FlxTween.tween(sprDifficulty, {alpha: 1}, 0.07);
 		}
 		lastDifficultyName = diff;
 

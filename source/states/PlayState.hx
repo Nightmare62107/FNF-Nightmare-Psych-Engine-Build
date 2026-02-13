@@ -182,6 +182,7 @@ class PlayState extends MusicBeatState
 	public var combo:Int = 0;
 
 	public var healthBar:Bar;
+	public var healthBarBG:FlxSprite;
 	public var timeBar:Bar;
 	var songPercent:Float = 0;
 
@@ -214,6 +215,30 @@ class PlayState extends MusicBeatState
 
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
+
+	#if BASE_GAME_FILES
+	// Characters for which pressing NINE will change the player icon to 'bf-old'.
+	public static var allowedP1Characters:Array<String> = [
+		'bf',
+		'bf-opponent',
+		'bf-pixel',
+		'bf-pixel-opponent',
+		'bf-christmas',
+		'bf-car',
+		'bf-holding-gf'
+	];
+	// Call this from mods/scripts to add characters one-by-one (e.g. addAllowedPlayerCharacter('bf'))
+	public static function addAllowedPlayerCharacter(name:String):Void
+	{
+		if (name == null) return;
+		var key:String = name.toLowerCase();
+		if (allowedP1Characters.indexOf(key) == -1) allowedP1Characters.push(key);
+	}
+
+	// Toggle state for bf-old switch (pressing NINE again restores previous icon/color)
+	private var bfOldToggled:Bool = false;
+	private var bfOldLastCharacter:String = null;
+	#end
 	public var camHUD:FlxCamera;
 	public var camGame:FlxCamera;
 	public var camOther:FlxCamera;
@@ -596,6 +621,16 @@ class PlayState extends MusicBeatState
 		healthBar.visible = !ClientPrefs.data.hideHud;
 		healthBar.alpha = ClientPrefs.data.healthBarAlpha;
 		reloadHealthBarColors();
+
+		healthBarBG = new FlxSprite().loadGraphic(Paths.image('healthBarBG'));
+		healthBarBG.y = healthBar.y - 20;
+		healthBarBG.screenCenter(X);
+		healthBarBG.scrollFactor.set();
+		healthBarBG.visible = !ClientPrefs.data.hideHud;
+		healthBarBG.alpha = ClientPrefs.data.healthBarBGAlpha * ClientPrefs.data.healthBarAlpha;
+
+		//Add BG First so the actual bar is on top of it
+		uiGroup.add(healthBarBG);
 		uiGroup.add(healthBar);
 
 		iconP1 = new HealthIcon(boyfriend.healthIcon, true);
@@ -855,7 +890,14 @@ class PlayState extends MusicBeatState
 		{
 			if (ClientPrefs.data.pauseMusic == 'Breakfast')
 			{
-				Paths.music(Paths.formatToSongPath(PauseSubState.pauseBreakfastName));
+				if (ClientPrefs.data.pauseMusicChanges == true)
+				{
+					Paths.music(Paths.formatToSongPath(PauseSubState.pauseBreakfastName));
+				}
+				else
+				{
+					Paths.music(Paths.formatToSongPath(ClientPrefs.data.pauseMusic));
+				}
 			}
 			else
 			{
@@ -1857,7 +1899,7 @@ class PlayState extends MusicBeatState
 				swagNote.mustPress = gottaHitNote;
 				swagNote.sustainLength = holdLength;
 				swagNote.noteType = noteType;
-	
+
 				swagNote.scrollFactor.set();
 				unspawnNotes.push(swagNote);
 
@@ -2512,6 +2554,7 @@ class PlayState extends MusicBeatState
 		#if debug
 		if (!endingSong && !startingSong)
 		{
+		
 			if (FlxG.keys.justPressed.ONE)
 			{
 				KillNotes();
@@ -2522,6 +2565,128 @@ class PlayState extends MusicBeatState
 			{
 				setSongTime(Conductor.songPosition + 10000);
 				clearNotesBefore(Conductor.songPosition);
+			}
+		}
+		#end
+
+		#if BASE_GAME_FILES
+		// Press NINE to force the player icon to 'bf-old' when the current player character
+		// is listed in `allowedP1Characters`. Use `PlayState.addAllowedPlayerCharacter(name)`
+		// to add characters one-by-one (from mods/scripts).
+		if (!endingSong && !startingSong)
+		{
+			// Reset bf-old toggle if the current boyfriend character changed mid-song
+			if (boyfriend != null && boyfriend.curCharacter != null)
+			{
+				if (bfOldLastCharacter == null) bfOldLastCharacter = boyfriend.curCharacter;
+				else if (bfOldLastCharacter != boyfriend.curCharacter)
+				{
+					if (bfOldToggled)
+					{
+						// restore by reading the current character JSON (same logic as restore on second NINE press)
+						var origJson:Dynamic = null;
+						try
+						{
+							var charPathR:String = 'characters/' + boyfriend.curCharacter + '.json';
+							var pR:String = Paths.getPath(charPathR, TEXT);
+							#if MODS_ALLOWED
+							if (FileSystem.exists(pR)) origJson = haxe.Json.parse(File.getContent(pR));
+							#else
+							if (Assets.exists(pR)) origJson = haxe.Json.parse(Assets.getText(pR));
+							#end
+						}
+						catch(e:Dynamic) { origJson = null; }
+
+						if (origJson != null)
+						{
+							var origIconR:String = (origJson.healthicon != null && origJson.healthicon.length > 0) ? origJson.healthicon : boyfriend.healthIcon;
+							if (origIconR != null && iconP1 != null) iconP1.changeIcon(origIconR);
+							if (origJson.healthbar_colors != null && origJson.healthbar_colors.length > 2)
+							{
+								boyfriend.healthColorArray = [origJson.healthbar_colors[0], origJson.healthbar_colors[1], origJson.healthbar_colors[2]];
+							}
+						}
+						else
+						{
+							if (iconP1 != null) iconP1.changeIcon(boyfriend.healthIcon);
+						}
+						bfOldToggled = false;
+						reloadHealthBarColors();
+					}
+					bfOldLastCharacter = boyfriend.curCharacter;
+				}
+			}
+			if (FlxG.keys.justPressed.NINE)
+			{
+				if (boyfriend != null && boyfriend.curCharacter != null)
+				{
+					var cur:String = boyfriend.curCharacter.toLowerCase();
+					if (allowedP1Characters.indexOf(cur) != -1)
+					{
+						var usePixel:Bool = false;
+						if (boyfriend.imageFile != null) usePixel = boyfriend.imageFile.toLowerCase().indexOf('pixel') != -1;
+						else usePixel = cur.indexOf('pixel') != -1 || cur == 'bf-pixel-opponent';
+						var iconName:String = usePixel ? 'bf-old-pixel' : 'bf-old';
+						if (!bfOldToggled)
+						{
+							// determine whether the icon was showing the losing/death frame
+							var wasDeath:Bool = false;
+							if (iconP1 != null && iconP1.animation.curAnim != null) wasDeath = (iconP1.animation.curAnim.curFrame == 1);
+							else if (healthBar != null) wasDeath = (healthBar.percent < 20);
+							// apply new icon and color (don't store originals — they'll be read from the current character JSON on restore)
+							if (iconP1 != null) iconP1.changeIcon(iconName);
+							// if the previous icon was the death frame, force the new icon to death frame immediately
+							if (wasDeath && iconP1 != null && iconP1.animation.curAnim != null) iconP1.animation.curAnim.curFrame = 1;
+							if (usePixel)
+							{
+								boyfriend.healthColorArray = [255, 249, 99];
+							}
+							else
+							{
+								boyfriend.healthColorArray = [233, 255, 72];
+							}
+							bfOldToggled = true;
+							reloadHealthBarColors();
+						}
+						else
+						{
+							// restore previous icon and color by reading the current character's JSON
+							var origJson:Dynamic = null;
+							try
+							{
+								var charPath:String = 'characters/' + boyfriend.curCharacter + '.json';
+								var p:String = Paths.getPath(charPath, TEXT);
+								#if MODS_ALLOWED
+								if (FileSystem.exists(p)) origJson = haxe.Json.parse(File.getContent(p));
+								#else
+								if (Assets.exists(p)) origJson = haxe.Json.parse(Assets.getText(p));
+								#end
+							}
+							catch(e:Dynamic) { origJson = null; }
+
+							if (origJson != null)
+							{
+								var origIcon:String = (origJson.healthicon != null && origJson.healthicon.length > 0) ? origJson.healthicon : boyfriend.healthIcon;
+								if (origIcon != null && iconP1 != null) iconP1.changeIcon(origIcon);
+								// If health is low, force the restored icon to the death frame immediately
+								if (healthBar != null && healthBar.percent < 20 && iconP1 != null && iconP1.animation.curAnim != null) iconP1.animation.curAnim.curFrame = 1;
+								if (origJson.healthbar_colors != null && origJson.healthbar_colors.length > 2)
+								{
+									boyfriend.healthColorArray = [origJson.healthbar_colors[0], origJson.healthbar_colors[1], origJson.healthbar_colors[2]];
+								}
+							}
+							else
+							{
+								// fallback: restore to the Character object's current properties
+								if (iconP1 != null) iconP1.changeIcon(boyfriend.healthIcon);
+								if (healthBar != null && healthBar.percent < 20 && iconP1 != null && iconP1.animation.curAnim != null) iconP1.animation.curAnim.curFrame = 1;
+								// boyfriend.healthColorArray is already a best-effort fallback
+							}
+							bfOldToggled = false;
+							reloadHealthBarColors();
+						}
+					}
+				}
 			}
 		}
 		#end
@@ -3606,10 +3771,14 @@ class PlayState extends MusicBeatState
 		var primaryColor:FlxColor = 0;
 		if (ClientPrefs.data.comboColorChange)
 		{
-			// determine primary color for this popup: prefer the note's rgbShader if available (covers Ring Note and other types), otherwise fall back to arrowRGB
+			// determine primary color for this popup: prefer the note's comboColor if available, then rgbShader, otherwise fall back to arrowRGB
 			if (note != null)
 			{
-				if (note.rgbShader != null)
+				if (note.comboColor != 0)
+				{
+					primaryColor = note.comboColor;
+				}
+				else if (note.rgbShader != null)
 				{
 					primaryColor = note.rgbShader.r;
 				}
@@ -3664,11 +3833,22 @@ class PlayState extends MusicBeatState
 		}
 
 		var separatedScore:String = Std.string(combo).lpad('0', 3);
-		for (i in 0...separatedScore.length)
+		var trimmedScore:String = separatedScore;
+		if (ClientPrefs.data.comboTrimLeadingZeros) {
+			trimmedScore = Std.string(Std.parseInt(separatedScore));
+		}
+		// Calculate offset so numbers are always centered as if 3 digits
+		var numDigits = trimmedScore.length;
+		var totalDigits = 3;
+		var digitWidth = PlayState.isPixelStage ? 48 : 43; // wider pixel stage spacing
+		var baseOffset = PlayState.isPixelStage ? -70 + ClientPrefs.data.comboOffset[2] : -90 + ClientPrefs.data.comboOffset[2];
+		// Shift so the rightmost digit is always in the same place as if it were 3 digits
+		var offset = baseOffset + digitWidth * (totalDigits - numDigits);
+		for (i in 0...trimmedScore.length)
 		{
-			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + 'num' + Std.parseInt(separatedScore.charAt(i)) + uiPostfix));
+			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + 'num' + Std.parseInt(trimmedScore.charAt(i)) + uiPostfix));
 			numScore.screenCenter();
-			numScore.x = placement + (43 * daLoop) - 90 + ClientPrefs.data.comboOffset[2];
+			numScore.x = placement + (digitWidth * daLoop) + offset;
 			numScore.y += 80 - ClientPrefs.data.comboOffset[3];
 
 			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
@@ -3687,7 +3867,6 @@ class PlayState extends MusicBeatState
 				if (primaryColor != 0) numScore.color = primaryColor;
 			}
 
-			//if (combo >= 10 || combo == 0)
 			if (showComboNum)
 			{
 				comboGroup.add(numScore);
@@ -3951,6 +4130,24 @@ class PlayState extends MusicBeatState
 			}
 		});
 
+		#if BOBS_ONSLAUGHT_FILES
+		if (daNote.noteType == 'Lavender Onslaught Note')
+		{
+			HealthDrain();
+		}
+		#end
+
+		#if INDIE_CROSS_FILES
+		if (daNote.noteType == 'Orange Bones Note')
+		{
+			if (boyfriend.hasAnimation('hurt'))
+			{
+				boyfriend.playAnim('hurt', true);
+				boyfriend.specialAnim = true;
+			}
+		}
+		#end
+
 		noteMissCommon(daNote.noteData, daNote);
 		if (ClientPrefs.data.missSounds) FlxG.sound.play(Paths.soundRandom('missnote', 1, 3), FlxG.random.float(0.1, 0.2));
 		stagesFunc(function(stage:BaseStage) stage.noteMiss(daNote));
@@ -4059,6 +4256,70 @@ class PlayState extends MusicBeatState
 
 		var lastCombo:Int = combo;
 		combo = 0;
+
+		// Show combo break popup with minus sign if combo was > 0
+		if (lastCombo > 0 && showComboNum && !ClientPrefs.data.hideHud)
+		{
+			var uiFolder:String = (stageUI != "normal") ? (uiPrefix + "UI/") : "";
+			var antialias:Bool = (stageUI != "normal") ? !isPixelStage : ClientPrefs.data.antialiasing;
+			var placement:Float = FlxG.width * 0.35;
+			var digitWidth = PlayState.isPixelStage ? 48 : 43;
+			var totalDigits = 4;
+			var baseOffset = PlayState.isPixelStage ? -70 + ClientPrefs.data.comboOffset[2] : -90 + ClientPrefs.data.comboOffset[2];
+			var offset = baseOffset;
+			var comboStr = Std.string(lastCombo).lpad('0', 3);
+			if (ClientPrefs.data.comboTrimLeadingZeros) {
+				comboStr = Std.string(Std.parseInt(comboStr));
+			}
+			// Add minus as the first "digit"
+			var displayStr = "-" + comboStr;
+			// Align so the rightmost digit (number) is always in the same place as normal combo popup
+			// (minus sign is treated as an extra digit to the left)
+			var numDigits = displayStr.length;
+			offset += digitWidth * (totalDigits - numDigits - 1); // -1 because of the minus sign being an extra character
+			// Determine color
+			var primaryColor:FlxColor = 0;
+			if (ClientPrefs.data.comboColorChange)
+			{
+				if (note != null)
+				{
+					if (note.comboColor != 0)
+						primaryColor = note.comboColor;
+					else if (note.rgbShader != null)
+						primaryColor = note.rgbShader.r;
+					if (primaryColor == 0)
+					{
+						var _arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[note.noteData % Note.colArray.length] : ClientPrefs.data.arrowRGBPixel[note.noteData % Note.colArray.length];
+						if (_arr != null && _arr.length > 0) primaryColor = _arr[0];
+					}
+				}
+			}
+			for (i in 0...displayStr.length)
+			{
+				var char = displayStr.charAt(i);
+				var imgName = (char == "-") ? "minus" : ("num" + char);
+				var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + imgName + uiPostfix));
+				numScore.screenCenter();
+				numScore.x = placement + (digitWidth * i) + offset;
+				numScore.y += 80 - ClientPrefs.data.comboOffset[3];
+				if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+				else numScore.setGraphicSize(Std.int(numScore.width * daPixelZoom));
+				numScore.updateHitbox();
+				numScore.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
+				numScore.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
+				numScore.velocity.x = FlxG.random.float(-5, 5) * playbackRate;
+				numScore.visible = true;
+				numScore.antialiasing = antialias;
+				if (ClientPrefs.data.comboColorChange && primaryColor != 0) numScore.color = primaryColor;
+				comboGroup.add(numScore);
+				FlxTween.tween(numScore, {alpha: 0}, 0.2 / playbackRate, {
+					onComplete: function(tween:FlxTween) {
+						numScore.destroy();
+					},
+					startDelay: Conductor.crochet * 0.002 / playbackRate
+				});
+			}
+		}
 
 		health -= subtract * healthLoss;
 		songScore -= 10;
@@ -4182,6 +4443,9 @@ class PlayState extends MusicBeatState
 		#if VS_SONIC_EXE_FILES
 		if (cpuControlled && note.ignoreNote && note.noteType != 'Ring Note') return;
 		#end
+		#if BOBS_ONSLAUGHT_FILES
+		//if (cpuControlled && note.ignoreNote && note.noteType != 'Lavender Onslaught Note') return;
+		#end
 
 		var isSus:Bool = note.isSustainNote; //GET OUT OF MY HEAD, GET OUT OF MY HEAD, GET OUT OF MY HEAD
 		var leData:Int = Math.round(Math.abs(note.noteData));
@@ -4285,8 +4549,8 @@ class PlayState extends MusicBeatState
 					}
 
 					#if VS_SONIC_EXE_FILES
-					/*// Make 'Ring Note' a must-press note only when cpuControlled is active
-					if (note.noteType == 'Ring Note')
+					// Make 'Ring Note' a must-press note only when cpuControlled is active
+					/*if (note.noteType == 'Ring Note')
 					{
 						note.mustPress = cpuControlled;
 						note.isSustainNote = cpuControlled;
@@ -4377,6 +4641,24 @@ class PlayState extends MusicBeatState
 						{
 							screenShake = false;
 						});
+					}
+					#end
+
+					#if BOBS_ONSLAUGHT_FILES
+					case 'Black Onslaught Note':
+					{
+						HealthDrain();
+					}
+					#end
+
+					#if INDIE_CROSS_FILES
+					case 'Blue Bones Note':
+					{
+						if (boyfriend.hasAnimation('hurt'))
+						{
+							boyfriend.playAnim('hurt', true);
+							boyfriend.specialAnim = true;
+						}
 					}
 					#end
 				}
@@ -4474,6 +4756,27 @@ class PlayState extends MusicBeatState
 		instance = null;
 		super.destroy();
 	}
+
+	#if BOBS_ONSLAUGHT_FILES
+	function HealthDrain():Void
+	{
+		FlxG.sound.play(Paths.sound("BoomCloud"), 1);
+		if (boyfriend.hasAnimation('hurt'))
+		{
+			boyfriend.playAnim('hurt', true);
+			boyfriend.specialAnim = true;
+		}
+		FlxG.camera.zoom -= 0.02;
+		new FlxTimer().start(0.3, function(tmr:FlxTimer)
+		{
+			boyfriend.playAnim('idle', true);
+		});
+		new FlxTimer().start(0.01, function(tmr:FlxTimer)
+		{
+			health -= 0.005;
+		}, 300);
+	}
+	#end
 
 	var lastStepHit:Int = -1;
 	override function stepHit()

@@ -29,6 +29,7 @@ import sys.io.File;
 
 using StringTools;
 
+
 class CacheState extends MusicBeatState
 {
     var toBeDone = 0;
@@ -36,6 +37,7 @@ class CacheState extends MusicBeatState
 
     var text:FlxText;
     var logo:FlxSprite;
+    var filterTries:Int = 0;
 
 	override function create()
 	{

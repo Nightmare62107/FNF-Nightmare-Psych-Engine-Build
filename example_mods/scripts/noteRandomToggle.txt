@@ -2,3 +2,7 @@ hurtNoteRandom: false
 ringNoteRandom: false
 rulerNoteRandom: false
 piracyNoteRandom: false
+lavenderOnslaughtNoteRandom: false
+blackOnslaughtNoteRandom: false
+orangeBonesNoteRandom: false
+blueBonesNoteRandom: false

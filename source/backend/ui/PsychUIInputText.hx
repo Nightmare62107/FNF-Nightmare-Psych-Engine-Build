@@ -96,7 +96,7 @@ class PsychUIInputText extends FlxSpriteGroup
 	public var inInsertMode:Bool = false;
 	function onKeyDown(e:KeyboardEvent)
 	{
-		if(focusOn != this) return;
+		if (focusOn != this) return;
 
 		var keyCode:Int = e.keyCode;
 		var charCode:Int = e.charCode;
@@ -110,7 +110,7 @@ class PsychUIInputText extends FlxSpriteGroup
 		}
 
 		// Control key actions
-		if(e.controlKey)
+		if (e.controlKey)
 		{
 			switch(flxKey)
 			{
@@ -119,32 +119,36 @@ class PsychUIInputText extends FlxSpriteGroup
 					caretIndex = text.length;
 
 				case X, C: //cut/copy selected text to clipboard
-					if(caretIndex >= 0 && selectIndex != 0 && caretIndex != selectIndex)
+					if (caretIndex >= 0 && selectIndex != 0 && caretIndex != selectIndex)
 					{
 						Clipboard.text = text.substring(caretIndex, selectIndex);
-						if(flxKey == X)
+						if (flxKey == X)
+						{
 							deleteSelection();
+						}
 					}
 
 				case V: //paste from clipboard
-					if(Clipboard.text == null) return;
+					if (Clipboard.text == null) return;
 
-					if(selectIndex > -1 && selectIndex != caretIndex)
+					if (selectIndex > -1 && selectIndex != caretIndex)
+					{
 						deleteSelection();
+					}
 
 					var lastText = text;
 					text = text.substring(0, caretIndex) + Clipboard.text + text.substring(caretIndex);
 					caretIndex += Clipboard.text.length;
-					if(onChange != null) onChange(lastText, text);
-					if(broadcastInputTextEvent) PsychUIEventHandler.event(CHANGE_EVENT, this);
+					if (onChange != null) onChange(lastText, text);
+					if (broadcastInputTextEvent) PsychUIEventHandler.event(CHANGE_EVENT, this);
 
 				case BACKSPACE:
-					if(selectIndex < 0 || selectIndex == caretIndex)
+					if (selectIndex < 0 || selectIndex == caretIndex)
 					{
 						var lastText = text;
 						var deletedText:String = text.substr(0, Std.int(Math.max(0, caretIndex-1)));
 						var space:Int = deletedText.lastIndexOf(' ');
-						if(space > -1 && space != caretIndex-1)
+						if (space > -1 && space != caretIndex-1)
 						{
 							var start:String = deletedText.substring(0, space+1);
 							var end:String = text.substring(caretIndex);
@@ -157,13 +161,16 @@ class PsychUIInputText extends FlxSpriteGroup
 							caretIndex = 0;
 						}
 						selectIndex = -1;
-						if(onChange != null) onChange(lastText, text);
-						if(broadcastInputTextEvent) PsychUIEventHandler.event(CHANGE_EVENT, this);
+						if (onChange != null) onChange(lastText, text);
+						if (broadcastInputTextEvent) PsychUIEventHandler.event(CHANGE_EVENT, this);
 					}
-					else deleteSelection();
+					else
+					{
+						deleteSelection();
+					}
 
 				case DELETE:
-					if(selectIndex < 0 || selectIndex == caretIndex)
+					if (selectIndex < 0 || selectIndex == caretIndex)
 					{
 						// This is| a test
 						// This is test
@@ -177,18 +184,21 @@ class PsychUIInputText extends FlxSpriteGroup
 						}
 
 						var lastText = text;
-						if(space > -1)
+						if (space > -1)
 						{
 							text = text.substr(0, caretIndex) + text.substring(caretIndex + space + spc);
 						}
-						else text = text.substr(0, caretIndex);
-						if(onChange != null) onChange(lastText, text);
-						if(broadcastInputTextEvent) PsychUIEventHandler.event(CHANGE_EVENT, this);
+						else
+						{
+							text = text.substr(0, caretIndex);
+						}
+						if (onChange != null) onChange(lastText, text);
+						if (broadcastInputTextEvent) PsychUIEventHandler.event(CHANGE_EVENT, this);
 					}
 					else deleteSelection();
 
 				case LEFT:
-					if(caretIndex > 0)
+					if (caretIndex > 0)
 					{
 						do
 						{

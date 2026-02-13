@@ -27,6 +27,7 @@ There you can learn how to use the 212 PlayState funcions in your mod!
 
 ### Special Thanks
 * bbpanzu - Ex-Team Member (Programmer).
+* Shubs - Ex-Team Member (Programmer).
 * crowplexus - HScript Iris, Input System v3, and Other PRs.
 * Kamizeta - Creator of Pessy, Psych Engine's mascot.
 * MaxNeton - Loading Screen Easter Egg Artist/Animator.

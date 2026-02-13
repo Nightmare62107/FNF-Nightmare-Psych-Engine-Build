@@ -4,7 +4,7 @@ import flixel.util.FlxSave;
 import flixel.input.keyboard.FlxKey;
 import flixel.input.gamepad.FlxGamepadInputID;
 
-import states.TitleState;
+import states.InitState;
 
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables
@@ -30,25 +30,31 @@ import states.TitleState;
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
 		[0xFF12FA05, 0xFFFFFFFF, 0xFF0A4447],
-		[0xFFF9393F, 0xFFFFFFFF, 0xFF651038]];
+		[0xFFF9393F, 0xFFFFFFFF, 0xFF651038]
+	];
 	public var arrowRGBPixel:Array<Array<FlxColor>> = [
 		[0xFFE276FF, 0xFFFFF9FF, 0xFF60008D],
 		[0xFF3DCAFF, 0xFFF4FFFF, 0xFF003060],
 		[0xFF71E300, 0xFFF6FFE6, 0xFF003100],
-		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]];
-
+		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]
+	];
+	
 	public var ghostTapping:Bool = true;
 	public var timeBarType:String = 'Time Left';
+	public var colorFilter:String = 'None';
 	public var scoreZoom:Bool = true;
 	public var noReset:Bool = false;
 	public var noBotplay:Bool = false;
 	public var healthBarAlpha:Float = 1;
+	public var healthBarBGAlpha:Float = 0;
 	public var missSounds:Bool = true;
 	public var hitsoundVolume:Float = 0;
 	public var pauseMusic:String = 'Tea Time';
+	public var pauseMusicChanges:Bool = true;
 	public var checkForUpdates:Bool = true;
 	public var comboStacking:Bool = true;
 	public var comboColorChange:Bool = false;
+	public var comboTrimLeadingZeros:Bool = false;
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -208,7 +214,12 @@ class ClientPrefs
 				Reflect.setField(data, key, Reflect.field(FlxG.save.data, key));
 			}
 		}
-		
+
+		// Automatically apply color filter on game start
+		#if !macro
+		shaders.ColorFilters.applyFiltersOnGame();
+		#end
+
 		if (Main.fpsVar != null)
 		{
 			Main.fpsVar.visible = data.showFPS;
@@ -300,17 +311,17 @@ class ClientPrefs
 
 	public static function reloadVolumeKeys()
 	{
-		TitleState.muteKeys = keyBinds.get('volume_mute').copy();
-		TitleState.volumeDownKeys = keyBinds.get('volume_down').copy();
-		TitleState.volumeUpKeys = keyBinds.get('volume_up').copy();
+		InitState.muteKeys = keyBinds.get('volume_mute').copy();
+		InitState.volumeDownKeys = keyBinds.get('volume_down').copy();
+		InitState.volumeUpKeys = keyBinds.get('volume_up').copy();
 		toggleVolumeKeys(true);
 	}
 	
 	public static function toggleVolumeKeys(?turnOn:Bool = true)
 	{
 		final emptyArray = [];
-		FlxG.sound.muteKeys = turnOn ? TitleState.muteKeys : emptyArray;
-		FlxG.sound.volumeDownKeys = turnOn ? TitleState.volumeDownKeys : emptyArray;
-		FlxG.sound.volumeUpKeys = turnOn ? TitleState.volumeUpKeys : emptyArray;
+		FlxG.sound.muteKeys = turnOn ? InitState.muteKeys : emptyArray;
+		FlxG.sound.volumeDownKeys = turnOn ? InitState.volumeDownKeys : emptyArray;
+		FlxG.sound.volumeUpKeys = turnOn ? InitState.volumeUpKeys : emptyArray;
 	}
 }

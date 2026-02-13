@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="Black_Note_Onslaught.png">
+	<!-- Created with Adobe Animate version 19.0.0.326 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="blue0000" x="0" y="1853" width="157" height="154"/>
+	<SubTexture name="purple0000" x="157" y="1853" width="154" height="178"/>
+	<SubTexture name="red0000" x="311" y="1853" width="154" height="169"/>
+	<SubTexture name="green0000" x="465" y="1853" width="161" height="169"/>
+</TextureAtlas>
