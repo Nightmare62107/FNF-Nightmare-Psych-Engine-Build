@@ -200,7 +200,7 @@ class StoryMenuState extends MusicBeatState
 		missingText.visible = false;
 		add(missingText);
 
-		changeWeek();
+		changeWeek(0, false);
 		changeDifficulty();
 
 		super.create();
@@ -209,10 +209,11 @@ class StoryMenuState extends MusicBeatState
 	override function closeSubState()
 	{
 		persistentUpdate = true;
-		changeWeek();
+		changeWeek(0, false);
 		super.closeSubState();
 	}
 
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (WeekData.weeksList.length < 1)
@@ -258,26 +259,38 @@ class StoryMenuState extends MusicBeatState
 			if (controls.UI_UP_P)
 			{
 				changeWeek(-1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				holdTime = 0;
+				//FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeDiff = true;
 			}
 
 			if (controls.UI_DOWN_P)
 			{
 				changeWeek(1);
-				FlxG.sound.play(Paths.sound('scrollMenu'));
+				holdTime = 0;
+				//FlxG.sound.play(Paths.sound('scrollMenu'));
 				changeDiff = true;
+			}
+
+			if(controls.UI_UP || controls.UI_DOWN)
+			{
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+				if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+					changeWeek((checkNewHold - checkLastHold) * (controls.UI_UP ? -1 : 1));
 			}
 
 			if(FlxG.mouse.wheel != 0)
 			{
-				FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+				//FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 				changeWeek(-FlxG.mouse.wheel);
 				changeDifficulty();
 			}
 
 			if (controls.UI_RIGHT)
-				rightArrow.animation.play('press')
+				rightArrow.animation.play('press');
 			else
 				rightArrow.animation.play('idle');
 
@@ -287,11 +300,27 @@ class StoryMenuState extends MusicBeatState
 				leftArrow.animation.play('idle');
 
 			if (controls.UI_RIGHT_P)
+			{
 				changeDifficulty(1);
+				holdTime = 0;
+			}
 			else if (controls.UI_LEFT_P)
+			{
 				changeDifficulty(-1);
+				holdTime = 0;
+			}
 			else if (changeDiff)
 				changeDifficulty();
+
+			if(controls.UI_LEFT || controls.UI_RIGHT)
+			{
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+				if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+					changeDifficulty((checkNewHold - checkLastHold) * (controls.UI_LEFT ? -1 : 1));
+			}
 
 			if(FlxG.keys.justPressed.CONTROL)
 			{
@@ -459,8 +488,10 @@ class StoryMenuState extends MusicBeatState
 	var lerpScore:Int = 49324858;
 	var intendedScore:Int = 0;
 
-	function changeWeek(change:Int = 0):Void
+	function changeWeek(change:Int = 0, playSound:Bool = true):Void
 	{
+		if(playSound) FlxG.sound.play(Paths.sound('scrollMenu'));
+
 		curWeek += change;
 
 		if (curWeek >= loadedWeeks.length)

@@ -69,7 +69,15 @@ class DiscordClient
 		}
 
 		trace(message);
-		changePresence();
+		// Only update presence if details haven't been set yet (preserve existing presence)
+		if (presence.details == null || presence.details == '')
+		{
+			changePresence();
+		}
+		else
+		{
+			updatePresence();
+		}
 	}
 
 	private static function onError(errorCode:Int, message:cpp.ConstCharStar):Void

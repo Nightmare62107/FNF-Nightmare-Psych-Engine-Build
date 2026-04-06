@@ -122,6 +122,68 @@ Nightmare's Build V6:
 
 
 
+Nightmare's Build V7:
+
+- Added new achievements. BF Mix, Pico Mix, and Erect Mixes now have week achievements. Keep in mind not all of them are currently obtainable due to not all of the songs being in this build at the moment. Also note weeks that do have the mixes may have only one or two songs inside the week, because not all of the remixes are publicly released yet. But as long as the week has one mix, it will still give the achievement.
+
+- Added more scrolling support in all states and substates.
+
+- Added the old version of Bopeebo Erect into the build (Freeplay only).
+
+- Pressing SHIFT and RESET in achievements menu will now give an option to reset ALL achievements at once. Pressing only RESET still lets you reset one at a time.
+
+- Added easter egg in achievement menu (click on week2PicoMix achievement once unlocked).
+
+- Added the old main menu options for archival (kickstarter, options, donate, awards). Achievement and Options icons still work, both versions send you to the same state.
+
+- Small bug fixes in certain states and spots in the game.
+
+- Added a pixel version of "GO!" in the files in case anyone wanted it.
+
+- Changed Debugger's unlock to be its story week "Test". Also changed the achievement icon.
+
+- Added a screenshot preview similar to the one in base fnf's engine. When a screenshot is taken, it'll pop up in the top left, and make a screenshot sound.
+
+- Fixed memory leak issues when taking a screenshot. It now has a memory cleaner to free that memory back up so it doesn't stack.
+
+- Screenshot keybind is now able to be changed in the controls menu.
+
+- Added a keybind for the bf old icon switch in the controls menu.
+
+- Changed bf old icon switch not being able to work during countdown.
+
+- Fixed CacheState not showing its changed discord presence change while in that state.
+
+- Made old debugger achievement migrate over to unlock the new one if the build detects the old one unlocked in the save file (essentially carries the old debugger achievement over).
+
+- Fixed Monsters left and right loops.
+
+- Added a Lyrics event.
+
+- Added Lyrics to Monster.
+
+- Increased the Health Drain cap to fix higher health gain resulting in an unavoidable death.
+
+- Changed note strum colors depending on note type being hit.
+
+- Changed the main menu options to put some on the right column instead of in the middle.
+
+- Added the mouse click sound into charting state from the official fnf engine.
+
+- Added a pixel boarder to pixel stages (toggle it in visual settings).
+
+- Fixed the note alignments to be as exact as possible.
+
+- Re-Added the Gitaroo Pause Easter Egg (1 in 1000 chance, just like the original).
+
+- Added a new gameplay changer that randomizes note placement (so if its an up note, it could change to any of the 4 randomly).
+
+- Removed old Downscroll and Middlescroll options for a universal Scroll Type option that houses all scroll types.
+
+- Added two new scroll type options: Leftscroll and Rightscroll (WORK IN PROGRESS).
+
+
+
 
 
 BUILDS/MODS/ENGINES I'VE TAKEN FROM:

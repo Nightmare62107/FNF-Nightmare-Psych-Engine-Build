@@ -130,6 +130,8 @@ class Note extends FlxSprite
 
 	public static var SUSTAIN_SIZE:Int = 44;
 	public static var swagWidth:Float = 160 * 0.7;
+	public static var sustainEndOffsetYAdd:Float = -30;
+	public static var sustainHoldOffsetYAdd:Float = -60; // NOTE: The end one will affect this one too, so be aware of that when changing it
 	public static var colArray:Array<String> = ['purple', 'blue', 'green', 'red'];
 	public static var defaultNoteSkin(default, never):String = 'noteSkins/NOTE_assets';
 
@@ -144,8 +146,6 @@ class Note extends FlxSprite
 		b: -1,
 		a: ClientPrefs.data.splashAlpha
 	};
-
-
 
 	public var offsetX:Float = 0;
 	public var offsetY:Float = 0;
@@ -225,16 +225,12 @@ class Note extends FlxSprite
 			rgbShader.g = 0xFF00FF00;
 			rgbShader.b = 0xFF0000FF;
 		}
-
-
 	}
 
 	private function set_noteType(value:String):String
 	{
 		noteSplashData.texture = PlayState.SONG != null ? PlayState.SONG.splashSkin : 'noteSplashes/noteSplashes';
 		defaultRGB();
-
-
 
 		if (noteData > -1 && noteType != value)
 		{
@@ -566,9 +562,25 @@ class Note extends FlxSprite
 		this.inEditor = inEditor;
 		this.moves = false;
 
-		x += (ClientPrefs.data.middleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
-		// MAKE SURE ITS DEFINITELY OFF SCREEN?
-		y -= 2000;
+		if (PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
+		{
+			// Position notes off-screen on their respective sides, all at same X
+			if (PlayState.effectiveLeftScroll)
+			{
+				x = -200; // Off-screen left, same X for all notes
+			}
+			else // effectiveRightScroll
+			{
+				x = FlxG.width + 200; // Off-screen right, same X for all notes
+			}
+			y = (noteData * 113) + ((FlxG.height / 2) - 150);
+		}
+		else
+		{
+			x += (PlayState.effectiveMiddleScroll ? PlayState.STRUM_X_MIDDLESCROLL : PlayState.STRUM_X) + 50;
+			y -= 2000; // Off screen vertically
+		}
+		
 		this.strumTime = strumTime;
 		if (!inEditor) this.strumTime += ClientPrefs.data.noteOffset;
 
@@ -580,7 +592,11 @@ class Note extends FlxSprite
 			if(PlayState.SONG != null && PlayState.SONG.disableNoteRGB) rgbShader.enabled = false;
 			texture = '';
 
-			x += swagWidth * (noteData);
+			// For left/right scroll, don't distribute notes horizontally
+			if (!(PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll))
+			{
+				x += swagWidth * (noteData);
+			}
 			if(!isSustainNote && noteData < colArray.length) { //Doing this 'if' check to fix the warnings on Senpai songs
 				var animToPlay:String = '';
 				animToPlay = colArray[noteData % colArray.length];
@@ -598,12 +614,21 @@ class Note extends FlxSprite
 			alpha = 0.6;
 			multAlpha = 0.6;
 			hitsoundDisabled = true;
-			if(ClientPrefs.data.downScroll) flipY = true;
+			if(PlayState.effectiveDownScroll) flipY = true;
+			if(PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
+			{
+				flipX = true;
+				prevNote.flipX = true;
+				// also reverse x offset direction so tail extends inward
+				offsetX *= -1;
+			}
 
 			offsetX += width / 2;
 			copyAngle = false;
 
 			animation.play(colArray[noteData % colArray.length] + 'holdend');
+			if (PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
+				offsetY += sustainEndOffsetYAdd;
 
 			updateHitbox();
 
@@ -615,6 +640,8 @@ class Note extends FlxSprite
 			if (prevNote.isSustainNote)
 			{
 				prevNote.animation.play(colArray[prevNote.noteData % colArray.length] + 'hold');
+				if (PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
+					prevNote.offsetY += sustainHoldOffsetYAdd;
 
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.05;
 				if(createdFrom != null && createdFrom.songSpeed != null) prevNote.scale.y *= createdFrom.songSpeed;
@@ -639,7 +666,23 @@ class Note extends FlxSprite
 			centerOffsets();
 			centerOrigin();
 		}
-		x += offsetX;
+		if (!(PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll))
+		{
+			x += offsetX;
+		}
+		else
+		{
+			// For left/right scroll, force all notes to the same X position
+			if (PlayState.effectiveLeftScroll)
+			{
+				x = -200;
+			}
+			else
+			{
+				x = FlxG.width + 200;
+			}
+		}
+
 	}
 
 	public static function initializeGlobalRGBShader(noteData:Int)
@@ -660,7 +703,6 @@ class Note extends FlxSprite
 				newRGB.g = 0xFF00FF00;
 				newRGB.b = 0xFF0000FF;
 			}
-
 			
 			globalRgbShaders[noteData] = newRGB;
 		}
@@ -671,7 +713,8 @@ class Note extends FlxSprite
 	static var _lastValidChecked:String; //optimization
 	public var originalHeight:Float = 6;
 	public var correctionOffset:Float = 0; //dont mess with this
-	public function reloadNote(texture:String = '', postfix:String = '') {
+	public function reloadNote(texture:String = '', postfix:String = '')
+	{
 		if(texture == null) texture = '';
 		if(postfix == null) postfix = '';
 
@@ -701,7 +744,8 @@ class Note extends FlxSprite
 		}
 		else skinPostfix = '';
 
-		if(PlayState.isPixelStage) {
+		if(PlayState.isPixelStage)
+		{
 			if(isSustainNote) {
 				var candidateBase = 'pixelUI/' + skinPixel + 'ENDS' + skinPostfix;
 				var candidateAlt:String = '';
@@ -718,7 +762,9 @@ class Note extends FlxSprite
 				var graphic = Paths.image(chosen);
 				loadGraphic(graphic, true, Math.floor(graphic.width / 4), Math.floor(graphic.height / 2));
 				originalHeight = graphic.height / 2;
-			} else {
+			}
+			else
+			{
 				var graphic = Paths.image('pixelUI/' + skinPixel + skinPostfix);
 				loadGraphic(graphic, true, Math.floor(graphic.width / 4), Math.floor(graphic.height / 5));
 			}
@@ -726,12 +772,15 @@ class Note extends FlxSprite
 			loadPixelNoteAnims();
 			antialiasing = false;
 
-			if(isSustainNote) {
+			if(isSustainNote)
+			{
 				offsetX += _lastNoteOffX;
 				_lastNoteOffX = (width - 7) * (PlayState.daPixelZoom / 2);
 				offsetX -= _lastNoteOffX;
 			}
-		} else {
+		}
+		else
+		{
 			frames = Paths.getSparrowAtlas(skin);
 			loadNoteAnims();
 			if(!isSustainNote)
@@ -758,7 +807,8 @@ class Note extends FlxSprite
 		return skin;
 	}
 
-	function loadNoteAnims() {
+	function loadNoteAnims()
+	{
 		if (colArray[noteData] == null)
 			return;
 
@@ -774,7 +824,8 @@ class Note extends FlxSprite
 		updateHitbox();
 	}
 
-	function loadPixelNoteAnims() {
+	function loadPixelNoteAnims()
+	{
 		if (colArray[noteData] == null)
 			return;
 
@@ -797,6 +848,11 @@ class Note extends FlxSprite
 
 	override function update(elapsed:Float)
 	{
+		// keep opponent notes hidden during horizontal scroll modes
+		if ((PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll) && !mustPress)
+		{
+			visible = false;
+		}
 		super.update(elapsed);
 
 		if (mustPress)
@@ -838,58 +894,96 @@ class Note extends FlxSprite
 		var strumAngle:Float = myStrum.angle;
 		var strumAlpha:Float = myStrum.alpha;
 		var strumDirection:Float = myStrum.direction;
-
 		distance = (0.45 * (Conductor.songPosition - strumTime) * songSpeed * multSpeed);
-		if (!myStrum.downScroll) distance *= -1;
+		
+		if (PlayState.effectiveLeftScroll)
+		{
+			if (myStrum.downScroll) distance *= -1;
+		}
+		else if (PlayState.effectiveRightScroll)
+		{
+			if (!myStrum.downScroll) distance *= -1;
+		}
+		else
+		{
+			if (!myStrum.downScroll) distance *= -1;
+		}
+		
+		// flip scrolling direction for horizontal modes
+		if (PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
+		{
+			distance *= -1;
+		}
 
 		var angleDir = strumDirection * Math.PI / 180;
 		if (copyAngle)
 			angle = strumDirection - 90 + strumAngle + offsetAngle;
 
+		if(isSustainNote && (PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll))
+		{
+			angle = 90;
+		}
+
 		if(copyAlpha)
 			alpha = strumAlpha * multAlpha;
 
-		if(copyX)
-			x = strumX + offsetX + Math.cos(angleDir) * distance;
-
-		if(copyY)
+		if(PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
 		{
-			y = strumY + offsetY + correctionOffset + Math.sin(angleDir) * distance;
-			if(myStrum.downScroll && isSustainNote)
+			// For left/right scroll, notes move horizontally WITHOUT any offset
+			if(copyX)
+				x = strumX + distance;
+			if(copyY)
+				y = strumY + offsetY + correctionOffset;
+		}
+		else
+		{
+			// For vertical scroll, notes move vertically
+			if(copyX)
+				x = strumX + offsetX + Math.cos(angleDir) * distance;
+
+			if(copyY)
 			{
-				if(PlayState.isPixelStage)
+				y = strumY + offsetY + correctionOffset + Math.sin(angleDir) * distance;
+				if(myStrum.downScroll && isSustainNote)
 				{
-					y -= PlayState.daPixelZoom * 9.5;
+					if(PlayState.isPixelStage)
+					{
+						y -= PlayState.daPixelZoom * 9.5;
+					}
+					y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
 				}
-				y -= (frameHeight * scale.y) - (Note.swagWidth / 2);
 			}
 		}
 	}
 
 	public function clipToStrumNote(myStrum:StrumNote)
 	{
-		var center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
-		if((mustPress || !ignoreNote) && (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
+		// Only clip for vertical scroll modes
+		if (!(PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll))
 		{
-			var swagRect:FlxRect = clipRect;
-			if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
+			var center:Float = myStrum.y + offsetY + Note.swagWidth / 2;
+			if((mustPress || !ignoreNote) && (wasGoodHit || (prevNote.wasGoodHit && !canBeHit)))
+			{
+				var swagRect:FlxRect = clipRect;
+				if(swagRect == null) swagRect = new FlxRect(0, 0, frameWidth, frameHeight);
 
-			if (myStrum.downScroll)
-			{
-				if(y - offset.y * scale.y + height >= center)
+				if (myStrum.downScroll)
 				{
-					swagRect.width = frameWidth;
-					swagRect.height = (center - y) / scale.y;
-					swagRect.y = frameHeight - swagRect.height;
+					if(y - offset.y * scale.y + height >= center)
+					{
+						swagRect.width = frameWidth;
+						swagRect.height = (center - y) / scale.y;
+						swagRect.y = frameHeight - swagRect.height;
+					}
 				}
+				else if (y + offset.y * scale.y <= center)
+				{
+					swagRect.y = (center - y) / scale.y;
+					swagRect.width = width / scale.x;
+					swagRect.height = (height / scale.y) - swagRect.y;
+				}
+				clipRect = swagRect;
 			}
-			else if (y + offset.y * scale.y <= center)
-			{
-				swagRect.y = (center - y) / scale.y;
-				swagRect.width = width / scale.x;
-				swagRect.height = (height / scale.y) - swagRect.y;
-			}
-			clipRect = swagRect;
 		}
 	}
 

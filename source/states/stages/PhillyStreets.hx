@@ -9,6 +9,7 @@ import flixel.graphics.frames.FlxAtlasFrames;
 import substates.GameOverSubstate;
 import substates.PauseSubState;
 import states.stages.objects.*;
+import objects.Character;
 
 import objects.Note;
 
@@ -123,7 +124,7 @@ class PhillyStreets extends BaseStage
 		add(phillyForeground);
 		darkenable.push(phillyForeground);
 		
-		if(!ClientPrefs.data.lowQuality)
+		if (!ClientPrefs.data.lowQuality)
 		{
 			picoFade = new FlxSprite();
 			picoFade.antialiasing = ClientPrefs.data.antialiasing;
@@ -132,27 +133,34 @@ class PhillyStreets extends BaseStage
 			darkenable.push(picoFade);
 		}
 
-		abot = new ABotSpeaker(0, 550);
+		abot = new ABotSpeaker(gfGroup.x, gfGroup.y + 550);
 		updateABotEye(true);
-		gfGroup.add(abot);
+		add(abot);
 		
-		if(ClientPrefs.data.shaders)
+		if (ClientPrefs.data.shaders)
+		{
 			setupRainShader();
+		}
 
 		var _song = PlayState.SONG;
-		if(_song.gameOverSound == null || _song.gameOverSound.trim().length < 1) GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pico';
-		if(_song.gameOverLoop == null || _song.gameOverLoop.trim().length < 1) GameOverSubstate.loopSoundName = 'gameOver-pico';
-		if(_song.gameOverEnd == null || _song.gameOverEnd.trim().length < 1) GameOverSubstate.endSoundName = 'gameOverEnd-pico';
-		if(_song.pauseBreakfast == null || _song.pauseBreakfast.trim().length < 1) PauseSubState.pauseBreakfastName = 'breakfast-pico';
-		if(_song.gameOverChar == null || _song.gameOverChar.trim().length < 1) GameOverSubstate.characterName = 'pico-dead';
+		if (_song.gameOverSound == null || _song.gameOverSound.trim().length < 1) GameOverSubstate.deathSoundName = 'fnf_loss_sfx-pico';
+		if (_song.gameOverLoop == null || _song.gameOverLoop.trim().length < 1) GameOverSubstate.loopSoundName = 'gameOver-pico';
+		if (_song.gameOverEnd == null || _song.gameOverEnd.trim().length < 1) GameOverSubstate.endSoundName = 'gameOverEnd-pico';
+		if (_song.pauseBreakfast == null || _song.pauseBreakfast.trim().length < 1) PauseSubState.pauseBreakfastName = 'breakfast-pico';
+		if (_song.gameOverChar == null || _song.gameOverChar.trim().length < 1) GameOverSubstate.characterName = 'pico-dead';
 		setDefaultGF('nene');
+		// Disable gfGroup scrolling for this stage (keep GF stationary relative to camera)
+		gfGroup.scrollFactor.set(0, 0);
 		
 		if (isStoryMode)
 		{
 			switch (songName)
 			{
 				case 'darnell':
-					if(!seenCutscene) setStartCallback(videoCutscene.bind('darnellCutscene'));
+					if (!seenCutscene)
+					{
+						setStartCallback(videoCutscene.bind('darnellCutscene'));
+					}
 				case '2hot':
 					setEndCallback(function()
 					{
@@ -174,7 +182,7 @@ class PhillyStreets extends BaseStage
 		var unspawnNotes:Array<Note> = cast game.unspawnNotes;
 		for (note in unspawnNotes)
 		{
-			if(note == null) continue;
+			if (note == null) continue;
 
 			//override animations for note types
 			switch(note.noteType)
@@ -182,7 +190,7 @@ class PhillyStreets extends BaseStage
 				case 'weekend-1-firegun':
 					note.blockHit = true;
 			}
-			if(!noteTypes.contains(note.noteType)) noteTypes.push(note.noteType);
+			if (!noteTypes.contains(note.noteType)) noteTypes.push(note.noteType);
 		}
 
 		spraycanPile = new BGSprite('SpraycanPile', 920, 1045, 1, 1);
@@ -190,7 +198,7 @@ class PhillyStreets extends BaseStage
 		add(spraycanPile);
 		darkenable.push(spraycanPile);
 
-		if(gf != null)
+		if (gf != null)
 		{
 			gf.animation.callback = function(name:String, frameNumber:Int, frameIndex:Int)
 			{
@@ -629,8 +637,10 @@ class PhillyStreets extends BaseStage
 				driveCarLights(phillyCars);
 		}
 
-		if(FlxG.random.bool(10) && curBeat != (lastChange + changeInterval) && car2Interruptable == true && lightsStop == false)
+		if (FlxG.random.bool(10) && curBeat != (lastChange + changeInterval) && car2Interruptable == true && lightsStop == false)
+		{
 			driveCarBack(phillyCars2);
+		}
 
 		if (curBeat == (lastChange + changeInterval)) changeLights(curBeat);
 	}
@@ -640,7 +650,7 @@ class PhillyStreets extends BaseStage
 		lastChange = beat;
 		lightsStop = !lightsStop;
 
-		if(lightsStop)
+		if (lightsStop)
 		{
 			phillyTraffic.animation.play('greentored');
 			changeInterval = 20;
@@ -650,7 +660,10 @@ class PhillyStreets extends BaseStage
 			phillyTraffic.animation.play('redtogreen');
 			changeInterval = 30;
 
-			if(carWaiting == true) finishCarLights(phillyCars);
+			if (carWaiting == true)
+			{
+				finishCarLights(phillyCars);
+			}
 		}
 	}
 

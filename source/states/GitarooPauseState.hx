@@ -1,8 +1,10 @@
-package;
+package states;
 
 import flixel.graphics.frames.FlxAtlasFrames;
+import states.FreeplayState;
+import states.StoryMenuState;
 
-class GitarooPause extends MusicBeatState
+class GitarooPauseState extends MusicBeatState
 {
 	var replayButton:FlxSprite;
 	var cancelButton:FlxSprite;
@@ -16,6 +18,11 @@ class GitarooPause extends MusicBeatState
 
 	override function create()
 	{
+		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
+		DiscordClient.changePresence("Gitaroo Pause Menu", null);
+		#end
+
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
 
@@ -61,16 +68,19 @@ class GitarooPause extends MusicBeatState
 			}
 			else
 			{
-				PlayState.usedPractice = false;
-				PlayState.changedDifficulty = false;
-				PlayState.seenCutscene = false;
 				PlayState.deathCounter = 0;
-				PlayState.cpuControlled = false;
-				MusicBeatState.switchState(new MainMenuState());
-				if(PlayState.isStoryMode)
+				PlayState.seenCutscene = false;
+				
+				if (PlayState.isStoryMode)
+				{
+					MusicBeatState.switchState(new StoryMenuState());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+				}
 				else
+				{
+					MusicBeatState.switchState(new FreeplayState());
 					FlxG.sound.playMusic(Paths.music('freeplayRandom'), 0.7);
+				}
 			}
 		}
 

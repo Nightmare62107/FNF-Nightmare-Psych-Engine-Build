@@ -14,6 +14,7 @@ class LanguageSubState extends MusicBeatSubstate
 		super();
 
 		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Language Menu", null);
 		#end
 
@@ -116,6 +117,7 @@ class LanguageSubState extends MusicBeatSubstate
 	}
 
 	var changedLanguage:Bool = false;
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -124,11 +126,23 @@ class LanguageSubState extends MusicBeatSubstate
 		if(controls.UI_UP_P)
 		{
 			changeSelected(-1 * mult);
+			holdTime = 0;
 		}
 
 		if(controls.UI_DOWN_P)
 		{
 			changeSelected(1 * mult);
+			holdTime = 0;
+		}
+
+		if(controls.UI_UP || controls.UI_DOWN)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+				changeSelected((checkNewHold - checkLastHold) * (controls.UI_UP ? (-1 * mult) : (1 * mult)));
 		}
 
 		if(FlxG.mouse.wheel != 0)

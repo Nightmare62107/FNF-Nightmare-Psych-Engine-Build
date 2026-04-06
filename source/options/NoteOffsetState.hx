@@ -38,6 +38,7 @@ class NoteOffsetState extends MusicBeatState
 	override public function create()
 	{
 		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Delay/Combo Offset Menu", null);
 		#end
 

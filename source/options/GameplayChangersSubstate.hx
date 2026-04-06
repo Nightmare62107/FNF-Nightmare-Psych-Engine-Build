@@ -67,6 +67,7 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		optionsArray.push(option);
 
 		optionsArray.push(new GameplayOption('Opponent Health Drain', 'healthdrain', BOOL, false));
+		optionsArray.push(new GameplayOption('Randomize Note Placement', 'randomizenotes', BOOL, false));
 		optionsArray.push(new GameplayOption('Skip Countdown', 'skipcountdown', BOOL, false));
 		#if VS_SONIC_EXE_FILES
 		optionsArray.push(new GameplayOption('Ring System', 'ringsystem', BOOL, false));
@@ -155,11 +156,25 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		if (controls.UI_UP_P)
 		{
 			changeSelection(-1);
+			holdTime = 0;
 		}
 
 		if (controls.UI_DOWN_P)
 		{
 			changeSelection(1);
+			holdTime = 0;
+		}
+
+		if (controls.UI_UP || controls.UI_DOWN)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -1 : 1));
+			}
 		}
 
 		if (FlxG.mouse.wheel != 0)

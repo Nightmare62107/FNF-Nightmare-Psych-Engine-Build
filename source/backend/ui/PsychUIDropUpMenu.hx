@@ -110,7 +110,7 @@ class PsychUIDropUpMenu extends PsychUIInputText
 			var wheel:Int = FlxG.mouse.wheel;
 			if(FlxG.keys.justPressed.UP) wheel++;
 			if(FlxG.keys.justPressed.DOWN) wheel--;
-			if(wheel != 0) showDropUp(true, curScroll - wheel, _curFilter);
+			if(wheel != 0) showDropUp(true, curScroll + wheel, _curFilter);
 		}
 	}
 

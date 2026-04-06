@@ -59,6 +59,8 @@ class TitleState extends MusicBeatState
 
 	var wackyImage:FlxSprite;
 
+	var enterPressed:Bool = false;
+
 	#if TITLE_SCREEN_EASTER_EGG
 	final easterEggKeys:Array<String> = [
 		'SHADOW', 'RIVEREN', 'SHUBS', 'BBPANZU', 'PESSY'
@@ -426,6 +428,13 @@ class TitleState extends MusicBeatState
 				pressedEnter = true;
 			}
 			#end
+		}
+
+		if (pressedEnter && transitioning && skippedIntro && !enterPressed)
+		{
+			MusicBeatState.switchState(new MainMenuState());
+			closedState = true;
+			enterPressed = true;
 		}
 		
 		if (newTitle)

@@ -27,6 +27,10 @@ class StrumNote extends FlxSprite
 	public var useRGBShader:Bool = true;
 	public function new(x:Float, y:Float, leData:Int, player:Int) {
 		animation = new PsychAnimationController(this);
+		if ((PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll) && player == 0)
+		{
+			visible = false;
+		}
 
 		rgbShader = new RGBShaderReference(this, Note.initializeGlobalRGBShader(leData));
 		rgbShader.enabled = false;
@@ -143,6 +147,16 @@ class StrumNote extends FlxSprite
 
 	public function playerPosition()
 	{
+		if (PlayState.effectiveLeftScroll || PlayState.effectiveRightScroll)
+		{
+			// all strums share the same X in side-scroll modes
+			if (PlayState.effectiveLeftScroll)
+				x = 50; // or some fixed left-side value
+			else
+				x = FlxG.width - 100; // fixed right-side value
+			return;
+		}
+		// default behavior
 		x += Note.swagWidth * noteData;
 		x += 50;
 		x += ((FlxG.width / 2) * player);

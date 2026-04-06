@@ -136,6 +136,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.changeValue = 0.1;
 		option.decimals = 1;
 		addOption(option);
+
+		var option:Option = new Option('Pixel Border',
+			'If checked, shows a Pixel Border around the screen in Pixel Stages.',
+			'pixelBorder',
+			BOOL);
+		addOption(option);
 		
 		#if !mobile
 		var option:Option = new Option('FPS Counter',

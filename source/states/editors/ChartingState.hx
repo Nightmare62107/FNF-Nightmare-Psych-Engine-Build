@@ -86,7 +86,8 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		['Change Character', "Value 1: Character to change (Dad, BF, GF)\n\nValue 2: New character's name"],
 		['Change Scroll Speed', "Value 1: Scroll Speed Multiplier (1 is default)\n\nValue 2: Time it takes to change fully in seconds."],
 		['Set Property', "Value 1: Variable name\n\nValue 2: New value"],
-		['Play Sound', "Value 1: Sound file name\n\nValue 2: Volume (Default: 1), ranges from 0 to 1"]
+		['Play Sound', "Value 1: Sound file name\n\nValue 2: Volume (Default: 1), ranges from 0 to 1"],
+		['Lyrics', "Make Lyrics/Subtitles Appear on screen\n\nValue 1: Text you want to appear\n\nValue 2: Text color (6 digit hex format)\nDefault: White\n\nLeaving Value 1 blank will remove the previous text."]
 	];
 	
 	public static var keysArray:Array<FlxKey> = [ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT]; //Used for Vortex Editor
@@ -679,6 +680,14 @@ class ChartingState extends MusicBeatState implements PsychUIEventHandler.PsychU
 		{
 			lastFocus = PsychUIInputText.focusOn;
 			return;
+		}
+
+		// play a click sound any time the user left- or right-clicks in the editor
+		// this is intentionally very early so it triggers regardless of what
+		// interaction happens afterwards (even if we later ignore the click)
+		if(FlxG.mouse.justPressed || FlxG.mouse.justPressedRight)
+		{
+			FlxG.sound.play(Paths.sound('clickUp'), 0.4);
 		}
 
 		for (num => key in keysArray)

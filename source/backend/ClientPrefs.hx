@@ -9,23 +9,7 @@ import states.InitState;
 // Add a variable here and it will get automatically saved
 @:structInit class SaveVariables
 {
-	public var downScroll:Bool = false;
-	public var middleScroll:Bool = false;
-	public var opponentStrums:Bool = true;
-	public var showFPS:Bool = true;
-	public var flashing:Bool = true;
-	public var autoPause:Bool = true;
-	public var antialiasing:Bool = true;
-	public var noteSkin:String = 'Default';
-	public var splashSkin:String = 'Psych';
-	public var splashAlpha:Float = 0.6;
-	public var lowQuality:Bool = false;
-	public var shaders:Bool = true;
-	public var cacheOnGPU:Bool = #if !switch false #else true #end; // GPU Caching made by Raltyro
-	public var framerate:Int = 60;
-	public var camZooms:Bool = true;
-	public var hideHud:Bool = false;
-	public var noteOffset:Int = 0;
+	// Note Colors Settings
 	public var arrowRGB:Array<Array<FlxColor>> = [
 		[0xFFC24B99, 0xFFFFFFFF, 0xFF3C1F56],
 		[0xFF00FFFF, 0xFFFFFFFF, 0xFF1542B7],
@@ -38,23 +22,62 @@ import states.InitState;
 		[0xFF71E300, 0xFFF6FFE6, 0xFF003100],
 		[0xFFFF884E, 0xFFFFFAF5, 0xFF6C0000]
 	];
-	
-	public var ghostTapping:Bool = true;
+
+	// Adjust Delay And Combo Settings
+	public var comboOffset:Array<Int> = [0, 0, 0, 0];
+	public var noteOffset:Int = 0;
+
+	// Graphics Settings
+	public var lowQuality:Bool = false;
+	public var antialiasing:Bool = true;
+	public var shaders:Bool = true;
+	public var cacheOnGPU:Bool = #if !switch false #else true #end; // GPU Caching made by Raltyro
+	public var framerate:Int = 60;
+
+	// Visuals Settings
+	public var noteSkin:String = 'Default';
+	public var splashSkin:String = 'Psych';
+	public var splashAlpha:Float = 0.6;
+	public var hideHud:Bool = false;
 	public var timeBarType:String = 'Time Left';
-	public var colorFilter:String = 'None';
+	public var flashing:Bool = true;
+	public var camZooms:Bool = true;
 	public var scoreZoom:Bool = true;
-	public var noReset:Bool = false;
-	public var noBotplay:Bool = false;
 	public var healthBarAlpha:Float = 1;
 	public var healthBarBGAlpha:Float = 0;
-	public var missSounds:Bool = true;
-	public var hitsoundVolume:Float = 0;
+	public var pixelBorder:Bool = false;
+	public var showFPS:Bool = true;
 	public var pauseMusic:String = 'Tea Time';
 	public var pauseMusicChanges:Bool = true;
 	public var checkForUpdates:Bool = true;
+	public var discordRPC:Bool = true;
 	public var comboStacking:Bool = true;
 	public var comboColorChange:Bool = false;
 	public var comboTrimLeadingZeros:Bool = false;
+	public var colorFilter:String = 'None';
+
+	// Gameplay Settings
+	public var downScroll:Bool = false;
+	public var middleScroll:Bool = false;
+	public var opponentStrums:Bool = true;
+	public var ghostTapping:Bool = true;
+	public var autoPause:Bool = true;
+	public var noReset:Bool = false;
+	public var noBotplay:Bool = false;
+	public var guitarHeroSustains:Bool = true;
+	public var missSounds:Bool = true;
+	public var hitsoundVolume:Float = 0;
+	public var ratingOffset:Int = 0;
+	public var sickWindow:Float = 45.0;
+	public var goodWindow:Float = 90.0;
+	public var badWindow:Float = 135.0;
+	public var safeFrames:Float = 10.0;
+	public var scrollType:String = "Upscroll";
+	
+	// Language Settings
+	public var language:String = 'en-US';
+	
+	// Gameplay Changers Settings
 	public var gameplaySettings:Map<String, Dynamic> = [
 		'scrollspeed' => 1.0,
 		'scrolltype' => 'multiplicative', 
@@ -80,19 +103,11 @@ import states.InitState;
 		'instakill' => false,
 		'practice' => false,
 		'botplay' => false,
+		'randomizenotes' => false,
 		'opponentplay' => false
 	];
 
-	public var comboOffset:Array<Int> = [0, 0, 0, 0];
-	public var ratingOffset:Int = 0;
-	public var sickWindow:Float = 45.0;
-	public var goodWindow:Float = 90.0;
-	public var badWindow:Float = 135.0;
-	public var safeFrames:Float = 10.0;
-	public var guitarHeroSustains:Bool = true;
-	public var discordRPC:Bool = true;
 	public var loadingScreen:Bool = true;
-	public var language:String = 'en-US';
 }
 
 class ClientPrefs
@@ -118,6 +133,8 @@ class ClientPrefs
 		'pause'			=> [ENTER, ESCAPE],
 		'reset'			=> [R],
 		'botplay'		=> [B],
+		'screenshot'	=> [F9],
+		'old_bf_icon'   => [NINE],
 		
 		'volume_mute'	=> [ZERO],
 		'volume_up'		=> [NUMPADPLUS, PLUS],

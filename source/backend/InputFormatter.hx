@@ -5,9 +5,12 @@ import flixel.input.gamepad.FlxGamepad;
 import flixel.input.gamepad.FlxGamepadInputID;
 import flixel.input.gamepad.FlxGamepadManager;
 
-class InputFormatter {
-	public static function getKeyName(key:FlxKey):String {
-		switch (key) {
+class InputFormatter
+{
+	public static function getKeyName(key:FlxKey):String
+	{
+		switch (key)
+		{
 			case BACKSPACE:
 				return "BckSpc";
 			case CONTROL:
@@ -74,14 +77,14 @@ class InputFormatter {
 				return ",";
 			case PERIOD:
 				return ".";
-			//case SLASH:
-			//	return "/";
+			case SLASH:
+				return "/";
 			case GRAVEACCENT:
 				return "`";
 			case LBRACKET:
 				return "[";
-			//case BACKSLASH:
-			//	return "\\";
+			case BACKSLASH:
+				return "\\";
 			case RBRACKET:
 				return "]";
 			case QUOTE:

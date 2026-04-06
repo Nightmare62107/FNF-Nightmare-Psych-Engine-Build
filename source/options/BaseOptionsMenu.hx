@@ -42,6 +42,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		}
 		
 		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
 		DiscordClient.changePresence(rpcTitle, null);
 		#end
 		
@@ -149,11 +150,23 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		if (controls.UI_UP_P)
 		{
 			changeSelection(-1);
+			holdTime = 0;
 		}
 
 		if (controls.UI_DOWN_P)
 		{
 			changeSelection(1);
+			holdTime = 0;
+		}
+
+		if(controls.UI_UP || controls.UI_DOWN)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -1 : 1));
 		}
 
 		if (controls.BACK)

@@ -26,9 +26,23 @@ import objects.Character;
 import states.MainMenuState;
 import states.StoryMenuState;
 import states.FreeplayState;
+// I'm gonna import most of the states here because why not, pretty sure this won't cause issues
+// Maybe people can do cool stuff with mods if I do this
+import states.GitarooPauseState;
+import states.CreeperScreenState;
+import states.TitleState;
+import states.AchievementsMenuState;
+import states.CreditsState;
+import states.CacheState;
+import states.ModsMenuState;
+import states.FlashingState;
+import options.OptionsState;
+import states.PlayState;
 
 import substates.PauseSubState;
 import substates.GameOverSubstate;
+// Adding substates aswell because why not
+import substates.OutdatedSubState;
 
 import psychlua.LuaUtils;
 import psychlua.LuaUtils.LuaTweenOptions;
@@ -118,7 +132,6 @@ class FunkinLua {
 		set('screenWidth', FlxG.width);
 		set('screenHeight', FlxG.height);
 
-
 		// PlayState-only variables
 		if(game != null)
 		@:privateAccess
@@ -135,6 +148,7 @@ class FunkinLua {
 			set('hits', game.songHits);
 			set('combo', game.combo);
 			set('deaths', PlayState.deathCounter);
+			set('gitarooPauseChance', PlayState.gitarooPauseChance);
 	
 			set('rating', game.ratingPercent);
 			set('ratingName', game.ratingName);
@@ -160,6 +174,7 @@ class FunkinLua {
 			set('skipcountdown', game.skipCountdown);
 			set('healthDrain', game.healthDrain);
 			set('instakillOnMiss', game.instakillOnMiss);
+			set('randomizeNotes', game.randomizeNotes);
 			#if VS_SONIC_EXE_FILES
 			set('ringSystem', game.ringSystem);
 			#end
@@ -192,14 +207,25 @@ class FunkinLua {
 		set('middlescroll', ClientPrefs.data.middleScroll);
 		set('framerate', ClientPrefs.data.framerate);
 		set('ghostTapping', ClientPrefs.data.ghostTapping);
+		set('colorFilter', ClientPrefs.data.colorFilter);
 		set('hideHud', ClientPrefs.data.hideHud);
+		set('discordRPC', ClientPrefs.data.discordRPC);
+		set('comboStacking', ClientPrefs.data.comboStacking);
+		set('comboColorChange', ClientPrefs.data.comboColorChange);
+		set('comboTrimLeadingZeros', ClientPrefs.data.comboTrimLeadingZeros);
 		set('timeBarType', ClientPrefs.data.timeBarType);
+		set('hitsoundVolume', ClientPrefs.data.hitsoundVolume);
 		set('scoreZoom', ClientPrefs.data.scoreZoom);
 		set('cameraZoomOnBeat', ClientPrefs.data.camZooms);
 		set('flashingLights', ClientPrefs.data.flashing);
 		set('noteOffset', ClientPrefs.data.noteOffset);
+		set('pauseMusic', ClientPrefs.data.pauseMusic);
+		set('pauseMusicChanges', ClientPrefs.data.pauseMusicChanges);
 		set('healthBarAlpha', ClientPrefs.data.healthBarAlpha);
+		set('healthBarBGAlpha', ClientPrefs.data.healthBarBGAlpha);
 		set('noResetButton', ClientPrefs.data.noReset);
+		set('noBotplayButton', ClientPrefs.data.noBotplay);
+		set('missSounds', ClientPrefs.data.missSounds);
 		set('lowQuality', ClientPrefs.data.lowQuality);
 		set('shadersEnabled', ClientPrefs.data.shaders);
 		set('scriptName', scriptName);
@@ -714,9 +740,9 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "addCharacterToList", function(name:String, type:String) {
 			var charType:Int = 0;
 			switch(type.toLowerCase()) {
-				case 'dad' | 'opponent': charType = 1;
-				case 'gf' | 'girlfriend': charType = 2;
-				case 'bf' | 'boyfriend' | 'player': charType = 0;
+				case 'bf' | 'boyfriend' | 'player' | '0': charType = 0;
+				case 'dad' | 'opponent' | '1': charType = 1;
+				case 'gf' | 'girlfriend' | '2': charType = 2;
 			}
 			game.addCharacterToList(name, charType);
 		});
@@ -951,7 +977,7 @@ class FunkinLua {
 		Lua_helper.add_callback(lua, "characterDance", function(character:String) {
 			switch(character.toLowerCase()) {
 				case 'dad' | 'opponent': game.dad.dance();
-				case 'gf' | 'girlfriend': if(game.gf != null) game.gf.dance();
+				case 'gf' | 'girlfriend': if (game.gf != null) game.gf.dance();
 				case 'bf' | 'boyfriend' | 'player': game.boyfriend.dance();
 				default: game.boyfriend.dance();
 			}

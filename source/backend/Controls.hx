@@ -78,11 +78,15 @@ class Controls
 	public var PAUSE(get, never):Bool;
 	public var RESET(get, never):Bool;
 	public var BOTPLAY(get, never):Bool;
+	public var SCREENSHOT(get, never):Bool;
+	public var OLD_BF_ICON(get, never):Bool;
 	private function get_ACCEPT() return justPressed('accept');
 	private function get_BACK() return justPressed('back');
 	private function get_PAUSE() return justPressed('pause');
 	private function get_RESET() return justPressed('reset');
 	private function get_BOTPLAY() return justPressed('botplay');
+	private function get_SCREENSHOT() return justPressed('screenshot');
+	private function get_OLD_BF_ICON() return justPressed('old_bf_icon');
 
 	//Gamepad & Keyboard stuff
 	public var keyboardBinds:Map<String, Array<FlxKey>>;

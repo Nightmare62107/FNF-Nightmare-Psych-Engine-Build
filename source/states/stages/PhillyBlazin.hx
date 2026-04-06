@@ -9,6 +9,7 @@ import flixel.addons.display.FlxTiledSprite;
 import substates.GameOverSubstate;
 import substates.PauseSubState;
 import states.stages.objects.*;
+import objects.Character;
 import objects.Note;
 
 class PhillyBlazin extends BaseStage
@@ -76,8 +77,8 @@ class PhillyBlazin extends BaseStage
 			add(additionalLighten);
 		}
 
-		abot = new ABotSpeaker(0, 550);
-		gfGroup.add(abot);
+		abot = new ABotSpeaker(gfGroup.x, gfGroup.y + 550);
+		add(abot);
 		
 		if (ClientPrefs.data.shaders)
 		{
@@ -94,6 +95,8 @@ class PhillyBlazin extends BaseStage
 
 		setDefaultGF('nene');
 		precache();
+		// Disable gfGroup scrolling for this stage (keep GF stationary relative to camera)
+		gfGroup.scrollFactor.set(0, 0);
 		
 		if (isStoryMode)
 		{

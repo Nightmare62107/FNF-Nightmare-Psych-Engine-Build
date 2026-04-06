@@ -31,6 +31,8 @@ class ControlsSubState extends MusicBeatSubstate
 		[true],
 		[true, 'Reset', 'reset', 'Reset'],
 		[false, 'Botplay', 'botplay', 'Botplay'],
+		[false, 'Screenshot', 'screenshot', 'Screenshot'],
+		[false, 'Old BF Icon', 'old_bf_icon', 'Old BF Icon'],
 		[true, 'Accept', 'accept', 'Accept'],
 		[true, 'Back', 'back', 'Back'],
 		[true, 'Pause', 'pause', 'Pause'],
@@ -66,6 +68,7 @@ class ControlsSubState extends MusicBeatSubstate
 		super();
 
 		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Controls Menu", null);
 		#end
 
@@ -296,6 +299,7 @@ class ControlsSubState extends MusicBeatSubstate
 	var bindingText2:Alphabet;
 
 	var timeForMoving:Float = 0.1;
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (timeForMoving > 0) //Fix controller bug
@@ -322,20 +326,43 @@ class ControlsSubState extends MusicBeatSubstate
 			if (FlxG.keys.justPressed.LEFT || FlxG.keys.justPressed.RIGHT || FlxG.gamepads.anyJustPressed(DPAD_LEFT) || FlxG.gamepads.anyJustPressed(DPAD_RIGHT) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_LEFT) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_RIGHT))
 			{
 				updateAlt(true);
+				holdTime = 0;
 			}
+
+            if(controls.UI_LEFT || controls.UI_RIGHT)
+            {
+                var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+                holdTime += elapsed;
+                var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+                if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+                    updateAlt(controls.UI_LEFT ? true : true);
+            }
 
 			if (FlxG.keys.justPressed.UP || FlxG.gamepads.anyJustPressed(DPAD_UP) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_UP))
 			{
 				updateText(-1);
+				holdTime = 0;
 			}
 			else if (FlxG.keys.justPressed.DOWN || FlxG.gamepads.anyJustPressed(DPAD_DOWN) || FlxG.gamepads.anyJustPressed(LEFT_STICK_DIGITAL_DOWN))
 			{
 				updateText(1);
+				holdTime = 0;
 			}
 			else if (FlxG.mouse.wheel != 0)
 			{
 				updateText(-FlxG.mouse.wheel);
 			}
+
+            if(controls.UI_UP || controls.UI_DOWN)
+            {
+                var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+                holdTime += elapsed;
+                var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+                if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+                    updateText((checkNewHold - checkLastHold) * (controls.UI_UP ? -1 : 1));
+            }
 
 			if (FlxG.keys.justPressed.ENTER && !FlxG.keys.pressed.ALT || FlxG.gamepads.anyJustPressed(START) || FlxG.gamepads.anyJustPressed(A))
 			{

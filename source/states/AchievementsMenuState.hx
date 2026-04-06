@@ -26,6 +26,7 @@ class AchievementsMenuState extends MusicBeatState
 		Paths.clearUnusedMemory();
 
 		#if DISCORD_ALLOWED
+		// Updating Discord Rich Presence
 		DiscordClient.changePresence("Achievements Menu", null);
 		#end
 
@@ -160,13 +161,32 @@ class AchievementsMenuState extends MusicBeatState
 	}
 
 	var goingBack:Bool = false;
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (!goingBack && options.length > 1)
 		{
 			var add:Int = 0;
-			if (controls.UI_LEFT_P) add = -1;
-			else if (controls.UI_RIGHT_P) add = 1;
+			if (controls.UI_LEFT_P)
+			{
+				add = -1;
+				holdTime = 0;
+			}
+			else if (controls.UI_RIGHT_P)
+			{
+				add = 1;
+				holdTime = 0;
+			}
+		
+			if(controls.UI_LEFT || controls.UI_RIGHT)
+			{
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+				if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+					add = (checkNewHold - checkLastHold) * (controls.UI_LEFT ? -1 : 1);
+			}
 			
 			if (add != 0)
 			{
@@ -188,9 +208,27 @@ class AchievementsMenuState extends MusicBeatState
 			if (options.length > MAX_PER_ROW)
 			{
 				var add:Int = 0;
-				if (controls.UI_UP_P) add = -1;
-				else if (controls.UI_DOWN_P) add = 1;
+				if (controls.UI_UP_P)
+				{
+					add = -1;
+					holdTime = 0;
+				}
+				else if (controls.UI_DOWN_P)
+				{
+					add = 1;
+					holdTime = 0;
+				}
 				else if (FlxG.mouse.wheel != 0) add = -FlxG.mouse.wheel;
+
+				if(controls.UI_DOWN || controls.UI_UP)
+				{
+					var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+					holdTime += elapsed;
+					var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+						add = (checkNewHold - checkLastHold) * (controls.UI_DOWN ? 1 : -1);
+				}
 
 				if (add != 0)
 				{
@@ -217,6 +255,29 @@ class AchievementsMenuState extends MusicBeatState
 			{
 				openSubState(new ResetAchievementSubstate());
 			}
+			
+			if (FlxG.keys.pressed.SHIFT && controls.RESET && (options[curSelected].unlocked || options[curSelected].curProgress > 0))
+			{
+				openSubState(new ResetAllAchievementsSubstate());
+			}
+			
+			if (controls.ACCEPT)
+			{
+				var currentAchievement = options[curSelected];
+				trace('Achievement name: ' + currentAchievement.name + ', Unlocked: ' + currentAchievement.unlocked);
+				#if PICO_MIX_FILES
+				if (currentAchievement != null && currentAchievement.name == 'week2PicoMix_nomiss' && currentAchievement.unlocked == true)
+				{
+					trace('Opening week2PicoMix link!');
+					CoolUtil.browserLoad('https://youtube.com/clip/UgkxPb9lvQmZemAEGDzhyL80R7UIrjnU0A6Q?si=NiWC4d1DXeAucGM3');
+				}
+				else if (currentAchievement != null && currentAchievement.name == 'week4PicoMix_nomiss' && currentAchievement.unlocked == true)
+				{
+					trace('Playing week4PicoMix sound effect!');
+					FlxG.sound.play(Paths.sound('shmearest'));
+				}
+				#end
+			}
 		}
 
 		if (controls.BACK)
@@ -229,7 +290,7 @@ class AchievementsMenuState extends MusicBeatState
 	}
 
 	public var barTween:FlxTween = null;
-	function _changeSelection()
+	public function _changeSelection()
 	{
 		FlxG.sound.play(Paths.sound('scrollMenu'));
 		var hasProgress = options[curSelected].maxProgress > 0;
@@ -318,6 +379,7 @@ class ResetAchievementSubstate extends MusicBeatSubstate
 		updateOptions();
 	}
 
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		if (controls.BACK)
@@ -333,6 +395,20 @@ class ResetAchievementSubstate extends MusicBeatSubstate
 		{
 			onYes = !onYes;
 			updateOptions();
+			holdTime = 0;
+		}
+
+		if (controls.UI_LEFT || controls.UI_RIGHT)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				onYes = (controls.UI_LEFT ? !onYes : !onYes);
+				updateOptions();
+			}
 		}
 
 		if (controls.ACCEPT)
@@ -346,8 +422,7 @@ class ResetAchievementSubstate extends MusicBeatSubstate
 				Achievements.achievementsUnlocked.remove(option.name);
 				option.unlocked = false;
 				option.curProgress = 0;
-				option.name = state.nameText.text = '???';
-				if (option.maxProgress > 0) state.progressTxt.text = '0 / ' + option.maxProgress;
+				option.displayName = '???';
 				state.grpOptions.members[state.curSelected].loadGraphic(Paths.image('achievements/lockedachievement'));
 				state.grpOptions.members[state.curSelected].antialiasing = ClientPrefs.data.antialiasing;
 
@@ -361,6 +436,155 @@ class ResetAchievementSubstate extends MusicBeatSubstate
 						onUpdate: function(twn:FlxTween) state.progressBar.updateBar()
 					});
 				}
+				
+				// Refresh the display
+				state._changeSelection();
+				
+				Achievements.save();
+				FlxG.save.flush();
+
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
+			close();
+			return;
+		}
+	}
+
+	function updateOptions()
+	{
+		var scales:Array<Float> = [0.75, 1];
+		var alphas:Array<Float> = [0.6, 1.25];
+		var confirmInt:Int = onYes ? 1 : 0;
+
+		yesText.alpha = alphas[confirmInt];
+		yesText.scale.set(scales[confirmInt], scales[confirmInt]);
+		noText.alpha = alphas[1 - confirmInt];
+		noText.scale.set(scales[1 - confirmInt], scales[1 - confirmInt]);
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+	}
+}
+
+class ResetAllAchievementsSubstate extends MusicBeatSubstate
+{
+	var onYes:Bool = false;
+	var yesText:Alphabet;
+	var noText:Alphabet;
+
+	public function new()
+	{
+		super();
+
+		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg.alpha = 0;
+		bg.scrollFactor.set();
+		add(bg);
+		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
+
+		var text:Alphabet = new Alphabet(0, 180, Language.getPhrase('reset_achievements', 'RESET ACHIEVEMENTS:'), true);
+		text.screenCenter(X);
+		text.scrollFactor.set();
+		add(text);
+		
+		var displayText:FlxText = new FlxText(50, text.y + 90, FlxG.width - 100, "All", 40);
+		displayText.setFormat(Paths.font("vcr.ttf"), 40, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		displayText.scrollFactor.set();
+		displayText.borderSize = 2;
+		add(displayText);
+		
+		yesText = new Alphabet(0, displayText.y + 120, Language.getPhrase('Yes'), true);
+		yesText.screenCenter(X);
+		yesText.x -= 200;
+		yesText.scrollFactor.set();
+		for (letter in yesText.letters) letter.color = FlxColor.RED;
+		add(yesText);
+		noText = new Alphabet(0, displayText.y + 120, Language.getPhrase('No'), true);
+		noText.screenCenter(X);
+		noText.x += 200;
+		noText.scrollFactor.set();
+		add(noText);
+		updateOptions();
+	}
+
+	var holdTime:Float = 0;
+	override function update(elapsed:Float)
+	{
+		if (controls.BACK)
+		{
+			close();
+			FlxG.sound.play(Paths.sound('cancelMenu'));
+			return;
+		}
+
+		super.update(elapsed);
+
+		if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
+		{
+			onYes = !onYes;
+			updateOptions();
+			holdTime = 0;
+		}
+
+		if (controls.UI_LEFT || controls.UI_RIGHT)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				onYes = (controls.UI_LEFT ? !onYes : !onYes);
+				updateOptions();
+			}
+		}
+
+		if (controls.ACCEPT)
+		{
+			if (onYes)
+			{
+				var state:AchievementsMenuState = cast FlxG.state;
+				
+				// Reset all achievements
+				for (achievement => data in Achievements.achievements)
+				{
+					Achievements.variables.remove(achievement);
+					Achievements.achievementsUnlocked.remove(achievement);
+					
+					var option:Dynamic = null;
+					for (opt in state.options)
+					{
+						if (opt.name == achievement)
+						{
+							option = opt;
+							break;
+						}
+					}
+					
+					if (option != null)
+					{
+						option.unlocked = false;
+						option.curProgress = 0;
+						option.displayName = '???';
+					}
+				}
+				
+				// Update UI elements
+				state.grpOptions.forEach(function(spr:FlxSprite)
+				{
+					spr.loadGraphic(Paths.image('achievements/lockedachievement'));
+					spr.antialiasing = ClientPrefs.data.antialiasing;
+				});
+				
+				if (state.barTween != null) state.barTween.cancel();
+				state.barTween = FlxTween.tween(state.progressBar, {percent: 0}, 0.5,
+				{
+					ease: FlxEase.quadOut,
+					onComplete: function(twn:FlxTween) state.progressBar.updateBar(),
+					onUpdate: function(twn:FlxTween) state.progressBar.updateBar()
+				});
+				
+				// Refresh the display for the currently selected item
+				state._changeSelection();
+				
 				Achievements.save();
 				FlxG.save.flush();
 

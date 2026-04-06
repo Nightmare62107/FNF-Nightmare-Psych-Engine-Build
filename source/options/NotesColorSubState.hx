@@ -52,6 +52,7 @@ class NotesColorSubState extends MusicBeatSubstate
         super();
         
         #if DISCORD_ALLOWED
+        // Updating Discord Rich Presence
         DiscordClient.changePresence("Note Colors Menu", null);
         #end
         

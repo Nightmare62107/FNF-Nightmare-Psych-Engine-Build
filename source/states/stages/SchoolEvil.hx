@@ -2,6 +2,7 @@ package states.stages;
 
 import flixel.addons.effects.FlxTrail;
 import states.stages.objects.*;
+import objects.Character;
 import substates.GameOverSubstate;
 import substates.PauseSubState;
 import cutscenes.DialogueBox;

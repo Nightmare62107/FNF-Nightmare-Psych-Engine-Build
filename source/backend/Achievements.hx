@@ -45,6 +45,31 @@ class Achievements
 		createAchievement('week7_nomiss',			{name: "God Effing Damn It!", description: "Beat Week 7 on Hard with no Misses."});
 		createAchievement('weekend1_nomiss',		{name: "Just a Friendly Sparring", description: "Beat Weekend 1 on Hard with no Misses."});
 		#end
+		#if PICO_MIX_FILES
+		createAchievement('week1PicoMix_nomiss',	{name: "Hitman For Hire", description: "Beat Week 1 Pico Mix on Hard with no Misses."});
+		createAchievement('week2PicoMix_nomiss',	{name: "Don't Touch The Child", description: "Beat Week 2 Pico Mix on Hard with no Misses."});
+		createAchievement('week3PicoMix_nomiss',	{name: "Double Trouble", description: "Beat Week 3 Pico Mix on Hard with no Misses."});
+		createAchievement('week4PicoMix_nomiss',	{name: "Mommy Shmearest", description: "Beat Week 4 Pico Mix on Hard with no Misses."});
+		createAchievement('week5PicoMix_nomiss',	{name: "Merry Clipmas", description: "Beat Week 5 Pico Mix on Hard with no Misses."});
+		createAchievement('week6PicoMix_nomiss',	{name: "You Brought a Gun To School?", description: "Beat Week 6 Pico Mix on Hard with no Misses."});
+		createAchievement('week7PicoMix_nomiss',	{name: "Who Is This Knock Off?", description: "Beat Week 7 Pico Mix on Hard with no Misses."});
+		#end
+		#if BF_MIX_FILES
+		createAchievement('weekend1BFMix_nomiss',	{name: "Won't Catch Me Dead or Alive", description: "Beat Weekend 1 BF Mix on Hard with no Misses."});
+		#end
+		#if ERECT_MIX_FILES
+		createAchievement('week1Erect_nomiss',		{name: "Beat You Again Old Man", description: "Beat Week 1 Erect on Nightmare with no Misses."});
+		createAchievement('week2Erect_nomiss',		{name: "No More Treats", description: "Beat Week 2 Erect on Nightmare with no Misses."});
+		createAchievement('week3Erect_nomiss',		{name: "You Had One Job", description: "Beat Week 3 Erect on Nightmare with no Misses."});
+		createAchievement('week4Erect_nomiss',		{name: "Must Murder Mommy", description: "Beat Week 4 Erect on Nightmare with no Misses."});
+		createAchievement('week5Erect_nomiss',		{name: "Did He Say F#CK!?", description: "Beat Week 5 Erect on Nightmare with no Misses."});
+		createAchievement('week6Erect_nomiss',		{name: "Expelled From The School", description: "Beat Week 6 Erect on Nightmare with no Misses."});
+		createAchievement('week7Erect_nomiss',		{name: "Held At Gunpoint", description: "Beat Week 7 Erect on Nightmare with no Misses."});
+		createAchievement('weekend1Erect_nomiss',	{name: "It Was Just Noise", description: "Beat Weekend 1 Erect on Nightmare with no Misses."});
+		#end
+		#if BASE_GAME_FILES
+		createAchievement('test_nomiss',			{name: "Debugger", description: "Beat the Test Week on Hard with no Misses."});
+		#end
 		createAchievement('ur_bad',					{name: "What a Funkin' Disaster!", description: "Complete a Song with a rating lower than 20%."});
 		createAchievement('ur_good',				{name: "Perfectionist", description: "Complete a Song with a rating of 100%."});
 		#if BASE_GAME_FILES
@@ -54,9 +79,12 @@ class Achievements
 		createAchievement('hype',					{name: "Hyperactive", description: "Finish a Song without going back to Idle."});
 		createAchievement('two_keys',				{name: "Just the Two of Us", description: "Finish a Song pressing only two keys."});
 		createAchievement('toastie',				{name: "Toaster Gamer", description: "Have you tried to run the game on a toaster?"});
+		/*
+		// Old Version of Debugger
 		#if BASE_GAME_FILES
 		createAchievement('debugger',				{name: "Debugger", description: "Beat the \"Test\" Stage from the Chart Editor.", hidden: true});
 		#end
+		*/
 		#if (TITLE_SCREEN_EASTER_EGG || PSYCH_WATERMARKS)
 		createAchievement('pessy_easter_egg',		{name: "Engine Gal Pal", description: "Teehee, you found me~!", hidden: true});
 		#end
@@ -97,6 +125,17 @@ class Achievements
 			if (FlxG.save.data.achievementsUnlocked != null)
 			{
 				achievementsUnlocked = FlxG.save.data.achievementsUnlocked;
+			}
+
+			// Backwards compatibility: migrate old "debugger" achievement to "test_nomiss"
+			if (achievementsUnlocked.contains("debugger"))
+			{
+				achievementsUnlocked.remove("debugger");
+				if (!achievementsUnlocked.contains("test_nomiss"))
+				{
+					achievementsUnlocked.push("test_nomiss");
+				}
+				save();
 			}
 
 			var savedMap:Map<String, Float> = cast FlxG.save.data.achievementsVariables;

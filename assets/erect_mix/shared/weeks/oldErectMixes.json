@@ -1,0 +1,21 @@
+{
+	"songs": [
+		["Bopeebo Erect Old", "dad", [175, 102, 206]]
+	],
+
+	"weekCharacters": [
+		"dad-erect",
+		"bf-erect",
+		"gf-erect"
+	],
+	"weekBackground": "stage_erect",
+
+	"storyName": "Old Erect Mixes",
+	"weekBefore": "weekend1BFMix",
+	"weekName": "Old Erect Mixes",
+	"startUnlocked": true,
+
+	"hideStoryMode": true,
+	"hideFreeplay": false,
+	"difficulties": "Erect, Nightmare"
+}
