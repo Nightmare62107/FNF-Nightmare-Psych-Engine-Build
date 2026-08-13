@@ -1,1 +1,8 @@
-to enable the secrets, type "river", "shadow" or "bb" on the title screen!
+to enable the secrets, type a code on the title screen!
+"shadow"
+"bbpanzu"
+"riveren"
+"shubs"
+"pessy"
+"ludumdare"
+"← → ← → ↑ ↓ ↑ ↓"

@@ -150,7 +150,7 @@ class PsychUIInputText extends FlxSpriteGroup
 						var space:Int = deletedText.lastIndexOf(' ');
 						if (space > -1 && space != caretIndex-1)
 						{
-							var start:String = deletedText.substring(0, space+1);
+							var start:String = deletedText.substring(0, space + 1);
 							var end:String = text.substring(caretIndex);
 							caretIndex -= Std.int(Math.max(0, text.length - (start.length + end.length)));
 							text = start + end;
@@ -302,7 +302,7 @@ class PsychUIInputText extends FlxSpriteGroup
 				if(caretIndex < 1)
 					text = text.substr(1);
 				else
-					text = text.substring(0, caretIndex) + text.substring(caretIndex+1);
+					text = text.substring(0, caretIndex) + text.substring(caretIndex + 1);
 
 				if(caretIndex >= text.length) caretIndex = text.length;
 				
@@ -403,12 +403,12 @@ class PsychUIInputText extends FlxSpriteGroup
 	{
 		super.update(elapsed);
 
-		if(FlxG.mouse.justPressed)
+		if (FlxG.mouse.justPressed)
 		{
-			if(FlxG.mouse.overlaps(behindText, camera))
+			if (FlxG.mouse.overlaps(behindText, camera))
 			{
-				if(!FlxG.keys.pressed.SHIFT) selectIndex = -1;
-				else if(selectIndex == -1) selectIndex = caretIndex;
+				if (!FlxG.keys.pressed.SHIFT) selectIndex = -1;
+				else if (selectIndex == -1) selectIndex = caretIndex;
 				focusOn = this;
 				caretIndex = 0;
 				var lastBound:Float = 0;
@@ -418,18 +418,23 @@ class PsychUIInputText extends FlxSpriteGroup
 
 				for (i => bound in _boundaries)
 				{
-					if(mousePosX >= txtX + (bound - lastBound)/2)
+					if (mousePosX >= txtX + (bound - lastBound) / 2)
 					{
-						caretIndex = i+1;
+						caretIndex = i + 1;
 						txtX += bound - lastBound;
 						lastBound = bound;
 					}
-					else break;
+					else
+					{
+						break;
+					}
 				}
 				updateCaret();
 			}
-			else if(focusOn == this)
+			else if (focusOn == this)
+			{
 				focusOn = null;
+			}
 
 			//trace('changed focus to: ' + this);
 		}
@@ -482,7 +487,10 @@ class PsychUIInputText extends FlxSpriteGroup
 		if(textObj == null || !textObj.exists) return;
 
 		var textField = textObj.textField;
-		textField.setSelection(caretIndex, caretIndex);
+
+		var safeCaret = Std.int(Math.max(0, Math.min(caretIndex, text.length)));
+
+		textField.setSelection(safeCaret, safeCaret);
 		_caretTime = 0;
 		if(caret != null && caret.exists)
 		{
@@ -677,7 +685,7 @@ class PsychUIInputText extends FlxSpriteGroup
 			if(!inInsertMode)
 				text = text.substring(0, caretIndex) + letter + text.substring(caretIndex);
 			else
-				text = text.substring(0, caretIndex) + letter + text.substring(caretIndex+1);
+				text = text.substring(0, caretIndex) + letter + text.substring(caretIndex + 1);
 
 			caretIndex += letter.length;
 			if(onChange != null) onChange(lastText, text);

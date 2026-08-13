@@ -1,5 +1,7 @@
 package states.stages.objects;
 
+import states.PlayState;
+
 class PhillyGlowGradient extends FlxSprite
 {
 	public var originalY:Float;
@@ -10,7 +12,14 @@ class PhillyGlowGradient extends FlxSprite
 		super(x, y);
 		originalY = y;
 
-		loadGraphic(Paths.image('philly/gradient')); //This shit was refusing to properly load FlxGradient so fuck it
+		var currentStage:String = PlayState.SONG != null ? PlayState.SONG.stage : null;
+		switch(currentStage)
+		{
+			case 'philly': loadGraphic(Paths.image('philly/gradient')); //This shit was refusing to properly load FlxGradient so fuck it
+			case 'limo': loadGraphic(Paths.image('limo/gradient'));
+			default: loadGraphic(Paths.image('philly/gradient'));
+		}
+		
 		scrollFactor.set(0, 0.75);
 		setGraphicSize(2000, originalHeight);
 		updateHitbox();

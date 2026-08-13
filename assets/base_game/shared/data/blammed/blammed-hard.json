@@ -829,6 +829,7 @@
 		}
 	],
 	"player2": "pico",
+	"skipCountdown": false,
 	"song": "Blammed",
 	"stage": "philly",
 	"needsVoices": true,

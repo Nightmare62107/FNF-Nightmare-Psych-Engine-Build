@@ -1512,6 +1512,7 @@
 		}
 	],
 	"player2": "darnell",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "Darnell Erect",
 	"pauseBreakfast": "breakfast-pico",

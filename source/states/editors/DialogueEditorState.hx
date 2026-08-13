@@ -89,7 +89,7 @@ class DialogueEditorState extends MusicBeatState implements PsychUIEventHandler.
 	var UI_box:PsychUIBox;
 	function addEditorBox()
 	{
-		UI_box = new PsychUIBox(FlxG.width - 260, 10, 250, 210, ['Dialogue Line']);
+		UI_box = new PsychUIBox(FlxG.width - 260, 10, 250, 230, ['Dialogue Line']);
 		UI_box.scrollFactor.set();
 		addDialogueLineUI();
 		add(UI_box);
@@ -113,7 +113,7 @@ class DialogueEditorState extends MusicBeatState implements PsychUIEventHandler.
 			dialogueFile.dialogue[curSelected].boxState = (angryCheckbox.checked ? 'angry' : 'normal');
 		};
 
-		soundInputText = new PsychUIInputText(10, speedStepper.y + 40, 150, '', 8);
+		soundInputText = new PsychUIInputText(10, speedStepper.y + 40 + 20, 150, '', 8);
 		lineInputText = new PsychUIInputText(10, soundInputText.y + 35, 200, DEFAULT_TEXT, 8);
 		lineInputText.onPressEnter = function(e)
 		{
@@ -289,10 +289,19 @@ class DialogueEditorState extends MusicBeatState implements PsychUIEventHandler.
 	var curSelected:Int = 0;
 	var curAnim:Int = 0;
 	var transitioning:Bool = false;
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float)
+	{
 		if(transitioning) {
 			super.update(elapsed);
 			return;
+		}
+
+		// play a click sound any time the user left- or right-clicks in the editor
+		// this is intentionally very early so it triggers regardless of what
+		// interaction happens afterwards (even if we later ignore the click)
+		if(FlxG.mouse.justPressed || FlxG.mouse.justPressedRight)
+		{
+			FlxG.sound.play(Paths.sound('clickUp'), 0.4);
 		}
 
 		if(character.animation.curAnim != null) {

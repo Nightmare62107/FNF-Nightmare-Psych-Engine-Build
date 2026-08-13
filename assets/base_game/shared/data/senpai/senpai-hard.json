@@ -787,6 +787,7 @@
 		}
 	],
 	"player2": "senpai",
+	"skipCountdown": false,
 	"player3": null,
 	"song": "Senpai",
 	"stage": "school",

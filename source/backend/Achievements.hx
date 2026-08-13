@@ -33,7 +33,11 @@ class Achievements
 {
 	public static function init()
 	{
+		// Template for creating achievements
+		// createAchievement('template', {name: "Achievement Name", description: "Achievement Description", maxScore: 50, maxDecimals: 0, hidden: false});
+
 		createAchievement('friday_night_play',		{name: "Freaky on a Friday Night", description: "Play on a Friday... Night.", hidden: true});
+		
 		#if BASE_GAME_FILES
 		createAchievement('tutorial_nomiss',		{name: "That's How You Do It!", description: "Beat the Tutorial Week on Hard with no Misses."});
 		createAchievement('week1_nomiss',			{name: "She Calls Me Daddy Too", description: "Beat Week 1 on Hard with no Misses."});
@@ -45,6 +49,7 @@ class Achievements
 		createAchievement('week7_nomiss',			{name: "God Effing Damn It!", description: "Beat Week 7 on Hard with no Misses."});
 		createAchievement('weekend1_nomiss',		{name: "Just a Friendly Sparring", description: "Beat Weekend 1 on Hard with no Misses."});
 		#end
+
 		#if PICO_MIX_FILES
 		createAchievement('week1PicoMix_nomiss',	{name: "Hitman For Hire", description: "Beat Week 1 Pico Mix on Hard with no Misses."});
 		createAchievement('week2PicoMix_nomiss',	{name: "Don't Touch The Child", description: "Beat Week 2 Pico Mix on Hard with no Misses."});
@@ -54,9 +59,11 @@ class Achievements
 		createAchievement('week6PicoMix_nomiss',	{name: "You Brought a Gun To School?", description: "Beat Week 6 Pico Mix on Hard with no Misses."});
 		createAchievement('week7PicoMix_nomiss',	{name: "Who Is This Knock Off?", description: "Beat Week 7 Pico Mix on Hard with no Misses."});
 		#end
+
 		#if BF_MIX_FILES
 		createAchievement('weekend1BFMix_nomiss',	{name: "Won't Catch Me Dead or Alive", description: "Beat Weekend 1 BF Mix on Hard with no Misses."});
 		#end
+
 		#if ERECT_MIX_FILES
 		createAchievement('week1Erect_nomiss',		{name: "Beat You Again Old Man", description: "Beat Week 1 Erect on Nightmare with no Misses."});
 		createAchievement('week2Erect_nomiss',		{name: "No More Treats", description: "Beat Week 2 Erect on Nightmare with no Misses."});
@@ -67,24 +74,30 @@ class Achievements
 		createAchievement('week7Erect_nomiss',		{name: "Held At Gunpoint", description: "Beat Week 7 Erect on Nightmare with no Misses."});
 		createAchievement('weekend1Erect_nomiss',	{name: "It Was Just Noise", description: "Beat Weekend 1 Erect on Nightmare with no Misses."});
 		#end
+
 		#if BASE_GAME_FILES
 		createAchievement('test_nomiss',			{name: "Debugger", description: "Beat the Test Week on Hard with no Misses."});
 		#end
+
 		createAchievement('ur_bad',					{name: "What a Funkin' Disaster!", description: "Complete a Song with a rating lower than 20%."});
 		createAchievement('ur_good',				{name: "Perfectionist", description: "Complete a Song with a rating of 100%."});
+		
 		#if BASE_GAME_FILES
 		createAchievement('roadkill_enthusiast',	{name: "Roadkill Enthusiast", description: "Watch the Henchmen die 50 times.", maxScore: 50, maxDecimals: 0});
 		#end
+
 		createAchievement('oversinging', 			{name: "Oversinging Much...?", description: "Sing for 10 seconds without going back to Idle."});
 		createAchievement('hype',					{name: "Hyperactive", description: "Finish a Song without going back to Idle."});
 		createAchievement('two_keys',				{name: "Just the Two of Us", description: "Finish a Song pressing only two keys."});
 		createAchievement('toastie',				{name: "Toaster Gamer", description: "Have you tried to run the game on a toaster?"});
+		
 		/*
 		// Old Version of Debugger
 		#if BASE_GAME_FILES
 		createAchievement('debugger',				{name: "Debugger", description: "Beat the \"Test\" Stage from the Chart Editor.", hidden: true});
 		#end
 		*/
+
 		#if (TITLE_SCREEN_EASTER_EGG || PSYCH_WATERMARKS)
 		createAchievement('pessy_easter_egg',		{name: "Engine Gal Pal", description: "Teehee, you found me~!", hidden: true});
 		#end
@@ -351,7 +364,7 @@ class Achievements
 						if (achieve == null)
 						{
 							var errorTitle = 'Mod name: ' + Mods.currentModDirectory != null ? Mods.currentModDirectory : "None";
-							var errorMsg = 'Achievement #${i+1} is invalid.';
+							var errorMsg = 'Achievement #${i + 1} is invalid.';
 							#if windows
 							lime.app.Application.current.window.alert(errorMsg, errorTitle);
 							#end

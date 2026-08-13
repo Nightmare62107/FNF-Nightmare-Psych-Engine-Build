@@ -38,7 +38,7 @@ class Language
 			if(n < 0) continue;
 
 			//trace("Mapped to " + key);
-			phrases.set(key, value.substring(n+1, value.lastIndexOf('"')).replace('\\n', '\n'));
+			phrases.set(key, value.substring(n + 1, value.lastIndexOf('"')).replace('\\n', '\n'));
 			hasPhrases = true;
 		}
 
@@ -59,17 +59,17 @@ class Language
 		#if TRANSLATIONS_ALLOWED
 		//trace(formatKey(key));
 		var str:String = phrases.get(formatKey(key));
-		if(str == null) str = defaultPhrase;
+		if (str == null) str = defaultPhrase;
 		#else
 		var str:String = defaultPhrase;
 		#end
 
-		if(str == null)
+		if (str == null)
 			str = key;
 		
-		if(values != null)
+		if (values != null)
 			for (num => value in values)
-				str = str.replace('{${num+1}}', value);
+				str = str.replace('{${num + 1}}', value);
 
 		return str;
 	}
@@ -79,7 +79,7 @@ class Language
 	{
 		#if TRANSLATIONS_ALLOWED
 		var str:String = phrases.get(key.trim().toLowerCase());
-		if(str != null) key = str;
+		if (str != null) key = str;
 		#end
 		return key;
 	}

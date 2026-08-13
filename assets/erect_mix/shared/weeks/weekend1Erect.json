@@ -1,6 +1,6 @@
 {
 	"songs": [
-		["Darnell Erect", "darnell", [115, 94, 176]],
+		["Darnell Erect", "darnell", [115, 94, 176]]
 	],
 
 	"weekCharacters": [
@@ -14,6 +14,7 @@
 	"weekBefore": "week7Erect",
 	"weekName": "Weekend 1 Erect",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

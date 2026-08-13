@@ -842,6 +842,7 @@
 			}
 		],
 		"player2": "dad",
+		"skipCountdown": false,
 		"song": "Bopeebo",
 		"needsVoices": true,
 		"validScore": true,

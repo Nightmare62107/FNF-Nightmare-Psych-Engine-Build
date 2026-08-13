@@ -16,6 +16,7 @@
 	"weekBefore": "weekend1BFMix",
 	"weekName": "Week 1 Erect",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

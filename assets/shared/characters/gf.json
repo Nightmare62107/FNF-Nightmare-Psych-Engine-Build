@@ -94,6 +94,7 @@
 	"image": "characters/GF_assets",
 	"position": [0, 0],
 	"healthicon": "gf",
+	"usegridicon": false,
 	"flip_x": false,
 	"healthbar_colors": [165, 0, 77],
 	"camera_position": [0, 0],

@@ -47,14 +47,14 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 		#if !html5 //Apparently other framerates isn't correctly supported on Browser? Probably it has some V-Sync shit enabled by default, idk
 		var option:Option = new Option('Framerate',
-			"How many frames do you want per second?\nMinimum is 60. Maximum is 240.",
+			"How many frames do you want per second?\nMinimum is 30. Maximum is 960.",
 			'framerate',
 			INT);
 		addOption(option);
 
 		final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
-		option.minValue = 60;
-		option.maxValue = 240;
+		option.minValue = 30;
+		option.maxValue = 960;
 		option.defaultValue = Std.int(FlxMath.bound(refreshRate, option.minValue, option.maxValue));
 		option.displayFormat = '%v FPS';
 		option.onChange = onChangeFramerate;
@@ -69,7 +69,8 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 		for (sprite in members)
 		{
 			var sprite:FlxSprite = cast sprite;
-			if(sprite != null && (sprite is FlxSprite) && !(sprite is FlxText)) {
+			if (sprite != null && (sprite is FlxSprite) && !(sprite is FlxText))
+			{
 				sprite.antialiasing = ClientPrefs.data.antialiasing;
 			}
 		}
@@ -77,7 +78,7 @@ class GraphicsSettingsSubState extends BaseOptionsMenu
 
 	function onChangeFramerate()
 	{
-		if(ClientPrefs.data.framerate > FlxG.drawFramerate)
+		if (ClientPrefs.data.framerate > FlxG.drawFramerate)
 		{
 			FlxG.updateFramerate = ClientPrefs.data.framerate;
 			FlxG.drawFramerate = ClientPrefs.data.framerate;

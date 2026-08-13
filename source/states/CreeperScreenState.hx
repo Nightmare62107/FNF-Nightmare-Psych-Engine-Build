@@ -1,7 +1,8 @@
 #if BALDIS_BASICS_IN_FUNKIN_FILES
 package states;
 import flixel.*;
-import flixel.system.FlxSound;
+//import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import flixel.input.keyboard.FlxKey;
 import openfl.Assets;
 

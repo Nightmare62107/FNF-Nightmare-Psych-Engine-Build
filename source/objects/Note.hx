@@ -37,6 +37,12 @@ typedef NoteSplashData = {
 	a:Float
 }
 
+typedef StrumColor = {
+	r:FlxColor,
+	g:FlxColor,
+	b:FlxColor
+}
+
 /**
  * The note object used as a data structure to spawn and manage notes during gameplay.
  * 
@@ -53,6 +59,9 @@ class Note extends FlxSprite
 		'Hurt Note',
 		#if VS_SONIC_EXE_FILES
 		'Ring Note',
+		#end
+		#if MARIOS_MADNESS_FILES
+		'Coin Note',
 		#end
 		#if BALDIS_BASICS_IN_FUNKIN_FILES
 		'Ruler Note',
@@ -98,6 +107,10 @@ class Note extends FlxSprite
 
 	public var tail:Array<Note> = []; // for sustains
 	public var parent:Note;
+
+	// Hold cover tracking (OG-style sustain visuals)
+	//public var holdCoverSpawned:Bool = false;
+	//public var holdCover:NoteHoldCover;
 	
 	public var blockHit:Bool = false; // only works for player
 
@@ -115,6 +128,11 @@ class Note extends FlxSprite
 	public static var globalRgbShaders:Array<RGBPalette> = [];
 	public var inEditor:Bool = false;
 	public var comboColor:FlxColor = 0;
+	public var strumColor:StrumColor = {
+		r: 0,
+		g: 0,
+		b: 0
+	};
 
 	public var animSuffix:String = '';
 	public var gfNote:Bool = false;
@@ -210,6 +228,9 @@ class Note extends FlxSprite
 
 	public function defaultRGB()
 	{
+		strumColor.r = 0;
+		strumColor.g = 0;
+		strumColor.b = 0;
 		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
 		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[noteData];
 
@@ -302,6 +323,45 @@ class Note extends FlxSprite
 				}
 				#end
 
+				#if MARIOS_MADNESS_FILES
+				case 'Coin Note':
+				{
+					ignoreNote = mustPress;
+					if (PlayState.isPixelStage)
+					{
+						// note colors
+						reloadNote('pixelUI/coin_note-pixel', '', true);
+						setGraphicSize(Std.int(width * PlayState.daPixelZoom * 0.8));
+						updateHitbox();
+						comboColor = 0xFFF8C008;
+						strumColor.r = 0xFFF8C008;
+						strumColor.g = 0xFFF6EE7F;
+						strumColor.b = 0xFF480800;
+
+						noteSplashData.r = 0xFF0F0F0F;
+						noteSplashData.g = 0xFFF8C008;
+					}
+					else
+					{
+						reloadNote('coin_note');
+						//this used to change the note texture to HURTNOTE_assets.png,
+						//but i've changed it to something more optimized with the implementation of RGBPalette:
+						comboColor = 0xFFDB9900;
+						strumColor.r = 0xFFDB9900;
+						strumColor.g = 0xFFFFF5D4;
+						strumColor.b = 0xFF8F4800;
+
+						noteSplashData.r = 0xFF0F0F0F;
+						noteSplashData.g = 0xFFDB9900;
+					}
+
+					// gameplay data
+					lowPriority = true;
+					//hitsound = 'refill';
+					hitsoundChartEditor = true;
+				}
+				#end
+
 				#if BALDIS_BASICS_IN_FUNKIN_FILES
 				case 'Ruler Note':
 				{
@@ -320,6 +380,9 @@ class Note extends FlxSprite
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
 						comboColor = 0xFFF9A800;
+						strumColor.r = 0xFFF9A800;
+						strumColor.g = 0xFFFA0A00;
+						strumColor.b = 0xFF420012;
 					}
 
 					// splash data and colors
@@ -352,6 +415,9 @@ class Note extends FlxSprite
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
 						comboColor = 0xFF0000FE;
+						strumColor.r = 0xFF01017F;
+						strumColor.g = 0xFF0000FE;
+						strumColor.b = 0xFFF0F0F0;
 					}
 
 					// splash data and colors
@@ -385,6 +451,9 @@ class Note extends FlxSprite
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
 						comboColor = 0xFF97A5CF;
+						strumColor.r = 0xFF97A5CF;
+						strumColor.g = 0xFF5E6680;
+						strumColor.b = 0xFF5E6680;
 					}
 
 					// splash data and colors
@@ -415,6 +484,9 @@ class Note extends FlxSprite
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
 						comboColor = 0xFFF0F0F0;
+						strumColor.r = 0xFF101010;
+						strumColor.g = 0xFFF0F0F0;
+						strumColor.b = 0xFFF0F0F0;
 					}
 
 					// splash data and colors
@@ -447,6 +519,9 @@ class Note extends FlxSprite
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
 						comboColor = 0xFFFF9900;
+						strumColor.r = 0xFF101010;
+						strumColor.g = 0xFFF0F0F0;
+						strumColor.b = 0xFFFF9900;
 					}
 
 					// splash data and colors
@@ -477,6 +552,9 @@ class Note extends FlxSprite
 						//this used to change the note texture to HURTNOTE_assets.png,
 						//but i've changed it to something more optimized with the implementation of RGBPalette:
 						comboColor = 0xFF3332CB;
+						strumColor.r = 0xFF101010;
+						strumColor.g = 0xFFF0F0F0;
+						strumColor.b = 0xFF3332CB;
 					}
 
 					// splash data and colors
@@ -713,7 +791,7 @@ class Note extends FlxSprite
 	static var _lastValidChecked:String; //optimization
 	public var originalHeight:Float = 6;
 	public var correctionOffset:Float = 0; //dont mess with this
-	public function reloadNote(texture:String = '', postfix:String = '')
+	public function reloadNote(texture:String = '', postfix:String = '', forceAtlas:Bool = false)
 	{
 		if(texture == null) texture = '';
 		if(postfix == null) postfix = '';
@@ -736,7 +814,7 @@ class Note extends FlxSprite
 		var lastScaleY:Float = scale.y;
 		var skinPostfix:String = getNoteSkinPostfix();
 		var customSkin:String = skin + skinPostfix;
-		var path:String = PlayState.isPixelStage ? 'pixelUI/' : '';
+		var path:String = PlayState.isPixelStage && noteType != 'Coin Note' && !forceAtlas ? 'pixelUI/' : '';
 		if(customSkin == _lastValidChecked || Paths.fileExists('images/' + path + customSkin + '.png', IMAGE))
 		{
 			skin = customSkin;
@@ -744,7 +822,7 @@ class Note extends FlxSprite
 		}
 		else skinPostfix = '';
 
-		if(PlayState.isPixelStage)
+		if(PlayState.isPixelStage && noteType != 'Coin Note' && !forceAtlas)
 		{
 			if(isSustainNote) {
 				var candidateBase = 'pixelUI/' + skinPixel + 'ENDS' + skinPostfix;
@@ -781,8 +859,25 @@ class Note extends FlxSprite
 		}
 		else
 		{
-			frames = Paths.getSparrowAtlas(skin);
-			loadNoteAnims();
+			var atlasLoaded:Bool = false;
+			try
+			{
+				frames = Paths.getAtlas(skin);
+				atlasLoaded = true;
+			}
+			catch(e:Dynamic)
+			{
+				// If the explicit texture isn't a Sparrow atlas, fallback to raw sprite sheet loading
+				var graphic = Paths.image(skin);
+				loadGraphic(graphic, true, Math.floor(graphic.width / 4), graphic.height);
+				setGraphicSize(Std.int(width * 0.7));
+			}
+
+			if(atlasLoaded)
+			{
+				loadNoteAnims();
+			}
+
 			if(!isSustainNote)
 			{
 				centerOffsets();

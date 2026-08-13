@@ -1487,6 +1487,7 @@
 			}
 		],
 		"player2": "dad",
+		"skipCountdown": false,
 		"song": "Dad Battle",
 		"needsVoices": true,
 		"bpm": 180,

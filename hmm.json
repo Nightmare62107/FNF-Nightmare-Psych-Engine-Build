@@ -1,0 +1,144 @@
+{
+  "dependencies": [
+    {
+      "name": "flixel-tools",
+      "type": "haxelib",
+      "version": "1.5.1"
+    },
+    {
+      "name": "flixel-addons",
+      "type": "haxelib",
+      "version": "4.0.1"
+    },
+    {
+      "name": "flixel",
+      "type": "haxelib",
+      "version": "6.2.0"
+    },
+    {
+      "name": "crypto",
+      "type": "haxelib",
+      "version": "1.3.0"
+    },
+    {
+      "name": "format",
+      "type": "haxelib",
+      "version": "3.8.0"
+    },
+    {
+      "name": "haxebanana",
+      "type": "haxelib",
+      "version": "1.0.2"
+    },
+    {
+      "name": "haxelib",
+      "type": "haxelib",
+      "version": "4.2.0"
+    },
+    {
+      "name": "hmm",
+      "type": "haxelib",
+      "version": "3.1.0"
+    },
+    {
+      "name": "hscript-iris",
+      "type": "haxelib",
+      "version": "1.1.3"
+    },
+    {
+      "name": "hx3compat",
+      "type": "haxelib",
+      "version": "1.1.0"
+    },
+    {
+      "name": "hx4compat",
+      "type": "haxelib",
+      "version": "1.0.0"
+    },
+    {
+      "name": "hxcpp",
+      "type": "haxelib",
+      "version": "4.3.2"
+    },
+    {
+      "name": "hxdiscord_rpc",
+      "type": "haxelib",
+      "version": "1.3.0"
+    },
+    {
+      "name": "hxp",
+      "type": "haxelib",
+      "version": "1.3.1"
+    },
+    {
+      "name": "hxvlc",
+      "type": "haxelib",
+      "version": "2.3.0"
+    },
+    {
+      "name": "lime",
+      "type": "haxelib",
+      "version": "8.3.2"
+    },
+    {
+      "name": "lime-samples",
+      "type": "haxelib",
+      "version": "7.0.0"
+    },
+    {
+      "name": "newgrounds",
+      "type": "haxelib",
+      "version": "2.0.3"
+    },
+    {
+      "name": "openfl",
+      "type": "haxelib",
+      "version": "9.5.2"
+    },
+    {
+      "name": "thx.core",
+      "type": "haxelib",
+      "version": "0.44.0"
+    },
+    {
+      "name": "tink_core",
+      "type": "haxelib",
+      "version": "1.26.0"
+    },
+    {
+      "name": "tjson",
+      "type": "haxelib",
+      "version": "1.4.0"
+    },
+    {
+      "name": "utest",
+      "type": "haxelib",
+      "version": "1.13.2"
+    },
+    {
+      "name": "flxanimate",
+      "type": "git",
+      "url": "https://github.com/Dot-Stuff/flxanimate"
+    },
+    {
+      "name": "funkin.vis",
+      "type": "git",
+      "url": "https://github.com/FunkinCrew/funkVis"
+    },
+    {
+      "name": "grid.audio",
+      "type": "git",
+      "url": "https://github.com/osakared/grig.audio"
+    },
+    {
+      "name": "hx_libnx",
+      "type": "git",
+      "url": "https://github.com/Slushi-Github/hx_libnx"
+    },
+    {
+      "name": "linc_luajit",
+      "type": "git",
+      "url": "https://github.com"
+    }
+  ]
+}

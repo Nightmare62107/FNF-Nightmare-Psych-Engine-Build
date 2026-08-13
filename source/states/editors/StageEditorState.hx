@@ -98,7 +98,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		repositionDad();
 		repositionBoyfriend();
 		var point = focusOnTarget('boyfriend');
-		FlxG.camera.scroll.set(point.x - FlxG.width/2, point.y - FlxG.height/2);
+		FlxG.camera.scroll.set(point.x - FlxG.width / 2, point.y - FlxG.height / 2);
 
 		screenUI();
 		spriteCreatePopup();
@@ -165,7 +165,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 			helpText.borderSize = 1;
 			helpText.screenCenter();
 			add(helpText);
-			helpText.y += ((i - str.length/2) * 32) + 16;
+			helpText.y += ((i - str.length / 2) * 32) + 16;
 			helpText.active = false;
 			helpTexts.add(helpText);
 		}
@@ -575,7 +575,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 
 	function editorUI()
 	{
-		UI_box = new PsychUIBox(FlxG.width - 225, 10, 200, 400, ['Meta', 'Data', 'Object']);
+		UI_box = new PsychUIBox(FlxG.width - 225, 10, 200, 470, ['Meta', 'Data', 'Object']);
 		UI_box.cameras = [camHUD];
 		UI_box.scrollFactor.set();
 		add(UI_box);
@@ -674,7 +674,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 			_updateCamera();
 		};
 
-		objY += 40;
+		objY += 40 + 15;
 		var cx:Float = 0;
 		var cy:Float = 0;
 		if(stageJson.camera_girlfriend != null && stageJson.camera_girlfriend.length > 1)
@@ -692,7 +692,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 			_updateCamera();
 		};
 
-		objY += 40;
+		objY += 40 + 15;
 		var cx:Float = 0;
 		var cy:Float = 0;
 		if(stageJson.camera_boyfriend != null && stageJson.camera_boyfriend.length > 1)
@@ -710,7 +710,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 			_updateCamera();
 		};
 
-		objY += 50;
+		objY += 50 + 15;
 		tab_group.add(new FlxText(objX, objY - 18, 100, 'Camera Data:'));
 		objY += 20;
 		tab_group.add(new FlxText(objX, objY - 18, 100, 'Zoom:'));
@@ -888,7 +888,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 				selected.setScrollFactor(scrollStepperX.value, scrollStepperY.value);
 		}
 
-		objY += 40;
+		objY += 40 + 15;
 		tab_group.add(new FlxText(objX, objY - 18, 150, 'Scroll Factor (X/Y):'));
 		scrollStepperX = new PsychUINumericStepper(objX, objY, 0.05, 1, 0, 10, 2);
 		scrollStepperY = new PsychUINumericStepper(objX + 70, objY, 0.05, 1, 0, 10, 2);
@@ -896,7 +896,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		tab_group.add(scrollStepperX);
 		tab_group.add(scrollStepperY);
 		
-		objY += 40;
+		objY += 40 + 15;
 		tab_group.add(new FlxText(objX, objY - 18, 80, 'Opacity:'));
 		alphaStepper = new PsychUINumericStepper(objX, objY, 0.1, 1, 0, 1, 2, true);
 		alphaStepper.onValueChange = function() {
@@ -925,7 +925,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		};
 		tab_group.add(antialiasingCheckbox);
 
-		objY += 40;
+		objY += 40 + 15;
 		tab_group.add(new FlxText(objX, objY - 18, 80, 'Angle:'));
 		angleStepper = new PsychUINumericStepper(objX, objY, 10, 0, 0, 360, 0);
 		angleStepper.onValueChange = function() {
@@ -955,7 +955,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 			}
 		}
 
-		objY += 25;
+		objY += 25 + 15;
 		flipXCheckBox = new PsychUICheckBox(objX, objY, 'Flip X', 60);
 		flipXCheckBox.onClick = updateFlip;
 		flipYCheckBox = new PsychUICheckBox(objX + 90, objY, 'Flip Y', 60);
@@ -963,7 +963,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		tab_group.add(flipXCheckBox);
 		tab_group.add(flipYCheckBox);
 
-		objY += 45;
+		objY += 45 + 15;
 		function recalcFilter()
 		{
 			// low and/or high quality
@@ -1261,7 +1261,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 
 	function reloadCharacters()
 	{
-		if(stageJson._editorMeta != null)
+		if (stageJson._editorMeta != null)
 		{
 			gf.changeCharacter(stageJson._editorMeta.gf);
 			dad.changeCharacter(stageJson._editorMeta.dad);
@@ -1274,7 +1274,7 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 		focusRadioGroup.checked = -1;
 		FlxG.camera.target = null;
 		var point = focusOnTarget('boyfriend');
-		FlxG.camera.scroll.set(point.x - FlxG.width/2, point.y - FlxG.height/2);
+		FlxG.camera.scroll.set(point.x - FlxG.width / 2, point.y - FlxG.height / 2);
 		FlxG.camera.zoom = stageJson.defaultZoom;
 		oppDropdown.selectedLabel = dad.curCharacter;
 		gfDropdown.selectedLabel = gf.curCharacter;
@@ -1334,6 +1334,14 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 	var outputTime:Float = 0;
 	override function update(elapsed:Float)
 	{
+		// play a click sound any time the user left- or right-clicks in the editor
+		// this is intentionally very early so it triggers regardless of what
+		// interaction happens afterwards (even if we later ignore the click)
+		if(FlxG.mouse.justPressed || FlxG.mouse.justPressedRight)
+		{
+			FlxG.sound.play(Paths.sound('clickUp'), 0.4);
+		}
+
 		if(createPopup.visible && (FlxG.mouse.justPressedRight || (FlxG.mouse.justPressed && !FlxG.mouse.overlaps(createPopup, camHUD))))
 			createPopup.visible = createPopup.active = false;
 
@@ -1696,8 +1704,8 @@ class StageEditorState extends MusicBeatState implements PsychUIEventHandler.Psy
 			
 			if(_makeNewSprite != null)
 			{
-				selected.sprite.x = Math.round(FlxG.camera.scroll.x + FlxG.width/2 - selected.sprite.width/2);
-				selected.sprite.y = Math.round(FlxG.camera.scroll.y + FlxG.height/2 - selected.sprite.height/2);
+				selected.sprite.x = Math.round(FlxG.camera.scroll.x + FlxG.width / 2 - selected.sprite.width / 2);
+				selected.sprite.y = Math.round(FlxG.camera.scroll.y + FlxG.height / 2 - selected.sprite.height / 2);
 				posTxt.visible = true;
 				posTxt.text = 'X: ${selected.sprite.x}\nY: ${selected.sprite.y}';
 			}
@@ -2322,7 +2330,7 @@ class StageEditorAnimationSubstate extends MusicBeatSubstate {
 				if(holdingArrowsTime > 0.6)
 				{
 					holdingArrowsElapsed += elapsed;
-					while(holdingArrowsElapsed > (1/60))
+					while(holdingArrowsElapsed > (1 / 60))
 					{
 						if(spr.animOffsets.get(anim) != null)
 						{
@@ -2330,7 +2338,7 @@ class StageEditorAnimationSubstate extends MusicBeatSubstate {
 							spr.offset.y += ((moveKeys[2] ? 1 : 0) - (moveKeys[3] ? 1 : 0)) * shiftMultBig;
 						}
 						else spr.offset.x = spr.offset.y = 0;
-						holdingArrowsElapsed -= (1/60);
+						holdingArrowsElapsed -= (1 / 60);
 						changedOffset = true;
 					}
 				}

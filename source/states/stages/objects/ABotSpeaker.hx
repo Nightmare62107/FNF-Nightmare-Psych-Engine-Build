@@ -44,7 +44,7 @@ class ABotSpeaker extends FlxSpriteGroup
 		var vizX:Float = 0;
 		var vizY:Float = 0;
 		var vizFrames = Paths.getSparrowAtlas('abot/aBotViz');
-		for (i in 1...VIZ_MAX+1)
+		for (i in 1...VIZ_MAX + 1)
 		{
 			volumes.push(0.0);
 			vizX += VIZ_POS_X[i-1];

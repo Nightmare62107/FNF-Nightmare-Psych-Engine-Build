@@ -62,6 +62,7 @@ class ControlsSubState extends MusicBeatSubstate
 	var onKeyboardMode:Bool = true;
 	
 	var controllerSpr:FlxSprite;
+	var menuShift:Float = 100;
 	
 	public function new()
 	{
@@ -148,6 +149,11 @@ class ControlsSubState extends MusicBeatSubstate
 						str = Language.getPhrase(str);
 					}
 					var text:Alphabet = new Alphabet(475, 300, !isDisplayKey ? Language.getPhrase('key_$keyStr', str) : Language.getPhrase('keygroup_$str', str), !isDisplayKey);
+					if (!isDefaultKey)
+					{
+						text.x += menuShift;
+						text.startPosition.x += menuShift;
+					}
 					text.isMenuItem = true;
 					text.changeX = false;
 					text.distancePerItem.y = 60;
@@ -188,7 +194,11 @@ class ControlsSubState extends MusicBeatSubstate
 	function addCenteredText(text:Alphabet, option:Array<Dynamic>, id:Int)
 	{
 		text.alignment = LEFT;
-		text.screenCenter(X);
+		var isCentered:Bool = (option.length < 3);
+		if (isCentered)
+		{
+			text.screenCenter(X);
+		}
 		text.y -= 55;
 		text.startPosition.y -= 55;
 	}
@@ -226,6 +236,8 @@ class ControlsSubState extends MusicBeatSubstate
 			attach.targetY = text.targetY;
 			attach.ID = Math.floor(grpBinds.length / 2);
 			attach.snapToPosition();
+			attach.x += menuShift;
+			attach.startPosition.x += menuShift;
 			attach.y += FlxG.height * 2;
 			grpBinds.add(attach);
 
@@ -240,6 +252,7 @@ class ControlsSubState extends MusicBeatSubstate
 			black.sprTracker = text;
 			black.yAdd = -6;
 			black.xAdd = 75 + n * 300;
+			black.x += menuShift;
 			grpBlacks.add(black);
 		}
 	}
@@ -274,6 +287,8 @@ class ControlsSubState extends MusicBeatSubstate
 	{
 		var bind:Alphabet = grpBinds.members[num];
 		var attach:Alphabet = new Alphabet(350 + (num % 2) * 300, 248, text, false);
+		attach.x += menuShift;
+		attach.startPosition.x += menuShift;
 		attach.isMenuItem = true;
 		attach.changeX = false;
 		attach.distancePerItem.y = 60;
@@ -376,10 +391,12 @@ class ControlsSubState extends MusicBeatSubstate
 					add(bindingBlack);
 
 					bindingText = new Alphabet(FlxG.width / 2, 160, Language.getPhrase('controls_rebinding', 'Rebinding {1}', [options[curOptions[curSelected]][3]]), false);
+					bindingText.x += menuShift;
 					bindingText.alignment = CENTERED;
 					add(bindingText);
 					
 					bindingText2 = new Alphabet(FlxG.width / 2, 340, Language.getPhrase('controls_rebinding2', 'Hold ESC to Cancel\nHold Backspace to Delete'), true);
+					bindingText2.x += menuShift;
 					bindingText2.alignment = CENTERED;
 					add(bindingText2);
 

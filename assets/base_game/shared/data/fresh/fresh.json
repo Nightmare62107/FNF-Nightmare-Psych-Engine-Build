@@ -1446,6 +1446,7 @@
 			}
 		],
 		"player2": "dad",
+		"skipCountdown": false,
 		"song": "Fresh",
 		"needsVoices": true,
 		"bpm": 120,

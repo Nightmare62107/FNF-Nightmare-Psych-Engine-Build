@@ -877,6 +877,7 @@
 		}
 	],
 	"player2": "tankman",
+	"skipCountdown": false,
 	"player3": null,
 	"song": "Ugh",
 	"stage": "tank",

@@ -3,6 +3,7 @@ package states;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.CoolUtil;
 
 import objects.HealthIcon;
 import objects.MusicPlayer;
@@ -216,6 +217,7 @@ class FreeplayState extends MusicBeatState
 		bottomText.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
 		bottomText.scrollFactor.set();
 		add(bottomText);
+		updateBottomTip();
 		
 		player = new MusicPlayer(this);
 		add(player);
@@ -416,6 +418,12 @@ class FreeplayState extends MusicBeatState
 		while(ratingSplit[1].length < 2) //Less than 2 decimals in it, add decimals then
 			ratingSplit[1] += '0';
 
+		var ratingFCText:String = Highscore.getRatingFC(songs[curSelected].songName, curDifficulty);
+		if (ratingFCText != null && ratingFCText.length > 0)
+			ratingFCText = Language.getPhrase(ratingFCText);
+		else
+			ratingFCText = '???';
+
 		// If the missing/chart error popup is shown, only allow BACK to close it
 		if (showingMissingPopup)
 		{
@@ -435,7 +443,7 @@ class FreeplayState extends MusicBeatState
 
 		if (!player.playingMusic)
 		{
-			scoreText.text = Language.getPhrase('personal_best', 'PERSONAL BEST: {1} ({2}%)', [lerpScore, ratingSplit.join('.')]);
+			scoreText.text = Language.getPhrase('personal_best', 'PERSONAL BEST: {1} ({2}% - {3})', [CoolUtil.formatWithCommas(lerpScore), ratingSplit.join('.'), ratingFCText]);
 			positionHighscore();
 			
 			if(songs.length > 1)
@@ -523,7 +531,11 @@ class FreeplayState extends MusicBeatState
 		}
 		else if(FlxG.keys.justPressed.SPACE)
 		{
-			if(instPlaying != curSelected && !player.playingMusic)
+			if (songs[curSelected] != null && Std.string(songs[curSelected].songName).toLowerCase() == 'random')
+			{
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+			}
+			else if(instPlaying != curSelected && !player.playingMusic)
 			{
 				destroyFreeplayVocals();
 				FlxG.sound.music.volume = 0;
@@ -842,10 +854,21 @@ class FreeplayState extends MusicBeatState
 
 		changeDiff();
 		_updateSongLastDifficulty();
+		updateBottomTip();
 	}
 
 	inline private function _updateSongLastDifficulty()
 		songs[curSelected].lastDifficulty = Difficulty.getString(curDifficulty, false);
+
+	private function updateBottomTip()
+	{
+		if (songs[curSelected] != null && Std.string(songs[curSelected].songName).toLowerCase() == 'random')
+			bottomString = "Song listening Disabled on Random / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.";
+		else
+			bottomString = Language.getPhrase("freeplay_tip", "Press SPACE to listen to the Song / Press CTRL to open the Gameplay Changers Menu / Press RESET to Reset your Score and Accuracy.");
+		if (bottomText != null)
+			bottomText.text = bottomString;
+	}
 
 	private function positionHighscore()
 	{

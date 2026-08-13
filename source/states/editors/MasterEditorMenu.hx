@@ -6,6 +6,7 @@ import objects.Character;
 
 import states.MainMenuState;
 import states.FreeplayState;
+//import states.editors.AlphabetTestState;
 
 class MasterEditorMenu extends MusicBeatState
 {
@@ -17,7 +18,9 @@ class MasterEditorMenu extends MusicBeatState
 		'Menu Character Editor',
 		'Dialogue Editor',
 		'Dialogue Portrait Editor',
-		'Note Splash Editor'
+		'Note Splash Editor',
+		/*'Alphabet Test',*/
+		'Crash The Game'
 	];
 	private var grpTexts:FlxTypedGroup<Alphabet>;
 	private var directories:Array<String> = [null];
@@ -125,6 +128,10 @@ class MasterEditorMenu extends MusicBeatState
 					LoadingState.loadAndSwitchState(new DialogueCharacterEditorState(), false);
 				case 'Note Splash Editor':
 					MusicBeatState.switchState(new NoteSplashEditorState());
+				/*case 'Alphabet Test':
+					MusicBeatState.switchState(new AlphabetTestState());*/
+				case 'Crash The Game':
+					openfl.Lib.application.window.close();
 			}
 			FlxG.sound.music.volume = 0;
 			FreeplayState.destroyFreeplayVocals();

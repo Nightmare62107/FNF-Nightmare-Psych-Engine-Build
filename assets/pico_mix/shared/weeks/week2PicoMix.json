@@ -1,7 +1,7 @@
 {
 	"songs": [
 		["Spookeez Pico Mix", "spooky", [213, 126, 0]],
-		["South Pico Mix", "spooky", [213, 126, 0]],
+		["South Pico Mix", "spooky", [213, 126, 0]]
 	],
 
 	"weekCharacters": [
@@ -15,6 +15,7 @@
 	"weekBefore": "week1PicoMix",
 	"weekName": "Week 2 Pico Mix",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

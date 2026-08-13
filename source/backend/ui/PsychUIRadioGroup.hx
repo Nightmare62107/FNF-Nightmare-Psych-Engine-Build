@@ -21,6 +21,8 @@ class PsychUIRadioGroup extends FlxSpriteGroup
 
 	public var arrowUp:FlxSprite;
 	public var arrowDown:FlxSprite;
+	public var arrowLeft:FlxSprite;
+	public var arrowRight:FlxSprite;
 
 	public var onClick:Void->Void;
 
@@ -41,7 +43,16 @@ class PsychUIRadioGroup extends FlxSpriteGroup
 		arrowDown.animation.add('press', [1]);
 		arrowDown.animation.play('normal');
 		arrowDown.visible = false;
-
+		arrowLeft = new FlxSprite().loadGraphic(Paths.image('psych-ui/arrow_left', 'embed'), true, 24, 18);
+		arrowLeft.animation.add('normal', [0]);
+		arrowLeft.animation.add('press', [1]);
+		arrowLeft.animation.play('normal');
+		arrowLeft.visible = false;
+		arrowRight = new FlxSprite().loadGraphic(Paths.image('psych-ui/arrow_right', 'embed'), true, 24, 18);
+		arrowRight.animation.add('normal', [0]);
+		arrowRight.animation.add('press', [1]);
+		arrowRight.animation.play('normal');
+		arrowRight.visible = false;
 		this.space = space;
 		this.textWidth = textWidth;
 		@:bypassAccessor if(labels != null) this.labels = labels;

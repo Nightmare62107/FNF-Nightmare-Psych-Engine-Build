@@ -86,7 +86,7 @@ class AchievementsMenuState extends MusicBeatState
 			var spr:FlxSprite = new FlxSprite(0, Math.floor(grpOptions.members.length / MAX_PER_ROW) * 180).loadGraphic(graphic);
 			spr.scrollFactor.x = 0;
 			spr.screenCenter(X);
-			spr.x += 180 * ((grpOptions.members.length % MAX_PER_ROW) - MAX_PER_ROW/2) + spr.width / 2 + 15;
+			spr.x += 180 * ((grpOptions.members.length % MAX_PER_ROW) - MAX_PER_ROW / 2) + spr.width / 2 + 15;
 			spr.ID = grpOptions.members.length;
 			spr.antialiasing = hasAntialias;
 			grpOptions.add(spr);
@@ -304,7 +304,7 @@ class AchievementsMenuState extends MusicBeatState
 		{
 			var val1:Float = options[curSelected].curProgress;
 			var val2:Float = options[curSelected].maxProgress;
-			progressTxt.text = CoolUtil.floorDecimal(val1, options[curSelected].decProgress) + ' / ' + CoolUtil.floorDecimal(val2, options[curSelected].decProgress);
+			progressTxt.text = CoolUtil.formatWithCommas(Std.int(CoolUtil.floorDecimal(val1, options[curSelected].decProgress))) + ' / ' + CoolUtil.formatWithCommas(Std.int(CoolUtil.floorDecimal(val2, options[curSelected].decProgress)));
 
 			barTween = FlxTween.tween(progressBar, {percent: (val1 / val2) * 100}, 0.5,
 			{

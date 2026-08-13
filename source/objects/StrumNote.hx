@@ -166,6 +166,8 @@ class StrumNote extends FlxSprite
 		if(resetAnim > 0) {
 			resetAnim -= elapsed;
 			if(resetAnim <= 0) {
+				// Restore default RGB colors for this strum when the hit animation ends
+				restoreDefaultRGB();
 				playAnim('static');
 				resetAnim = 0;
 			}
@@ -173,9 +175,26 @@ class StrumNote extends FlxSprite
 		super.update(elapsed);
 	}
 
+	public function restoreDefaultRGB()
+	{
+		var arr:Array<FlxColor> = ClientPrefs.data.arrowRGB[noteData];
+		if(PlayState.isPixelStage) arr = ClientPrefs.data.arrowRGBPixel[noteData];
+		if (arr != null && arr.length >= 3)
+		{
+			@:bypassAccessor
+			{
+				rgbShader.r = arr[0];
+				rgbShader.g = arr[1];
+				rgbShader.b = arr[2];
+			}
+		}
+	}
+
 	public function playAnim(anim:String, ?force:Bool = false)
 	{
 		animation.play(anim, force);
+
+		// no timer here; color restoration is handled on key release or by existing resetAnim
 		if(animation.curAnim != null)
 		{
 			centerOffsets();

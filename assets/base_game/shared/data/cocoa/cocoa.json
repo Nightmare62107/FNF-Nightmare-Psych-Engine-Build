@@ -2,6 +2,7 @@
 	"song": {
 		"player1": "bf-christmas",
 		"player2": "parents-christmas",
+		"skipCountdown": false,
 		"notes": [
 			{
 				"sectionBeats": 4,

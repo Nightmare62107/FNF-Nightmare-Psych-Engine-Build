@@ -1,7 +1,6 @@
 package;
 
 import states.CacheState;
-import states.CacheState;
 #if android
 import android.content.Context;
 #end
@@ -11,6 +10,7 @@ import debug.FPSCounter;
 import flixel.graphics.FlxGraphic;
 import flixel.FlxGame;
 import flixel.FlxState;
+import flixel.util.FlxColor;
 import haxe.io.Path;
 import openfl.Assets;
 import openfl.Lib;
@@ -20,7 +20,8 @@ import openfl.display.StageScaleMode;
 import lime.app.Application;
 
 import states.InitState;
-
+import states.TitleState;
+import options.DisplayCounterColorSubState;
 
 #if HSCRIPT_ALLOWED
 import crowplexus.iris.Iris;
@@ -58,11 +59,34 @@ class Main extends Sprite
 		height: 720, // WINDOW height
 		initialState: InitState, // initial game state
 		framerate: 60, // default framerate
-		skipSplash: true, // if the default flixel splash screen should be skipped
+		skipSplash: false, // if the default flixel splash screen should be skipped
 		startFullscreen: false // if the game should start at fullscreen mode
 	};
 
 	public static var fpsVar:FPSCounter;
+
+	public static function changeFPSColor(color:FlxColor):Void
+	{
+		if (fpsVar != null)
+		{
+			fpsVar.textColor = color;
+		}
+	}
+
+	public static function applySavedFPSColor():Void
+	{
+		if (fpsVar == null)
+		{
+			return;
+		}
+
+		var colorValue = ClientPrefs.data.fpsColor;
+		var color:Null<FlxColor> = DisplayCounterColorSubState.getFPSColor(colorValue);
+		if (color != null)
+		{
+			fpsVar.textColor = color;
+		}
+	}
 
 	// You can pretty much ignore everything from here on - your code should go in your states.
 
@@ -178,6 +202,7 @@ class Main extends Sprite
 		#if ACHIEVEMENTS_ALLOWED Achievements.load(); #end
 		var flxGame = new FlxGame(game.width, game.height, game.initialState, game.framerate, game.framerate, game.skipSplash, game.startFullscreen);
 		addChild(flxGame);
+		ClientPrefs.loadPrefs();
 
 		#if !mobile
 		fpsVar = new FPSCounter(10, 3, 0xFFFFFF);
@@ -187,6 +212,7 @@ class Main extends Sprite
 		if (fpsVar != null)
 		{
 			fpsVar.visible = ClientPrefs.data.showFPS;
+			applySavedFPSColor();
 		}
 		#end
 
@@ -229,6 +255,16 @@ class Main extends Sprite
 			if (FlxG.game != null)
 			{
 				resetSpriteCache(FlxG.game);
+			}
+		});
+
+		// Universal Debug Crash Keybind Listener.
+		// This keybind was from the official FNF engine, and has been added to Psych Engine for debugging purposes.
+		openfl.Lib.current.stage.addEventListener(openfl.events.KeyboardEvent.KEY_DOWN, function(e:openfl.events.KeyboardEvent) {
+			// Check if Ctrl + Alt + Shift + L are all held down at once
+			if (e.ctrlKey && e.altKey && e.shiftKey && e.keyCode == openfl.ui.Keyboard.L) {
+				// Force an intentional runtime crash exception with an official diagnostic message
+				throw new openfl.errors.Error("Debug Force Crash: Forced crash via Ctrl+Alt+Shift+L keybind.");
 			}
 		});
 	}

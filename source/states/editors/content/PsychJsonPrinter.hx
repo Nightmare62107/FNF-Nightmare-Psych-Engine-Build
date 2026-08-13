@@ -14,7 +14,7 @@ class PsychJsonPrinter extends JsonPrinter
 	public static function print(o:Dynamic, ?ignoreTab:Array<String>):String
 	{
 		var printer = new PsychJsonPrinter(null, '\t');
-		if(ignoreTab != null) printer._ignoreTab = ignoreTab;
+		if (ignoreTab != null) printer._ignoreTab = ignoreTab;
 		printer.write("", o);
 		return printer.buf.toString();
 	}
@@ -32,7 +32,7 @@ class PsychJsonPrinter extends JsonPrinter
 		var last = len - 1;
 
 		var hasArrayInsideIt:Bool = false;
-		if(_singleLineCheckNext)
+		if (_singleLineCheckNext)
 		{
 			for (subv in Reflect.fields(v))
 			{
@@ -48,7 +48,8 @@ class PsychJsonPrinter extends JsonPrinter
 
 		var usedMapCheck:Bool = false;
 		var first = true;
-		for (i in 0...len) {
+		for (i in 0...len)
+		{
 			var f = fields[i];
 			var value = Reflect.field(v, f);
 			if (Reflect.isFunction(value))
@@ -61,11 +62,14 @@ class PsychJsonPrinter extends JsonPrinter
 			else
 			{
 				addChar(','.code);
-				if(_singleLineCheckNext && !hasArrayInsideIt) addChar(' '.code);
+				if (_singleLineCheckNext && !hasArrayInsideIt)
+				{
+					addChar(' '.code);
+				}
 			}
 
 			var _mapCheck = mapCheck;
-			if(_mapCheck)
+			if (_mapCheck)
 			{
 				switch(Type.typeof(value))
 				{
@@ -76,7 +80,7 @@ class PsychJsonPrinter extends JsonPrinter
 				}
 			}
 
-			if(!_singleLineCheckNext || hasArrayInsideIt || _mapCheck || usedMapCheck)
+			if (!_singleLineCheckNext || hasArrayInsideIt || _mapCheck || usedMapCheck)
 			{
 				newl();
 				ipad();
@@ -87,20 +91,22 @@ class PsychJsonPrinter extends JsonPrinter
 				addChar(' '.code);
 
 			var doContain:Bool = _ignoreTab.contains(f);
-			if(doContain) _singleLineCheckNext = true;
+			if (doContain) _singleLineCheckNext = true;
 			write(f, value);
-			if(doContain) _singleLineCheckNext = false;
+			if (doContain) _singleLineCheckNext = false;
 
-			if (i == last) {
+			if (i == last)
+			{
 				nind--;
-				if(!_singleLineCheckNext)
+				if (!_singleLineCheckNext)
 				{
 					newl();
 					ipad();
 				}
 			}
 		}
-		if(hasArrayInsideIt || usedMapCheck)
+
+		if (hasArrayInsideIt || usedMapCheck)
 		{
 			newl();
 			ipad();
@@ -108,10 +114,14 @@ class PsychJsonPrinter extends JsonPrinter
 		addChar('}'.code);
 	}
 
-	override function write(k:Dynamic, v:Dynamic) {
+	override function write(k:Dynamic, v:Dynamic)
+	{
 		if (replacer != null)
+		{
 			v = replacer(k, v);
-		switch (Type.typeof(v)) {
+		}
+		switch (Type.typeof(v))
+		{
 			case TUnknown:
 				add('"???"');
 			case TObject:
@@ -124,8 +134,11 @@ class PsychJsonPrinter extends JsonPrinter
 				add('"<fun>"');
 			case TClass(c):
 				if (c == String)
+				{
 					quote(v);
-				else if (c == Array) {
+				}
+				else if (c == Array)
+				{
 					var v:Array<Dynamic> = v;
 					addChar('['.code);
 
@@ -133,7 +146,7 @@ class PsychJsonPrinter extends JsonPrinter
 					var last = len - 1;
 
 					var hasArrayInsideIt:Bool = false;
-					if(_singleLineCheckNext)
+					if (_singleLineCheckNext)
 					{
 						for (subv in v)
 						{
@@ -147,47 +160,64 @@ class PsychJsonPrinter extends JsonPrinter
 						}
 					}
 
-					for (i in 0...len) {
+					for (i in 0...len)
+					{
 						if (i > 0)
 						{
 							addChar(','.code);
-							if(_singleLineCheckNext && !hasArrayInsideIt) addChar(' '.code);
+							if (_singleLineCheckNext && !hasArrayInsideIt)
+							{
+								addChar(' '.code);
+							}
 						}
-						else nind++;
+						else
+						{
+							nind++;
+						}
 
-						if(!_singleLineCheckNext || hasArrayInsideIt)
+						if (!_singleLineCheckNext || hasArrayInsideIt)
 						{
 							newl();
 							ipad();
 						}
 
 						write(i, v[i]);
-						if (i == last) {
+						if (i == last)
+						{
 							nind--;
-							if(!_singleLineCheckNext)
+							if (!_singleLineCheckNext)
 							{
 								newl();
 								ipad();
 							}
 						}
 					}
-					if(hasArrayInsideIt)
+					if (hasArrayInsideIt)
 					{
 						newl();
 						ipad();
 					}
 					addChar(']'.code);
-				} else if (c == haxe.ds.StringMap) {
+				}
+				else if (c == haxe.ds.StringMap)
+				{
 					var v:haxe.ds.StringMap<Dynamic> = v;
 					var o = {};
 					for (k in v.keys())
+					{
 						Reflect.setField(o, k, v.get(k));
+					}
 					fieldsStringEx(o, Reflect.fields(o), true);
-				} else if (c == Date) {
+				}
+				else if (c == Date)
+				{
 					var v:Date = v;
 					quote(v.toString());
-				} else
+				}
+				else
+				{
 					classString(v);
+				}
 			case TEnum(_):
 				var i = Type.enumIndex(v);
 				add(Std.string(i));

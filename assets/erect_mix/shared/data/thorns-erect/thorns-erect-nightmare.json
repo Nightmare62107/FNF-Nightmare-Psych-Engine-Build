@@ -6,6 +6,7 @@
 	"stage": "schoolEvil",
 	"player1": "bf-pixel",
 	"player2": "spirit",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

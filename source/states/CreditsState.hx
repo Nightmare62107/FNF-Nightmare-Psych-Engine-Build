@@ -59,6 +59,7 @@ class CreditsState extends MusicBeatState
 			["superpowers04",			"superpowers04",	"LUA JIT Fork",													"https://x.com/superpowers04",					 "B957ED"],
 			["CheemsAndFriends",		"cheems",			"Creator of FlxAnimate",										"https://x.com/CheemsnFriendos",				 "E1E1E1"],
 			["Nightmare62107",			"nightmare62107",	"Additions to Engine\nCompiled this Build",						"https://www.youtube.com/@Nightmare62107",		 "DD2026"],
+			["Xuca",					"xuca",				"Corruption Note FLA Recreation",								"https://www.youtube.com/@Xuca",		 		 "0081F1"],
 			[""],
 			["Funkin' Crew"],
 			["ninjamuffin99",			"ninjamuffin99",	"Programmer of Friday Night Funkin'",							"https://x.com/ninja_muffin99",					 "CF2D2D"],
@@ -67,12 +68,14 @@ class CreditsState extends MusicBeatState
 			["kawaisprite",				"kawaisprite",		"Composer of Friday Night Funkin'",								"https://x.com/kawaisprite",					 "378FC7"],
 			[""],
 			["Discord Servers"],
-			["Psych Engine Discord", "discord", "Join the Psych Ward!", "https://discord.gg/2ka77eMXDv", "5165F6"],
-			["Nightmare's Closet", "discord", "Join Nightmare62107's Discord Server\nNightmare's Closet", "discord.com/invite/xKgrkWFTF8", "5165F6"]
+			["Psych Engine Discord", 	"discord", 			"Join the Psych Ward!", 										"https://discord.gg/2ka77eMXDv", 				 "5165F6"],
+			["Nightmare's Closet", 		"discord", 			"Join Nightmare62107's Discord Server\nNightmare's Closet", 	"https://discord.com/invite/xKgrkWFTF8", 		 "5165F6"]
 		];
 		
-		for(i in defaultList)
+		for (i in defaultList)
+		{
 			creditsStuff.push(i);
+		}
 	
 		for (i => credit in creditsStuff)
 		{
@@ -84,21 +87,29 @@ class CreditsState extends MusicBeatState
 			optionText.snapToPosition();
 			grpOptions.add(optionText);
 
-			if(isSelectable)
+			if (isSelectable)
 			{
-				if(credit[5] != null)
+				if (credit[5] != null)
+				{
 					Mods.currentModDirectory = credit[5];
+				}
 
 				var str:String = 'credits/missing_icon';
-				if(credit[1] != null && credit[1].length > 0)
+				if (credit[1] != null && credit[1].length > 0)
 				{
 					var fileName = 'credits/' + credit[1];
-					if (Paths.fileExists('images/$fileName.png', IMAGE)) str = fileName;
-					else if (Paths.fileExists('images/$fileName-pixel.png', IMAGE)) str = fileName + '-pixel';
+					if (Paths.fileExists('images/$fileName.png', IMAGE))
+					{
+						str = fileName;
+					}
+					else if (Paths.fileExists('images/$fileName-pixel.png', IMAGE))
+					{
+						str = fileName + '-pixel';
+					}
 				}
 
 				var icon:AttachedSprite = new AttachedSprite(str);
-				if(str.endsWith('-pixel')) icon.antialiasing = false;
+				if (str.endsWith('-pixel')) icon.antialiasing = false;
 				icon.xAdd = optionText.width + 10;
 				icon.sprTracker = optionText;
 	
@@ -107,9 +118,12 @@ class CreditsState extends MusicBeatState
 				add(icon);
 				Mods.currentModDirectory = '';
 
-				if(curSelected == -1) curSelected = i;
+				if (curSelected == -1) curSelected = i;
 			}
-			else optionText.alignment = CENTERED;
+			else
+			{
+				optionText.alignment = CENTERED;
+			}
 		}
 		
 		descBox = new AttachedSprite();
@@ -142,12 +156,12 @@ class CreditsState extends MusicBeatState
 			FlxG.sound.music.volume += 0.5 * elapsed;
 		}
 
-		if(!quitting)
+		if (!quitting)
 		{
-			if(creditsStuff.length > 1)
+			if (creditsStuff.length > 1)
 			{
 				var shiftMult:Int = 1;
-				if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+				if (FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
 				var upP = controls.UI_UP_P;
 				var downP = controls.UI_DOWN_P;
@@ -170,7 +184,7 @@ class CreditsState extends MusicBeatState
 					holdTime += elapsed;
 					var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
 
-					if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+					if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
 					{
 						changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
 					}
@@ -227,7 +241,7 @@ class CreditsState extends MusicBeatState
 
 		var newColor:FlxColor = CoolUtil.colorFromString(creditsStuff[curSelected][4]);
 		//trace('The BG color is: $newColor');
-		if(newColor != intendedColor)
+		if (newColor != intendedColor)
 		{
 			intendedColor = newColor;
 			FlxTween.cancelTweensOf(bg);
@@ -237,27 +251,32 @@ class CreditsState extends MusicBeatState
 		for (num => item in grpOptions.members)
 		{
 			item.targetY = num - curSelected;
-			if(!unselectableCheck(num)) {
+			if (!unselectableCheck(num))
+			{
 				item.alpha = 0.6;
-				if (item.targetY == 0) {
+				if (item.targetY == 0)
+				{
 					item.alpha = 1;
 				}
 			}
 		}
 
 		descText.text = creditsStuff[curSelected][2];
-		if(descText.text.trim().length > 0)
+		if (descText.text.trim().length > 0)
 		{
 			descText.visible = descBox.visible = true;
 			descText.y = FlxG.height - descText.height + offsetThing - 60;
 	
-			if(moveTween != null) moveTween.cancel();
+			if (moveTween != null) moveTween.cancel();
 			moveTween = FlxTween.tween(descText, {y : descText.y + 75}, 0.25, {ease: FlxEase.sineOut});
 	
 			descBox.setGraphicSize(Std.int(descText.width + 20), Std.int(descText.height + 25));
 			descBox.updateHitbox();
 		}
-		else descText.visible = descBox.visible = false;
+		else
+		{
+			descText.visible = descBox.visible = false;
+		}
 	}
 
 	#if MODS_ALLOWED
@@ -273,10 +292,10 @@ class CreditsState extends MusicBeatState
 		if (#if TRANSLATIONS_ALLOWED (FileSystem.exists(translatedCredits) && (creditsFile = translatedCredits) == translatedCredits) || #end FileSystem.exists(creditsFile))
 		{
 			var firstarray:Array<String> = File.getContent(creditsFile).split('\n');
-			for(i in firstarray)
+			for (i in firstarray)
 			{
 				var arr:Array<String> = i.replace('\\n', '\n').split("::");
-				if(arr.length >= 5) arr.push(folder);
+				if (arr.length >= 5) arr.push(folder);
 				creditsStuff.push(arr);
 			}
 			creditsStuff.push(['']);

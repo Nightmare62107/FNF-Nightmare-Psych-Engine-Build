@@ -878,6 +878,7 @@
 		}
 	],
 	"player2": "pico",
+	"skipCountdown": false,
 	"song": "Philly Nice",
 	"stage": "philly",
 	"needsVoices": true,

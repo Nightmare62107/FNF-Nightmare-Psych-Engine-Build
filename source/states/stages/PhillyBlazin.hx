@@ -172,7 +172,8 @@ class PhillyBlazin extends BaseStage
 		rainShader = new RainShader();
 		rainShader.scale = FlxG.height / 200;
 		rainShader.intensity = 0.5;
-		FlxG.camera.setFilters([new ShaderFilter(rainShader)]);
+		//FlxG.camera.setFilters([new ShaderFilter(rainShader)]);
+		FlxG.camera.filters = [new ShaderFilter(rainShader)];
 	}
 
 	function precache()
@@ -191,7 +192,7 @@ class PhillyBlazin extends BaseStage
 		{
 			rainShader.updateViewInfo(FlxG.width, FlxG.height, FlxG.camera);
 			rainShader.update(elapsed * rainTimeScale);
-			rainTimeScale = FlxMath.lerp(0.02, Math.min(1, rainTimeScale), Math.exp(-elapsed / (1/3)));
+			rainTimeScale = FlxMath.lerp(0.02, Math.min(1, rainTimeScale), Math.exp(-elapsed / (1 / 3)));
 		}
 		
 		lightningTimer -= elapsed;

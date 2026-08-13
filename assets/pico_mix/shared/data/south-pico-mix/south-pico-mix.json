@@ -767,6 +767,7 @@
 		}
 	],
 	"player2": "spooky",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "South Pico Mix",
 	"pauseBreakfast": "breakfast-pico",

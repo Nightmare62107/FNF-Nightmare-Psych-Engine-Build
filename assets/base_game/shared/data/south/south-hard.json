@@ -1,6 +1,7 @@
 {
 	"player1": "bf",
 	"player2": "spooky",
+	"skipCountdown": false,
 	"notes": [
 		{
 			"sectionNotes": [],

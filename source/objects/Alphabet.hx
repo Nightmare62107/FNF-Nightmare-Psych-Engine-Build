@@ -37,6 +37,17 @@ class Alphabet extends FlxSpriteGroup
 		this.startPosition.x = x;
 		this.startPosition.y = y;
 		this.bold = bold;
+
+		if (AlphaCharacter.allLetters == null)
+		{
+			AlphaCharacter.loadAlphabetData();
+		}
+
+		if (text == null)
+		{
+			text = "";
+		}
+
 		this.text = text;
 	}
 
@@ -83,6 +94,10 @@ class Alphabet extends FlxSpriteGroup
 
 	private function set_text(newText:String)
 	{
+		if (newText == null)
+		{
+			newText = "";
+		}
 		newText = newText.replace('\\n', '\n');
 		clearLetters();
 		createLetters(newText);
@@ -200,7 +215,7 @@ class Alphabet extends FlxSpriteGroup
 			var character:String = newText.charAt(i);
 			if(character != '\n')
 			{
-				var spaceChar:Bool = (character == " " || (bold && character == "_"));
+				var spaceChar:Bool = (character == " " /*|| (bold && character == "_")*/);
 				if (spaceChar) consecutiveSpaces++;
 
 				var isAlphabet:Bool = AlphaCharacter.isTypeAlphabet(character.toLowerCase());
@@ -273,7 +288,7 @@ class AlphaCharacter extends FlxSprite
 {
 	//public static var alphabet:String = "abcdefghijklmnopqrstuvwxyz";
 	//public static var numbers:String = "1234567890";
-	//public static var symbols:String = "|~#$%()*+-:;<=>@[]^_.,'!?";
+	//public static var symbols:String = "|~#$%()*+-=:;<>@[]^_.,'!?";
 
 	public var image(default, set):String;
 

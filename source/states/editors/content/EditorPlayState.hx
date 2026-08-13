@@ -2,6 +2,7 @@ package states.editors.content;
 
 import backend.Song;
 import backend.Rating;
+import backend.CoolUtil;
 
 import objects.Note;
 import objects.NoteSplash;
@@ -51,8 +52,8 @@ class EditorPlayState extends MusicBeatSubstate
 	var songMisses:Int = 0;
 	var songLength:Float = 0;
 	var songSpeed:Float = 1;
-	
-	var showCombo:Bool = false;
+
+	var showCombo:Bool = true;
 	var showComboNum:Bool = true;
 	var showRating:Bool = true;
 
@@ -231,12 +232,13 @@ class EditorPlayState extends MusicBeatSubstate
 			});
 		}
 		
+		updateScore();
 		var time:Float = CoolUtil.floorDecimal((Conductor.songPosition - ClientPrefs.data.noteOffset) / 1000, 1);
 		var songLen:Float = CoolUtil.floorDecimal(songLength / 1000, 1);
 		dataTxt.text = 'Time: $time / $songLen' +
-						'\n\nSection: $curSection' +
-						'\nBeat: $curBeat' +
-						'\nStep: $curStep';
+						'\n\nSection: ${CoolUtil.formatWithCommas(curSection)}' +
+						'\nBeat: ${CoolUtil.formatWithCommas(curBeat)}' +
+						'\nStep: ${CoolUtil.formatWithCommas(curStep)}';
 		super.update(elapsed);
 	}
 
@@ -562,7 +564,7 @@ class EditorPlayState extends MusicBeatSubstate
 		rating.loadGraphic(Paths.image(uiFolder + daRating.image + PlayState.uiPostfix));
 		rating.screenCenter();
 		rating.x = placement - 40;
-		rating.y -= 60;
+		rating.y -= (PlayState.isPixelStage ? 60 + 70 + 10 : 60 + 10);
 		rating.acceleration.y = 550 * playbackRate * playbackRate;
 		rating.velocity.y -= FlxG.random.int(140, 175) * playbackRate;
 		rating.velocity.x -= FlxG.random.int(0, 10) * playbackRate;
@@ -571,28 +573,57 @@ class EditorPlayState extends MusicBeatSubstate
 		rating.y -= ClientPrefs.data.comboOffset[1];
 		rating.antialiasing = antialias;
 
+		var primaryColor:FlxColor = 0;
+		if (ClientPrefs.data.comboColorChange)
+		{
+			if (note != null)
+			{
+				if (note.comboColor != 0)
+				{
+					primaryColor = note.comboColor;
+				}
+				else if (note.rgbShader != null)
+				{
+					primaryColor = note.rgbShader.r;
+				}
+
+				if (primaryColor == 0)
+				{
+					var _arr:Array<FlxColor> = (!PlayState.isPixelStage) ? ClientPrefs.data.arrowRGB[note.noteData % Note.colArray.length] : ClientPrefs.data.arrowRGBPixel[note.noteData % Note.colArray.length];
+					if (_arr != null && _arr.length > 0) primaryColor = _arr[0];
+				}
+			}
+			if (primaryColor != 0) rating.color = primaryColor;
+		}
+
 		var comboSpr:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + 'combo' + PlayState.uiPostfix));
 		comboSpr.screenCenter();
 		comboSpr.x = placement;
 		comboSpr.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
 		comboSpr.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
 		comboSpr.visible = (!ClientPrefs.data.hideHud && showCombo);
-		comboSpr.x += ClientPrefs.data.comboOffset[0];
-		comboSpr.y -= ClientPrefs.data.comboOffset[1];
+		// apply combo image offsets (separate indices from rating/numbers)
+		comboSpr.x += ClientPrefs.data.comboOffset[4] + (PlayState.isPixelStage ? -75 : 0);
 		comboSpr.antialiasing = antialias;
-		comboSpr.y += 60;
+
+		if (ClientPrefs.data.comboColorChange)
+		{
+			if (primaryColor != 0) comboSpr.color = primaryColor;
+		}
+		// Align combo image Y with combo numbers and respect combo image Y offset
+		comboSpr.y += (PlayState.isPixelStage ? 80 - ClientPrefs.data.comboOffset[5] - 70 : 80 - ClientPrefs.data.comboOffset[5]);
 		comboSpr.velocity.x += FlxG.random.int(1, 10) * playbackRate;
 		comboGroup.add(rating);
 
 		if (!PlayState.isPixelStage)
 		{
 			rating.setGraphicSize(Std.int(rating.width * 0.7));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.7));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * 0.5));
 		}
 		else
 		{
 			rating.setGraphicSize(Std.int(rating.width * PlayState.daPixelZoom * 0.85));
-			comboSpr.setGraphicSize(Std.int(comboSpr.width * PlayState.daPixelZoom * 0.85));
+			comboSpr.setGraphicSize(Std.int(comboSpr.width * PlayState.daPixelZoom * 0.65));
 		}
 
 		comboSpr.updateHitbox();
@@ -601,54 +632,121 @@ class EditorPlayState extends MusicBeatSubstate
 		var daLoop:Int = 0;
 		var xThing:Float = 0;
 		if (showCombo)
+		{
 			comboGroup.add(comboSpr);
+		}
 
 		var separatedScore:String = Std.string(combo).lpad('0', 3);
-		for (i in 0...separatedScore.length)
-		{
-			var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + 'num' + Std.parseInt(separatedScore.charAt(i)) + PlayState.uiPostfix));
-			numScore.screenCenter();
-			numScore.x = placement + (43 * daLoop) - 90 + ClientPrefs.data.comboOffset[2];
-			numScore.y += 80 - ClientPrefs.data.comboOffset[3];
+        if (ClientPrefs.data.comboTrimLeadingZeros) {
+            separatedScore = Std.string(Std.parseInt(separatedScore));
+        }
+        
+        // Custom comma formatting that preserves leading zeros
+        var formattedScore:String = "";
+        var commaCounter:Int = 0;
+        var idx:Int = separatedScore.length - 1;
+        while (idx >= 0) {
+            if (commaCounter > 0 && commaCounter % 3 == 0) {
+                formattedScore = "," + formattedScore;
+            }
+            formattedScore = separatedScore.charAt(idx) + formattedScore;
+            commaCounter++;
+            idx--;
+        }
 
-			if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
-			else numScore.setGraphicSize(Std.int(numScore.width * PlayState.daPixelZoom));
-			numScore.updateHitbox();
+        var totalDigits = 3;
+        var digitWidth:Float = PlayState.isPixelStage ? 48 : 43;
+        var commaWidth:Float = digitWidth * 0.6;
 
-			numScore.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
-			numScore.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
-			numScore.velocity.x = FlxG.random.float(-5, 5) * playbackRate;
-			numScore.visible = !ClientPrefs.data.hideHud;
-			numScore.antialiasing = antialias;
+        var baseOffset:Float = PlayState.isPixelStage ? -67 + ClientPrefs.data.comboOffset[2] : -87 + ClientPrefs.data.comboOffset[2];
+        
+        // Measure exact width of digits/commas before the last digit
+        var widthBeforeLastChar:Float = 0;
+        for (j in 0...(formattedScore.length - 1)) {
+            widthBeforeLastChar += (formattedScore.charAt(j) == ",") ? commaWidth : digitWidth;
+        }
 
-			//if (combo >= 10 || combo == 0)
-			if(showComboNum)
-				comboGroup.add(numScore);
+        // Rightmost digit stays anchored at baseOffset + (totalDigits - 1) * digitWidth
+        var offset:Float = baseOffset + ((totalDigits - 1) * digitWidth) - widthBeforeLastChar;
+        var currentXOffset:Float = offset;
 
-			FlxTween.tween(numScore, {alpha: 0}, 0.2 / playbackRate, {
-				onComplete: function(tween:FlxTween)
-				{
-					numScore.destroy();
-				},
-				startDelay: Conductor.crochet * 0.002 / playbackRate
-			});
+        for (i in 0...formattedScore.length)
+        {
+            var char:String = formattedScore.charAt(i);
+            var imgName:String = (char == ",") ? "numComma" : ("num" + char);
+            
+            // Adjust X offset for commas so following digits shift accordingly
+            if (char == ",") {
+                currentXOffset += PlayState.isPixelStage ? 4 : 4;
+            }
 
-			daLoop++;
-			if(numScore.x > xThing) xThing = numScore.x;
-		}
-		comboSpr.x = xThing + 50;
-		FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
-			startDelay: Conductor.crochet * 0.001 / playbackRate
-		});
+            var numScore:FlxSprite = new FlxSprite().loadGraphic(Paths.image(uiFolder + imgName + PlayState.uiPostfix));
+            numScore.screenCenter();
+            
+            // Apply micro-offsets to comma position directly on x assignment
+            var commaXOffset:Float = 0;
+            if (char == ",") {
+                commaXOffset = PlayState.isPixelStage ? -7 : 0;
+            }
+            numScore.x = placement + currentXOffset + commaXOffset;
 
-		FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
-			onComplete: function(tween:FlxTween)
-			{
-				comboSpr.destroy();
-				rating.destroy();
-			},
-			startDelay: Conductor.crochet * 0.002 / playbackRate
-		});
+            if (!PlayState.isPixelStage) numScore.setGraphicSize(Std.int(numScore.width * 0.5));
+            else numScore.setGraphicSize(Std.int(numScore.width * PlayState.daPixelZoom));
+            numScore.updateHitbox();
+
+            // Set Y position AFTER updateHitbox so graphic sizing is applied
+            numScore.y += (PlayState.isPixelStage ? 80 - ClientPrefs.data.comboOffset[3] - 70 : 80 - ClientPrefs.data.comboOffset[3]);
+
+            // Align comma to bottom baseline on pixel stages
+            if (PlayState.isPixelStage && char == ",") {
+                numScore.y += 28;
+            }
+
+            numScore.acceleration.y = FlxG.random.int(200, 300) * playbackRate * playbackRate;
+            numScore.velocity.y -= FlxG.random.int(140, 160) * playbackRate;
+            numScore.velocity.x = FlxG.random.float(-5, 5) * playbackRate;
+            numScore.visible = !ClientPrefs.data.hideHud;
+            numScore.antialiasing = antialias;
+
+            if (ClientPrefs.data.comboColorChange)
+            {
+                if (primaryColor != 0) numScore.color = primaryColor;
+            }
+
+            if (showComboNum)
+            {
+                comboGroup.add(numScore);
+            }
+
+            FlxTween.tween(numScore, {alpha: 0}, 0.2 / playbackRate,
+            {
+                onComplete: function(tween:FlxTween)
+                {
+                    numScore.destroy();
+                },
+                startDelay: Conductor.crochet * 0.002 / playbackRate
+            });
+
+            // Advance offset by commaWidth for commas, digitWidth for digits
+            currentXOffset += (char == ",") ? commaWidth : digitWidth;
+
+            daLoop++;
+            if (numScore.x > xThing) xThing = numScore.x;
+        }
+        // Place combo image using its own X offset so it can be positioned independently
+        comboSpr.x = placement + ClientPrefs.data.comboOffset[4] + (PlayState.isPixelStage ? 75 : 75);
+        FlxTween.tween(rating, {alpha: 0}, 0.2 / playbackRate, {
+            startDelay: Conductor.crochet * 0.001 / playbackRate
+        });
+
+        FlxTween.tween(comboSpr, {alpha: 0}, 0.2 / playbackRate, {
+            onComplete: function(tween:FlxTween)
+            {
+                comboSpr.destroy();
+                rating.destroy();
+            },
+            startDelay: Conductor.crochet * 0.002 / playbackRate
+        });
 	}
 
 	private function onKeyPress(event:KeyboardEvent):Void
@@ -874,7 +972,7 @@ class EditorPlayState extends MusicBeatSubstate
 
 		// score and data
 		songMisses++;
-		updateScore();
+		//updateScore(); //Not needed since I put it in the update function.
 		vocals.volume = 0;
 		combo = 0;
 	}
@@ -902,5 +1000,5 @@ class EditorPlayState extends MusicBeatSubstate
 	}
 
 	function updateScore()
-		scoreTxt.text = 'Hits: $songHits | Misses: $songMisses';
+		scoreTxt.text = 'Hits: ${CoolUtil.formatWithCommas(songHits)} | Combo: ${CoolUtil.formatWithCommas(combo)} | Misses: ${CoolUtil.formatWithCommas(songMisses)}';
 }

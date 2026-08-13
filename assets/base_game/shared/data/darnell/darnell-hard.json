@@ -1,6 +1,7 @@
 {
 	"player1": "pico-playable",
 	"player2": "darnell",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

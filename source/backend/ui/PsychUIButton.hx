@@ -102,7 +102,7 @@ class PsychUIButton extends FlxSpriteGroup
 		bg.updateHitbox();
 		text.fieldWidth = width;
 		text.x = bg.x;
-		text.y = bg.y + height/2 - text.height/2;
+		text.y = bg.y + height / 2 - text.height / 2;
 	}
 
 	function set_label(v:String)

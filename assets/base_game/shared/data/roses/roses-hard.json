@@ -745,6 +745,7 @@
 		}
 	],
 	"player2": "senpai-angry",
+	"skipCountdown": false,
 	"player3": null,
 	"song": "Roses",
 	"stage": "school",

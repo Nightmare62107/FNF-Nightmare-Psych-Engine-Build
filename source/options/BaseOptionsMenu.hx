@@ -12,8 +12,8 @@ import backend.InputFormatter;
 
 class BaseOptionsMenu extends MusicBeatSubstate
 {
-	private var curOption:Option = null;
-	private var curSelected:Int = 0;
+	var curOption:Option = null;
+	var curSelected:Int = 0;
 	private var optionsArray:Array<Option>;
 
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -573,7 +573,7 @@ class BaseOptionsMenu extends MusicBeatSubstate
 		ClientPrefs.toggleVolumeKeys(true);
 	}
 
-	function updateTextFrom(option:Option)
+	public function updateTextFrom(option:Option)
 	{
 		if (option.type == KEYBIND)
 		{

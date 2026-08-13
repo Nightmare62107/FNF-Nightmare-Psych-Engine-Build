@@ -1,0 +1,167 @@
+Okay so first of all, thanks for downloading Nightmare's Psych Engine Build. This is Nightmare typing this.
+
+So as of this builds V8 releasing, 8/13/2026, I haven't added the haxelib's I've edited to the GitHub. However, before you compile, you need to edit some of them directly. I'll tell you how and exactly what to add.
+
+There are 3 files to edit, all of them being inside the Flixel haxelib.
+
+First, FlxColor.hx needs to have some stuff added. Go to line 36 and paste the following lines after it:
+
+	public static inline var ALICEBLUE:FlxColor = 0xFFF0F8FF;
+	public static inline var ANTIQUEWHITE:FlxColor = 0xFFFAEBD7;
+	public static inline var AQUA:FlxColor = 0xFF00FFFF;
+	public static inline var AQUAMARINE:FlxColor = 0xFF7FFFD4;
+	public static inline var AZURE:FlxColor = 0xFFF0FFFF;
+	public static inline var BEIGE:FlxColor = 0xFFF5F5DC;
+	public static inline var BISQUE:FlxColor = 0xFFFFE4C4;
+	public static inline var BLANCHEDALMOND:FlxColor = 0xFFFFEBCD;
+	public static inline var BLUEVIOLET:FlxColor = 0xFF8A2BE2;
+	public static inline var BURLYWOOD:FlxColor = 0xFFDEB887;
+	public static inline var CADETBLUE:FlxColor = 0xFF5F9EA0;
+	public static inline var CHARTREUSE:FlxColor = 0xFF7FFF00;
+	public static inline var CHOCOLATE:FlxColor = 0xFFD2691E;
+	public static inline var CORAL:FlxColor = 0xFFFF7F50;
+	public static inline var CORNFLOWERBLUE:FlxColor = 0xFF6495ED;
+	public static inline var CORNSILK:FlxColor = 0xFFFFF8DC;
+	public static inline var CRIMSON:FlxColor = 0xFFDC143C;
+	public static inline var DARKBLUE:FlxColor = 0xFF00008B;
+	public static inline var DARKCYAN:FlxColor = 0xFF008B8B;
+	public static inline var DARKGOLDENROD:FlxColor = 0xFFB8860B;
+	public static inline var DARKGRAY:FlxColor = 0xFFA9A9A9;
+	public static inline var DARKGREY:FlxColor = 0xFFA9A9A9;
+	public static inline var DARKGREEN:FlxColor = 0xFF006400;
+	public static inline var DARKKHAKI:FlxColor = 0xFFBDB76B;
+	public static inline var DARKMAGENTA:FlxColor = 0xFF8B008B;
+	public static inline var DARKOLIVEGREEN:FlxColor = 0xFF556B2F;
+	public static inline var DARKORANGE:FlxColor = 0xFFFF8C00;
+	public static inline var DARKORCHID:FlxColor = 0xFF9932CC;
+	public static inline var DARKRED:FlxColor = 0xFF8B0000;
+	public static inline var DARKSALMON:FlxColor = 0xFFE9967A;
+	public static inline var DARKSEAGREEN:FlxColor = 0xFF8FBC8F;
+	public static inline var DARKSLATEBLUE:FlxColor = 0xFF483D8B;
+	public static inline var DARKSLATEGRAY:FlxColor = 0xFF2F4F4F;
+	public static inline var DARKSLATEGREY:FlxColor = 0xFF2F4F4F;
+	public static inline var DARKTURQUOISE:FlxColor = 0xFF00CED1;
+	public static inline var DARKVIOLET:FlxColor = 0xFF9400D3;
+	public static inline var DEEPPINK:FlxColor = 0xFFFF1493;
+	public static inline var DEEPSKYBLUE:FlxColor = 0xFF00BFFF;
+	public static inline var DIMGRAY:FlxColor = 0xFF696969;
+	public static inline var DIMGREY:FlxColor = 0xFF696969;
+	public static inline var DODGERBLUE:FlxColor = 0xFF1E90FF;
+	public static inline var FIREBRICK:FlxColor = 0xFFB22222;
+	public static inline var FLORALWHITE:FlxColor = 0xFFFFFAF0;
+	public static inline var FORESTGREEN:FlxColor = 0xFF228B22;
+	public static inline var FUCHSIA:FlxColor = 0xFFFF00FF;
+	public static inline var GAINSBORO:FlxColor = 0xFFDCDCDC;
+	public static inline var GHOSTWHITE:FlxColor = 0xFFF8F8FF;
+	public static inline var GOLD:FlxColor = 0xFFFFD700;
+	public static inline var GOLDENROD:FlxColor = 0xFFDAA520;
+	public static inline var GREENYELLOW:FlxColor = 0xFFADFF2F;
+	public static inline var GREY:FlxColor = 0xFF808080;
+	public static inline var HONEYDEW:FlxColor = 0xFFF0FFF0;
+	public static inline var HOTPINK:FlxColor = 0xFFFF69B4;
+	public static inline var INDIANRED:FlxColor = 0xFFCD5C5C;
+	public static inline var INDIGO:FlxColor = 0xFF4B0082;
+	public static inline var IVORY:FlxColor = 0xFFFFFFF0;
+	public static inline var KHAKI:FlxColor = 0xFFF0E68C;
+	public static inline var LAVENDER:FlxColor = 0xFFE6E6FA;
+	public static inline var LAVENDERBLUSH:FlxColor = 0xFFFFF0F5;
+	public static inline var LAWNGREEN:FlxColor = 0xFF7CFC00;
+	public static inline var LEMONCHIFFON:FlxColor = 0xFFFFFACD;
+	public static inline var LIGHTBLUE:FlxColor = 0xFFADD8E6;
+	public static inline var LIGHTCORAL:FlxColor = 0xFFF08080;
+	public static inline var LIGHTCYAN:FlxColor = 0xFFE0FFFF;
+	public static inline var LIGHTGOLDENRODYELLOW:FlxColor = 0xFFFAFAD2;
+	public static inline var LIGHTGRAY:FlxColor = 0xFFD3D3D3;
+	public static inline var LIGHTGREY:FlxColor = 0xFFD3D3D3;
+	public static inline var LIGHTGREEN:FlxColor = 0xFF90EE90;
+	public static inline var LIGHTPINK:FlxColor = 0xFFFFB6C1;
+	public static inline var LIGHTSALMON:FlxColor = 0xFFFFA07A;
+	public static inline var LIGHTSEAGREEN:FlxColor = 0xFF20B2AA;
+	public static inline var LIGHTSKYBLUE:FlxColor = 0xFF87CEFA;
+	public static inline var LIGHTSLATEGRAY:FlxColor = 0xFF778899;
+	public static inline var LIGHTSLATEGREY:FlxColor = 0xFF778899;
+	public static inline var LIGHTSTEELBLUE:FlxColor = 0xFFB0C4DE;
+	public static inline var LIGHTYELLOW:FlxColor = 0xFFFFFFE0;
+	public static inline var LIMEGREEN:FlxColor = 0xFF32CD32;
+	public static inline var LINEN:FlxColor = 0xFFFAF0E6;
+	public static inline var MEDIUMAQUAMARINE:FlxColor = 0xFF66CDAA;
+	public static inline var MEDIUMBLUE:FlxColor = 0xFF0000CD;
+	public static inline var MEDIUMORCHID:FlxColor = 0xFFBA55D3;
+	public static inline var MEDIUMPURPLE:FlxColor = 0xFF9370DB;
+	public static inline var MEDIUMSEAGREEN:FlxColor = 0xFF3CB371;
+	public static inline var MEDIUMSLATEBLUE:FlxColor = 0xFF7B68EE;
+	public static inline var MEDIUMSPRINGGREEN:FlxColor = 0xFF00FA9A;
+	public static inline var MEDIUMTURQUOISE:FlxColor = 0xFF48D1CC;
+	public static inline var MEDIUMVIOLETRED:FlxColor = 0xFFC71585;
+	public static inline var MIDNIGHTBLUE:FlxColor = 0xFF191970;
+	public static inline var MINTCREAM:FlxColor = 0xFFF5FFFA;
+	public static inline var MISTYROSE:FlxColor = 0xFFFFE4E1;
+	public static inline var MOCCASIN:FlxColor = 0xFFFFE4B5;
+	public static inline var NAVAJOWHITE:FlxColor = 0xFFFFDEAD;
+	public static inline var OLDLACE:FlxColor = 0xFFFDF5E6;
+	public static inline var OLIVEDRAB:FlxColor = 0xFF6B8E23;
+	public static inline var ORANGERED:FlxColor = 0xFFFF4500;
+	public static inline var ORCHID:FlxColor = 0xFFDA70D6;
+	public static inline var PALEGOLDENROD:FlxColor = 0xFFEEE8AA;
+	public static inline var PALEGREEN:FlxColor = 0xFF98FB98;
+	public static inline var PALETURQUOISE:FlxColor = 0xFFAFEEEE;
+	public static inline var PALEVIOLETRED:FlxColor = 0xFFDB7093;
+	public static inline var PAPAYAWHIP:FlxColor = 0xFFFFEFD5;
+	public static inline var PEACHPUFF:FlxColor = 0xFFFFDAB9;
+	public static inline var PERU:FlxColor = 0xFFCD853F;
+	public static inline var POWDERBLUE:FlxColor = 0xFFB0E0E6;
+	public static inline var REBECCAPURPLE:FlxColor = 0xFF663399;
+	public static inline var ROSYBROWN:FlxColor = 0xFFBC8F8F;
+	public static inline var ROYALBLUE:FlxColor = 0xFF4169E1;
+	public static inline var SADDLEBROWN:FlxColor = 0xFF8B4513;
+	public static inline var SANDYBROWN:FlxColor = 0xFFF4A460;
+	public static inline var SEAGREEN:FlxColor = 0xFF2E8B57;
+	public static inline var SEASHELL:FlxColor = 0xFFFFF5EE;
+	public static inline var SIENNA:FlxColor = 0xFFA0522D;
+	public static inline var SILVER:FlxColor = 0xFFC0C0C0;
+	public static inline var SKYBLUE:FlxColor = 0xFF87CEEB;
+	public static inline var SLATEBLUE:FlxColor = 0xFF6A5ACD;
+	public static inline var SLATEGRAY:FlxColor = 0xFF708090;
+	public static inline var SLATEGREY:FlxColor = 0xFF708090;
+	public static inline var SNOW:FlxColor = 0xFFFFFAFA;
+	public static inline var SPRINGGREEN:FlxColor = 0xFF00FF7F;
+	public static inline var STEELBLUE:FlxColor = 0xFF4682B4;
+	public static inline var TAN:FlxColor = 0xFFD2B48C;
+	public static inline var THISTLE:FlxColor = 0xFFD8BFD8;
+	public static inline var TOMATO:FlxColor = 0xFFFF6347;
+	public static inline var TURQUOISE:FlxColor = 0xFF40E0D0;
+	public static inline var VIOLET:FlxColor = 0xFFEE82EE;
+	public static inline var WHEAT:FlxColor = 0xFFF5DEB3;
+	public static inline var WHITESMOKE:FlxColor = 0xFFF5F5F5;
+	public static inline var YELLOWGREEN:FlxColor = 0xFF9ACD32;
+
+Second, is FlxText.hx needs something edited. Go to line 1307, in the set_antialiasing function. Replace the entire function with this:
+
+	override function set_antialiasing(value:Bool):Bool
+	{
+		_regen = _regen || this.antialiasing != value;
+		
+		/*if (value)
+		{
+			textField.antiAliasType = NORMAL;
+			textField.sharpness = 100;
+		}
+		else
+		{
+			textField.antiAliasType = ADVANCED;
+			textField.sharpness = 400;
+		}*/
+
+		// Forces Flixel 6 to use the old rendering baseline layout 
+		textField.antiAliasType = flash.text.AntiAliasType.NORMAL;
+		textField.sharpness = 100;
+		
+		return antialiasing = value;
+	}
+
+Third, Pointer.hx needs something added. Go to line 14, and paste these 2 lines after it:
+
+	@:bitmap("assets/images/debugger/cursorCross.png")
+	class GraphicCursorCross extends openfl.display.BitmapData {}
+
+And that should be it, you can now compile the engine. If you have anymore trouble, DM me on discord directly, @nightmare62107, or join my discord server, https://discord.com/invite/xKgrkWFTF8

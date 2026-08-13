@@ -1971,6 +1971,7 @@
 			}
 		],
 		"player2": "pico",
+		"skipCountdown": false,
 		"song": "Philly Nice",
 		"needsVoices": true,
 		"bpm": 175,

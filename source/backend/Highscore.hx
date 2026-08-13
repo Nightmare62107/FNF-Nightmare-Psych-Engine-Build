@@ -5,12 +5,14 @@ class Highscore
 	public static var weekScores:Map<String, Int> = new Map();
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
 	public static var songRating:Map<String, Float> = new Map<String, Float>();
+	public static var songRatingFC:Map<String, String> = new Map<String, String>();
 
 	public static function resetSong(song:String, diff:Int = 0):Void
 	{
 		var daSong:String = formatSong(song, diff);
 		setScore(daSong, 0);
 		setRating(daSong, 0);
+		setRatingFC(daSong, "");
 	}
 
 	public static function resetWeek(week:String, diff:Int = 0):Void
@@ -19,7 +21,7 @@ class Highscore
 		setWeekScore(daWeek, 0);
 	}
 
-	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, ?rating:Float = -1):Void
+	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0, ?rating:Float = -1, ?ratingFC:String = null):Void
 	{
 		if (song == null) return;
 		var daSong:String = formatSong(song, diff);
@@ -33,6 +35,10 @@ class Highscore
 				{
 					setRating(daSong, rating);
 				}
+				if (ratingFC != null)
+				{
+					setRatingFC(daSong, ratingFC);
+				}
 			}
 		}
 		else
@@ -41,6 +47,10 @@ class Highscore
 			if (rating >= 0)
 			{
 				setRating(daSong, rating);
+			}
+			if (ratingFC != null)
+			{
+				setRatingFC(daSong, ratingFC);
 			}
 		}
 	}
@@ -86,6 +96,25 @@ class Highscore
 		songRating.set(song, rating);
 		FlxG.save.data.songRating = songRating;
 		FlxG.save.flush();
+	}
+
+	static function setRatingFC(song:String, ratingFC:String):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songRatingFC.set(song, ratingFC);
+		FlxG.save.data.songRatingFC = songRatingFC;
+		FlxG.save.flush();
+	}
+
+	public static function getRatingFC(song:String, diff:Int):String
+	{
+		var daSong:String = formatSong(song, diff);
+		if (!songRatingFC.exists(daSong))
+		{
+			setRatingFC(daSong, "");
+		}
+
+		return songRatingFC.get(daSong);
 	}
 
 	public static function formatSong(song:String, diff:Int):String
@@ -141,6 +170,11 @@ class Highscore
 		if (FlxG.save.data.songRating != null)
 		{
 			songRating = FlxG.save.data.songRating;
+		}
+
+		if (FlxG.save.data.songRatingFC != null)
+		{
+			songRatingFC = FlxG.save.data.songRatingFC;
 		}
 	}
 }

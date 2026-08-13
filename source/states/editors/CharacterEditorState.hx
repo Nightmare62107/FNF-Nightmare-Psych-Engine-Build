@@ -2,7 +2,7 @@ package states.editors;
 
 import flixel.graphics.FlxGraphic;
 
-import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
+//import flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross;
 import flixel.util.FlxDestroyUtil;
 
 import openfl.net.FileReference;
@@ -16,6 +16,9 @@ import objects.Bar;
 
 import states.editors.content.Prompt;
 import states.editors.content.PsychJsonPrinter;
+
+@:bitmap("assets/images/debugger/cursorCross.png")
+@:keep class GraphicCursorCross extends openfl.display.BitmapData {}
 
 class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler.PsychUIEvent
 {
@@ -110,6 +113,8 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		addCharacter();
 
 		cameraFollowPointer = new FlxSprite().loadGraphic(FlxGraphic.fromClass(GraphicCursorCross));
+		// Loads the official Flixel 6 internal crosshair asset bitmap
+		//cameraFollowPointer = new FlxSprite().loadGraphic(FlxGraphic.fromClass(flixel.system.debug.interaction.tools.Pointer.GraphicCursorCross));
 		cameraFollowPointer.setGraphicSize(40, 40);
 		cameraFollowPointer.updateHitbox();
 
@@ -117,7 +122,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		healthBar.scrollFactor.set();
 		healthBar.cameras = [camHUD];
 
-		healthIcon = new HealthIcon(character.healthIcon, false, false);
+		healthIcon = new HealthIcon(character.healthIcon, false, false, character.useGridIcon);
 		healthIcon.y = FlxG.height - 150;
 		healthIcon.cameras = [camHUD];
 
@@ -209,7 +214,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			helpText.borderSize = 1;
 			helpText.screenCenter();
 			add(helpText);
-			helpText.y += ((i - str.length/2) * 32) + 16;
+			helpText.y += ((i - str.length / 2) * 32) + 16;
 			helpText.active = false;
 			helpTexts.add(helpText);
 		}
@@ -247,11 +252,11 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 	function makeUIMenu()
 	{
-		UI_box = new PsychUIBox(FlxG.width - 275, 25, 250, 120, ['Ghost', 'Settings']);
+		UI_box = new PsychUIBox(FlxG.width - 275, 25, 250, 160, ['Ghost', 'Settings']);
 		UI_box.scrollFactor.set();
 		UI_box.cameras = [camHUD];
 
-		UI_characterbox = new PsychUIBox(UI_box.x - 100, UI_box.y + UI_box.height + 10, 350, 280, ['Animations', 'Character']);
+		UI_characterbox = new PsychUIBox(UI_box.x - 100, UI_box.y + UI_box.height + 10, 350, 330, ['Animations', 'Character']);
 		UI_characterbox.scrollFactor.set();
 		UI_characterbox.cameras = [camHUD];
 		add(UI_characterbox);
@@ -271,8 +276,9 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 	{
 		var tab_group = UI_box.getTab('Ghost').menu;
 
-		//var hideGhostButton:PsychUIButton = null;
-		var makeGhostButton:PsychUIButton = new PsychUIButton(25, 15, "Make Ghost", function() {
+		var hideGhostButton:PsychUIButton = null;
+		var makeGhostButton:PsychUIButton = new PsychUIButton(25, 15, "Make Ghost", function()
+		{
 			var anim = anims[curAnim];
 			if (!character.isAnimationNull())
 			{
@@ -332,20 +338,21 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 					var otherSpr:FlxSprite = (spr == animateGhost) ? ghost : animateGhost;
 					if (otherSpr != null) otherSpr.visible = false;
 				}
-				/*hideGhostButton.active = true;
-				hideGhostButton.alpha = 1;*/
+				hideGhostButton.active = true;
+				hideGhostButton.alpha = 1;
 				trace('created ghost image');
 			}
 		});
 
-		/*hideGhostButton = new PsychUIButton(20 + makeGhostButton.width, makeGhostButton.y, "Hide Ghost", function()
+		hideGhostButton = new PsychUIButton(makeGhostButton.x, makeGhostButton.y + 35, "Hide Ghost", function()
 		{
 			ghost.visible = false;
 			hideGhostButton.active = false;
 			hideGhostButton.alpha = 0.6;
+			trace('removed ghost image');
 		});
 		hideGhostButton.active = false;
-		hideGhostButton.alpha = 0.6;*/
+		hideGhostButton.alpha = 0.6;
 
 		var highlightGhost:PsychUICheckBox = new PsychUICheckBox(20 + makeGhostButton.x + makeGhostButton.width, makeGhostButton.y, "Highlight Ghost", 100);
 		highlightGhost.onClick = function()
@@ -362,7 +369,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			}
 		};
 
-		var ghostAlphaSlider:PsychUISlider = new PsychUISlider(15, makeGhostButton.y + 25, function(v:Float)
+		var ghostAlphaSlider:PsychUISlider = new PsychUISlider(15, hideGhostButton.y + 35, function(v:Float)
 		{
 			ghostAlpha = v;
 			ghost.alpha = ghostAlpha;
@@ -375,7 +382,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		ghostAlphaSlider.label = 'Opacity:';
 
 		tab_group.add(makeGhostButton);
-		//tab_group.add(hideGhostButton);
+		tab_group.add(hideGhostButton);
 		tab_group.add(highlightGhost);
 		tab_group.add(ghostAlphaSlider);
 	}
@@ -418,6 +425,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 				no_antialiasing: false,
 				flip_x: false,
 				healthicon: 'face',
+				usegridicon: false,
 				image: 'characters/BOYFRIEND',
 				sing_duration: 4,
 				scale: 1,
@@ -603,7 +611,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		animationDropDown.selectedLabel = anims[0] != null ? anims[0].anim : '';
 
 		tab_group.add(new FlxText(animationDropDown.x, animationDropDown.y - 18, 100, 'Animations:'));
-		tab_group.add(new FlxText(animationInputText.x, animationInputText.y - 18, 100, 'Animation name:'));
+		tab_group.add(new FlxText(animationInputText.x, animationInputText.y - 18, 100, 'Animation Name:'));
 		tab_group.add(new FlxText(animationFramerate.x, animationFramerate.y - 18, 100, 'Framerate:'));
 		tab_group.add(new FlxText(animationNameInputText.x, animationNameInputText.y - 18, 150, 'Animation Symbol Name/Tag:'));
 		tab_group.add(new FlxText(animationIndicesInputText.x, animationIndicesInputText.y - 18, 170, 'ADVANCED - Animation Indices:'));
@@ -620,6 +628,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 	var imageInputText:PsychUIInputText;
 	var healthIconInputText:PsychUIInputText;
+	var useIconGridCheckBox:PsychUICheckBox;
 	var vocalsInputText:PsychUIInputText;
 
 	var singDurationStepper:PsychUINumericStepper;
@@ -662,11 +671,21 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		healthIconInputText = new PsychUIInputText(15, imageInputText.y + 35, 75, healthIcon.getCharacter(), 8);
 
+		useIconGridCheckBox = new PsychUICheckBox(healthIconInputText.x + healthIconInputText.width + 10, healthIconInputText.y, "Use Icon Grid", 120);
+		useIconGridCheckBox.checked = character.useGridIcon;
+		useIconGridCheckBox.onClick = function()
+		{
+			character.useGridIcon = useIconGridCheckBox.checked;
+			healthIcon.setUseGridIcon(useIconGridCheckBox.checked);
+			updateHealthBar();
+			unsavedProgress = true;
+		};
+
 		vocalsInputText = new PsychUIInputText(15, healthIconInputText.y + 35, 75, character.vocalsFile != null ? character.vocalsFile : '', 8);
 
 		singDurationStepper = new PsychUINumericStepper(15, vocalsInputText.y + 45, 0.1, 4, 0, 999, 1);
 
-		scaleStepper = new PsychUINumericStepper(15, singDurationStepper.y + 40, 0.1, 1, 0.05, 10, 2);
+		scaleStepper = new PsychUINumericStepper(15, singDurationStepper.y + 60, 0.1, 1, 0.05, 10, 2);
 
 		flipXCheckBox = new PsychUICheckBox(singDurationStepper.x + 80, singDurationStepper.y, "Flip X", 50);
 		flipXCheckBox.checked = character.flipX;
@@ -677,7 +696,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			character.flipX = (character.originalFlipX != character.isPlayer);
 		};
 
-		noAntialiasingCheckBox = new PsychUICheckBox(flipXCheckBox.x, flipXCheckBox.y + 40, "No Antialiasing", 80);
+		noAntialiasingCheckBox = new PsychUICheckBox(flipXCheckBox.x, flipXCheckBox.y + 60, "No Antialiasing", 80);
 		noAntialiasingCheckBox.checked = character.noAntialiasing;
 		noAntialiasingCheckBox.onClick = function()
 		{
@@ -692,10 +711,10 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		positionXStepper = new PsychUINumericStepper(flipXCheckBox.x + 110, flipXCheckBox.y, 10, character.positionArray[0], -9000, 9000, 0);
 		positionYStepper = new PsychUINumericStepper(positionXStepper.x + 70, positionXStepper.y, 10, character.positionArray[1], -9000, 9000, 0);
 
-		positionCameraXStepper = new PsychUINumericStepper(positionXStepper.x, positionXStepper.y + 40, 10, character.cameraPosition[0], -9000, 9000, 0);
-		positionCameraYStepper = new PsychUINumericStepper(positionYStepper.x, positionYStepper.y + 40, 10, character.cameraPosition[1], -9000, 9000, 0);
+		positionCameraXStepper = new PsychUINumericStepper(positionXStepper.x, positionXStepper.y + 60, 10, character.cameraPosition[0], -9000, 9000, 0);
+		positionCameraYStepper = new PsychUINumericStepper(positionYStepper.x, positionYStepper.y + 60, 10, character.cameraPosition[1], -9000, 9000, 0);
 
-		var saveCharacterButton:PsychUIButton = new PsychUIButton(reloadImage.x, noAntialiasingCheckBox.y + 40, "Save Character", function() {
+		var saveCharacterButton:PsychUIButton = new PsychUIButton(reloadImage.x, noAntialiasingCheckBox.y + 60, "Save Character", function() {
 			saveCharacter();
 		});
 
@@ -703,10 +722,11 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		healthColorStepperG = new PsychUINumericStepper(singDurationStepper.x + 65, saveCharacterButton.y, 20, character.healthColorArray[1], 0, 255, 0);
 		healthColorStepperB = new PsychUINumericStepper(singDurationStepper.x + 130, saveCharacterButton.y, 20, character.healthColorArray[2], 0, 255, 0);
 
-		tab_group.add(new FlxText(15, imageInputText.y - 18, 100, 'Image file name:'));
-		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 100, 'Health icon name:'));
+		tab_group.add(new FlxText(15, imageInputText.y - 18, 100, 'Image File Name:'));
+		tab_group.add(new FlxText(15, healthIconInputText.y - 18, 100, 'Health Icon Name:'));
+		tab_group.add(useIconGridCheckBox);
 		tab_group.add(new FlxText(15, vocalsInputText.y - 18, 100, 'Vocals File Postfix:'));
-		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 120, 'Sing Animation length:'));
+		tab_group.add(new FlxText(15, singDurationStepper.y - 18, 120, 'Sing Animation Length:'));
 		tab_group.add(new FlxText(15, scaleStepper.y - 18, 100, 'Scale:'));
 		tab_group.add(new FlxText(positionXStepper.x, positionXStepper.y - 18, 100, 'Character X/Y:'));
 		tab_group.add(new FlxText(positionCameraXStepper.x, positionCameraXStepper.y - 18, 100, 'Camera X/Y:'));
@@ -743,6 +763,11 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			if (sender == healthIconInputText)
 			{
 				var lastIcon = healthIcon.getCharacter();
+				// Prefer the checkbox state (UI) when deciding grid mode so typing
+				// a name immediately reflects the user's visible setting.
+				var useGrid:Bool = (useIconGridCheckBox != null) ? useIconGridCheckBox.checked : character.useGridIcon;
+				character.useGridIcon = useGrid;
+				if (healthIcon != null) healthIcon.setUseGridIcon(useGrid);
 				healthIcon.changeIcon(healthIconInputText.text, false);
 				character.healthIcon = healthIconInputText.text;
 				if(lastIcon != healthIcon.getCharacter()) updatePresence();
@@ -873,6 +898,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 		check_player.checked = character.isPlayer;
 		imageInputText.text = character.imageFile;
 		healthIconInputText.text = character.healthIcon;
+		if (useIconGridCheckBox != null) useIconGridCheckBox.checked = character.useGridIcon;
 		vocalsInputText.text = character.vocalsFile != null ? character.vocalsFile : '';
 		singDurationStepper.value = character.singDuration;
 		scaleStepper.value = character.jsonScale;
@@ -894,6 +920,14 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
+
+		// play a click sound any time the user left- or right-clicks in the editor
+		// this is intentionally very early so it triggers regardless of what
+		// interaction happens afterwards (even if we later ignore the click)
+		if(FlxG.mouse.justPressed || FlxG.mouse.justPressedRight)
+		{
+			FlxG.sound.play(Paths.sound('clickUp'), 0.4);
+		}
 
 		if (PsychUIInputText.focusOn != null)
 		{
@@ -965,11 +999,11 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			if (holdingArrowsTime > 0.6)
 			{
 				holdingArrowsElapsed += elapsed;
-				while(holdingArrowsElapsed > (1/60))
+				while(holdingArrowsElapsed > (1 / 60))
 				{
 					character.offset.x += ((moveKeys[0] ? 1 : 0) - (moveKeys[1] ? 1 : 0)) * shiftMultBig;
 					character.offset.y += ((moveKeys[2] ? 1 : 0) - (moveKeys[3] ? 1 : 0)) * shiftMultBig;
-					holdingArrowsElapsed -= (1/60);
+					holdingArrowsElapsed -= (1 / 60);
 					changedOffset = true;
 				}
 			}
@@ -1072,7 +1106,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 				}
 	
 				txt = 'Frames: ( $frames / ${length-1} )';
-				//if(character.animation.curAnim.paused) txt += ' - PAUSED';
+				if(character.animPaused) txt += ' - PAUSED';
 				clr = FlxColor.WHITE;
 			}
 		}
@@ -1158,13 +1192,25 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 
 		if(snap)
 		{
-			FlxG.camera.scroll.x = cameraFollowPointer.getMidpoint().x - FlxG.width/2;
-			FlxG.camera.scroll.y = cameraFollowPointer.getMidpoint().y - FlxG.height/2;
+			FlxG.camera.scroll.x = cameraFollowPointer.getMidpoint().x - FlxG.width / 2;
+			FlxG.camera.scroll.y = cameraFollowPointer.getMidpoint().y - FlxG.height / 2;
 		}
 	}
 
 	inline function updateHealthBar()
 	{
+		// Only reload the displayed icon if the name or grid mode actually changed
+		var shouldReload:Bool = false;
+		if (healthIcon != null)
+		{
+			if (healthIcon.getCharacter() != character.healthIcon) shouldReload = true;
+			if (healthIcon.isUsingGridIcon() != character.useGridIcon) shouldReload = true;
+			if (shouldReload)
+			{
+				healthIcon.setUseGridIcon(character.useGridIcon);
+				healthIcon.changeIcon(character.healthIcon, false);
+			}
+		}
 		healthColorStepperR.value = character.healthColorArray[0];
 		healthColorStepperG.value = character.healthColorArray[1];
 		healthColorStepperB.value = character.healthColorArray[2];
@@ -1350,6 +1396,7 @@ class CharacterEditorState extends MusicBeatState implements PsychUIEventHandler
 			"scale": character.jsonScale,
 			"sing_duration": character.singDuration,
 			"healthicon": character.healthIcon,
+			"usegridicon": character.useGridIcon,
 
 			"position":	character.positionArray,
 			"camera_position": character.cameraPosition,

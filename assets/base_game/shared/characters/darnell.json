@@ -118,6 +118,7 @@
 	"image": "characters/darnell",
 	"position": [0, 200],
 	"healthicon": "darnell",
+	"usegridicon": false,
 	"flip_x": false,
 	"healthbar_colors": [115, 94, 176],
 	"camera_position": [-150, 100],

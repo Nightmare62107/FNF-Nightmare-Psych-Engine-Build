@@ -66,7 +66,8 @@ typedef VSliceTimeChange =
 	var bpm:Float;
 }
 
-typedef PsychEventChart = {
+typedef PsychEventChart =
+{
 	var events:Array<Dynamic>;
 	var format:String;
 }
@@ -158,7 +159,7 @@ class VSlice
 					for (i in focusEventNum...focusCameraEvents.length)
 					{
 						var focusEvent:VSliceEvent = focusCameraEvents[i];
-						if(time+1 < focusEvent.t)
+						if(time + 1 < focusEvent.t)
 						{
 							focusEventNum = i;
 							break;
@@ -252,6 +253,7 @@ class VSlice
 				events: [],
 				bpm: songBpm,
 				needsVoices: true, //There's no value on V-Slice to identify if there are vocals as it checks automatically
+				skipCountdown: false, //Same thing for skipping the countdown, this doesn't exist on V-Slice
 				speed: scrollSpeed,
 				offset: 0,
 			
@@ -467,5 +469,7 @@ class VSlice
 	}
 
 	static function sortByTime(Obj1:Dynamic, Obj2:Dynamic):Int
+	{
 		return FlxSort.byValues(FlxSort.ASCENDING, Obj1.t, Obj2.t);
+	}
 }

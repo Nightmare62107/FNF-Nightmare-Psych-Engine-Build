@@ -88,22 +88,21 @@ class PsychUISlider extends FlxSpriteGroup
 
 	function _updatePositions()
 	{
-		minText.x = bar.x - minText.width/2;
-		maxText.x = bar.x + bar.width - maxText.width/2;
-		valueText.x = bar.x + bar.width/2 - valueText.width/2;
+		minText.x = bar.x - minText.width / 2;
+		maxText.x = bar.x + bar.width - maxText.width / 2;
+		valueText.x = bar.x + bar.width / 2 - valueText.width / 2;
 
-		labelText.x = bar.x + bar.width/2 - labelText.width/2;
+		labelText.x = bar.x + bar.width / 2 - labelText.width / 2;
 		if(label.length > 0) bar.y = labelText.y + 24;
 		
 		minText.y = maxText.y = valueText.y = bar.y + 12;
 
 		_updateHandleX();
-		handle.y = bar.y + bar.height/2 - handle.height/2;
+		handle.y = bar.y + bar.height / 2 - handle.height / 2;
 	}
 
 	function _updateHandleX()
-		handle.x = bar.x - handle.width/2 + FlxMath.remapToRange(FlxMath.roundDecimal(value, decimals), min, max, 0, bar.width);
-
+		handle.x = bar.x - handle.width / 2 + FlxMath.remapToRange(FlxMath.roundDecimal(value, decimals), min, max, 0, bar.width);
 	function set_decimals(v:Int)
 	{
 		decimals = v;

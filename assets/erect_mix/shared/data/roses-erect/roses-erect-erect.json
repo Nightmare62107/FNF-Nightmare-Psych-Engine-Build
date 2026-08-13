@@ -6,6 +6,7 @@
 	"stage": "school",
 	"player1": "bf-pixel",
 	"player2": "senpai-angry",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

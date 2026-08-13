@@ -3,6 +3,7 @@ package substates;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.CoolUtil;
 
 import flixel.util.FlxStringUtil;
 
@@ -21,6 +22,7 @@ class PauseSubState extends MusicBeatSubstate
 
 	var pauseMusic:FlxSound;
 	var practiceText:FlxText;
+	var botplayText:FlxText;
 	var skipTimeText:FlxText;
 	var skipTimeTracker:Alphabet;
 	var curTime:Float = Math.max(0, Conductor.songPosition);
@@ -103,7 +105,7 @@ class PauseSubState extends MusicBeatSubstate
 		levelDifficulty.updateHitbox();
 		add(levelDifficulty);
 
-		var blueballedTxt:FlxText = new FlxText(20, 15 + 64, 0, Language.getPhrase("blueballed", "Blueballed: {1}", [PlayState.deathCounter]), 32);
+		var blueballedTxt:FlxText = new FlxText(20, 15 + 64, 0, Language.getPhrase("blueballed", "Blueballed: {1}", [CoolUtil.formatWithCommas(PlayState.deathCounter)]), 32);
 		blueballedTxt.scrollFactor.set();
 		blueballedTxt.setFormat(Paths.font('vcr.ttf'), 32);
 		blueballedTxt.updateHitbox();
@@ -117,6 +119,19 @@ class PauseSubState extends MusicBeatSubstate
 		practiceText.visible = PlayState.instance.practiceMode;
 		add(practiceText);
 
+		botplayText = new FlxText(20, 15 + 133, 0, Language.getPhrase("Botplay").toUpperCase(), 32);
+		botplayText.scrollFactor.set();
+		botplayText.setFormat(Paths.font('vcr.ttf'), 32);
+		botplayText.x = FlxG.width - (botplayText.width + 20);
+		botplayText.updateHitbox();
+		botplayText.visible = PlayState.instance.cpuControlled;
+		if (!PlayState.instance.practiceMode && PlayState.instance.cpuControlled)
+		{
+			botplayText.y = practiceText.y;
+			botplayText.updateHitbox();
+		}
+		add(botplayText);
+
 		var chartingText:FlxText = new FlxText(20, 15 + 101, 0, Language.getPhrase("Charting Mode").toUpperCase(), 32);
 		chartingText.scrollFactor.set();
 		chartingText.setFormat(Paths.font('vcr.ttf'), 32);
@@ -129,6 +144,9 @@ class PauseSubState extends MusicBeatSubstate
 		blueballedTxt.alpha = 0;
 		levelDifficulty.alpha = 0;
 		levelInfo.alpha = 0;
+		practiceText.alpha = 0;
+		botplayText.alpha = 0;
+		chartingText.alpha = 0;
 
 		levelInfo.x = FlxG.width - (levelInfo.width + 20);
 		levelDifficulty.x = FlxG.width - (levelDifficulty.width + 20);
@@ -138,6 +156,12 @@ class PauseSubState extends MusicBeatSubstate
 		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 		FlxTween.tween(levelDifficulty, {alpha: 1, y: levelDifficulty.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.5});
 		FlxTween.tween(blueballedTxt, {alpha: 1, y: blueballedTxt.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.7});
+		if (PlayState.instance.practiceMode) FlxTween.tween(practiceText, {alpha: 1, y: practiceText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.9});
+		if (PlayState.instance.cpuControlled && PlayState.instance.practiceMode) FlxTween.tween(botplayText, {alpha: 1, y: botplayText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 1.1});
+		else if (PlayState.instance.cpuControlled && !PlayState.instance.practiceMode) FlxTween.tween(botplayText, {alpha: 1, y: botplayText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.9});
+		if (PlayState.chartingMode && PlayState.instance.practiceMode && PlayState.instance.cpuControlled) FlxTween.tween(chartingText, {alpha: 1, y: chartingText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 1.3});
+		else if (PlayState.chartingMode && PlayState.instance.practiceMode && !PlayState.instance.cpuControlled || PlayState.chartingMode && !PlayState.instance.practiceMode && PlayState.instance.cpuControlled) FlxTween.tween(chartingText, {alpha: 1, y: chartingText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 1.1});
+		else if (PlayState.chartingMode && !PlayState.instance.practiceMode && !PlayState.instance.cpuControlled) FlxTween.tween(chartingText, {alpha: 1, y: chartingText.y + 5}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.9});
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
@@ -316,6 +340,17 @@ class PauseSubState extends MusicBeatSubstate
 					PlayState.instance.practiceMode = !PlayState.instance.practiceMode;
 					PlayState.changedDifficulty = true;
 					practiceText.visible = PlayState.instance.practiceMode;
+					if (!PlayState.instance.practiceMode && PlayState.instance.cpuControlled)
+					{
+
+						botplayText.y = practiceText.y;
+					}
+					else
+					{
+						botplayText.y = 15 + 138;
+					}
+					if (PlayState.instance.practiceMode && practiceText.alpha == 0) practiceText.alpha = 1;
+					botplayText.updateHitbox();
 				}
 
 				case "Restart Song":
@@ -359,11 +394,21 @@ class PauseSubState extends MusicBeatSubstate
 				{
 					PlayState.instance.cpuControlled = !PlayState.instance.cpuControlled;
 					PlayState.changedDifficulty = true;
+					botplayText.visible = PlayState.instance.cpuControlled;
+					if (!PlayState.instance.practiceMode && PlayState.instance.cpuControlled)
+					{
+						botplayText.y = practiceText.y;
+					}
+					else
+					{
+						botplayText.y = 15 + 138;
+					}
+					if (PlayState.instance.cpuControlled && botplayText.alpha == 0) botplayText.alpha = 1;
+					botplayText.updateHitbox();
 					PlayState.instance.botplayTxt.visible = PlayState.instance.cpuControlled;
 					PlayState.instance.botplayTxt.alpha = 1;
 					PlayState.instance.botplaySine = 180;
 				}
-
 				case 'Options':
 				{
 					PlayState.instance.paused = true; // For lua

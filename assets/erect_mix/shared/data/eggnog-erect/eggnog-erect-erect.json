@@ -6,6 +6,7 @@
 	"stage": "mall",
 	"player1": "bf-christmas",
 	"player2": "parents-christmas",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

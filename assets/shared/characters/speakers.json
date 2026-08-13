@@ -22,6 +22,7 @@
 	"image": "characters/Speakers",
 	"position": [0, 0],
 	"healthicon": "",
+	"usegridicon": false,
 	"flip_x": false,
 	"healthbar_colors": [0, 0, 0],
 	"camera_position": [0, 0],

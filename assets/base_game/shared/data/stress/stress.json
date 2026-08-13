@@ -1,6 +1,7 @@
 {
 	"player1": "bf-holding-gf",
 	"player2": "tankman",
+	"skipCountdown": false,
 	"notes": [
 		{
 			"sectionNotes": [

@@ -1052,6 +1052,7 @@
 		}
 	],
 	"player2": "tankman",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "Ugh Pico Mix",
 	"pauseBreakfast": "breakfast-pico",

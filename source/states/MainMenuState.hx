@@ -15,7 +15,7 @@ enum MainMenuColumn {
 class MainMenuState extends MusicBeatState
 {
 	public static var psychEngineVersion:String = '1.0.4'; // This is also used for Discord RPC
-	public static var nightmare62107BuildVersion:String = 'V7';
+	public static var nightmare62107BuildVersion:String = 'V8';
 	public static var curSelected:Int = 0;
 	public static var curColumn:MainMenuColumn = CENTER;
 	var allowMouse:Bool = true; //Turn this off to block mouse movement in menus
@@ -34,6 +34,7 @@ class MainMenuState extends MusicBeatState
 		//#if ACHIEVEMENTS_ALLOWED 'awards', #end // Legacy version of achievements
 		'credits',
 		//'donate',
+		//'merch',
 		//'kickstarter',
 		//'options_text' // Legacy version of options
 	];
@@ -41,7 +42,7 @@ class MainMenuState extends MusicBeatState
 	var leftOption:String = #if ACHIEVEMENTS_ALLOWED 'achievements' #else null #end;
 	// Right column now supports multiple options. options_icon stays at bottom,
 	// the other four are smaller and stacked above it.
-	var rightOption:Array<String> = [#if ACHIEVEMENTS_ALLOWED 'awards', #end 'donate', 'options_text', 'kickstarter', 'options_icon'];
+	var rightOption:Array<String> = [#if ACHIEVEMENTS_ALLOWED 'awards', #end 'donate', 'merch', 'options_text', 'kickstarter', 'options_icon'];
 	var rightItems:Array<FlxSprite> = [];
 	var curRightSelected:Int = 0;
 
@@ -189,7 +190,7 @@ class MainMenuState extends MusicBeatState
 			return;
 		}
 
-		// #if debug
+		#if debug
 		#if ACHIEVEMENTS_ALLOWED
 		// Unlock all achievements with P + L combo
 		if (FlxG.keys.pressed.P && FlxG.keys.pressed.L)
@@ -201,7 +202,7 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 		#end
-		// #end
+		#end
 
 		if (FlxG.sound.music.volume < 0.8)
 		{
@@ -261,7 +262,16 @@ class MainMenuState extends MusicBeatState
 
 			if (FlxG.mouse.wheel != 0)
 			{
-				changeItem(-FlxG.mouse.wheel);
+				var delta:Int = -FlxG.mouse.wheel;
+				if (curColumn == RIGHT && rightItems.length > 0)
+				{
+					curRightSelected = FlxMath.wrap(curRightSelected + delta, 0, rightItems.length - 1);
+					changeItem();
+				}
+				else
+				{
+					changeItem(delta);
+				}
 			}
 
 			var localAllowMouse:Bool = this.allowMouse;
@@ -506,6 +516,22 @@ class MainMenuState extends MusicBeatState
 							}
 						}
 
+						case 'merch':
+						{
+							CoolUtil.browserLoad('https://needlejuicerecords.com/en-ca/pages/friday-night-funkin');
+							selectedSomethin = false;
+							item.visible = true;
+							for (memb in menuItems)
+							{
+								if (memb == item)
+								{
+									continue;
+								}
+								memb.alpha = 1;
+								memb.animation.play('idle');
+							}
+						}
+
 						case 'kickstarter':
 						{
 							CoolUtil.browserLoad('https://kck.st/2QeVe5N');
@@ -542,7 +568,7 @@ class MainMenuState extends MusicBeatState
 				
 				for (memb in menuItems)
 				{
-					if(memb == item)
+					if (memb == item)
 					{
 						continue;
 					}

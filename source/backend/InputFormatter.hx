@@ -71,6 +71,8 @@ class InputFormatter
 				return "#-";
 			case NUMPADPERIOD:
 				return "#.";
+			case NUMPADSLASH:
+				return "#/";
 			case SEMICOLON:
 				return ";";
 			case COMMA:
@@ -80,7 +82,7 @@ class InputFormatter
 			case SLASH:
 				return "/";
 			case GRAVEACCENT:
-				return "`";
+				return "~";
 			case LBRACKET:
 				return "[";
 			case BACKSLASH:
@@ -90,7 +92,25 @@ class InputFormatter
 			case QUOTE:
 				return "'";
 			case PRINTSCREEN:
-				return "PrtScrn";
+				return "PrtScr";
+			case NUMLOCK:
+				return "NumLock";
+			case SCROLL_LOCK:
+				return "ScrLck";
+			case BREAK:
+				return "Pause";
+			case INSERT:
+				return "Ins";
+			case DELETE:
+				return "Del";
+			case PLUS:
+				return "+";
+			case MINUS:
+				return "-";
+			case SPACE:
+				return "Space";
+			case TAB:
+				return "Tab";
 			case NONE:
 				return '---';
 			default:
@@ -103,7 +123,7 @@ class InputFormatter
 		}
 	}
 
-	public static function getGamepadName(key:FlxGamepadInputID)
+	public static function getGamepadName(key:FlxGamepadInputID):String
 	{
 		var gamepad:FlxGamepad = FlxG.gamepads.firstActive;
 		var model:FlxGamepadModel = gamepad != null ? gamepad.detectedModel : UNKNOWN;
@@ -192,13 +212,13 @@ class InputFormatter
 				}
 			case X:
 				switch (model) {
-					case PS4: return "["; //This gets its image changed through code
+					case PS4: return "[";
 					case XINPUT: return "X";
 					default: return "Action Left";
 				}
 			case Y:
-				switch (model) { 
-					case PS4: return "]"; //This gets its image changed through code
+				switch (model) {
+					case PS4: return "]";
 					case XINPUT: return "Y";
 					default: return "Action Up";
 				}
@@ -208,6 +228,12 @@ class InputFormatter
 					case PS4: return "Share";
 					case XINPUT: return "Back";
 					default: return "Select";
+				}
+			case GUIDE:
+				switch(model) {
+					case PS4: return "PS Button";
+					case XINPUT: return "Xbox";
+					default: return "Home";
 				}
 			case START:
 				switch(model) {

@@ -1,0 +1,23 @@
+{
+	"songs": [
+		["Darnell BF Mix", "darnell", [115, 94, 176]],
+		["Lit Up BF Mix", "darnell", [115, 94, 176]]
+	],
+
+	"weekCharacters": [
+		"",
+		"bf-normal",
+		""
+	],
+	"weekBackground": "blank_normal",
+
+	"storyName": "All BF Mixes",
+	"weekBefore": "",
+	"weekName": "BF Mix",
+	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
+
+	"hideStoryMode": false,
+	"hideFreeplay": true,
+	"difficulties": "Easy, Normal, Hard"
+}

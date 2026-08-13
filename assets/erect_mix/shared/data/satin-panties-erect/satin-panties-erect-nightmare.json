@@ -6,6 +6,7 @@
 	"stage": "limo",
 	"player1": "bf-car",
 	"player2": "mom-car",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

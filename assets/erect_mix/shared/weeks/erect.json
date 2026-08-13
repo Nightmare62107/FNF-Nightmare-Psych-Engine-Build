@@ -1,0 +1,38 @@
+{
+	"songs": [
+		["Bopeebo Erect", "dad", [175, 102, 206]],
+		["Fresh Erect", "dad", [175, 102, 206]],
+		["Dad Battle Erect", "dad", [175, 102, 206]],
+		["Spookeez Erect", "spooky", [213, 126, 0]],
+		["South Erect", "spooky", [213, 126, 0]],
+		["Pico Erect", "pico", [183, 216, 85]],
+		["Philly Nice Erect", "pico", [183, 216, 85]],
+		["Blammed Erect", "pico", [183, 216, 85]],
+		["Satin Panties Erect", "mom", [216, 85, 142]],
+		["High Erect", "mom", [216, 85, 142]],
+		["Cocoa Erect", "parents", [196, 94, 174]],
+		["Eggnog Erect", "parents", [196, 94, 174]],
+		["Senpai Erect", "senpai-pixel", [255, 170, 111]],
+		["Roses Erect", "senpai-pixel", [255, 170, 111]],
+		["Thorns Erect", "spirit-pixel", [255, 60, 110]],
+		["Ugh Erect", "tankman", [225, 225, 225]],
+		["Darnell Erect", "darnell", [115, 94, 176]]
+	],
+
+	"weekCharacters": [
+		"",
+		"bf-erect",
+		""
+	],
+	"weekBackground": "blank_erect",
+
+	"storyName": "All Erect Mixes",
+	"weekBefore": "",
+	"weekName": "Erect",
+	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
+
+	"hideStoryMode": false,
+	"hideFreeplay": true,
+	"difficulties": "Erect, Nightmare"
+}

@@ -971,6 +971,7 @@
 		}
 	],
 	"player2": "monster-christmas",
+	"skipCountdown": false,
 	"player3": null,
 	"song": "Winter Horrorland",
 	"stage": "mallEvil",

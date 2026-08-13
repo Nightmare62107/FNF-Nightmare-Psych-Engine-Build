@@ -13,6 +13,7 @@
 	"weekBefore": "week2PicoMix",
 	"weekName": "Week 3 Pico Mix",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

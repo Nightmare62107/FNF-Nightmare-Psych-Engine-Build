@@ -6,6 +6,7 @@
 	"stage": "spooky",
 	"player1": "bf",
 	"player2": "spooky",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

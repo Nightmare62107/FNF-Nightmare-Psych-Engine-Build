@@ -251,7 +251,7 @@ class PsychUIDropDownItem extends FlxSpriteGroup
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
-		if(FlxG.mouse.justMoved || FlxG.mouse.justPressed || forceNextUpdate)
+		if (FlxG.mouse.justMoved || FlxG.mouse.justPressed || forceNextUpdate)
 		{
 			var overlapped:Bool = (FlxG.mouse.overlaps(bg, camera));
 
@@ -261,12 +261,14 @@ class PsychUIDropDownItem extends FlxSpriteGroup
 			bg.alpha = style.bgAlpha;
 			forceNextUpdate = false;
 
-			if(overlapped && FlxG.mouse.justPressed)
+			if (overlapped && FlxG.mouse.justPressed)
+			{
 				onClick();
+			}
 		}
 		
 		text.x = bg.x;
-		text.y = bg.y + bg.height/2 - text.height/2;
+		text.y = bg.y + bg.height / 2 - text.height / 2;
 	}
 
 	public var label(default, set):String;

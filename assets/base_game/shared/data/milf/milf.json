@@ -2,6 +2,7 @@
 	"song": {
 		"player1": "bf-car",
 		"player2": "mom-car",
+		"skipCountdown": false,
 		"notes": [
 			{
 				"sectionBeats": 4,

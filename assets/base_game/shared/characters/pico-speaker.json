@@ -1,74 +1,75 @@
 {
 	"animations": [
 		{
-			"loop": false,
 			"offsets": [120, 9],
+			"loop": false,
+			"fps": 24,
 			"anim": "shoot1",
-			"fps": 24,
-			"name": "Pico shoot 1",
-			"indices": []
+			"indices": [],
+			"name": "Pico shoot 1"
 		},
 		{
-			"loop": false,
 			"offsets": [120, -119],
+			"loop": false,
+			"fps": 24,
 			"anim": "shoot2",
-			"fps": 24,
-			"name": "Pico shoot 2",
-			"indices": []
+			"indices": [],
+			"name": "Pico shoot 2"
 		},
 		{
-			"loop": false,
 			"offsets": [533, -55],
+			"loop": false,
+			"fps": 24,
 			"anim": "shoot3",
-			"fps": 24,
-			"name": "Pico shoot 3",
-			"indices": []
+			"indices": [],
+			"name": "Pico shoot 3"
 		},
 		{
+			"offsets": [560, -10],
 			"loop": false,
-			"offsets": [560, -10],
+			"fps": 24,
 			"anim": "shoot4",
-			"fps": 24,
-			"name": "Pico shoot 4",
-			"indices": []
+			"indices": [],
+			"name": "Pico shoot 4"
 		},
 		{
-			"loop": true,
 			"offsets": [533, -55],
+			"loop": true,
+			"fps": 24,
 			"anim": "shoot3-loop",
-			"fps": 24,
-			"name": "Pico shoot 3",
-			"indices": [50, 51, 52]
+			"indices": [50, 51, 52],
+			"name": "Pico shoot 3"
 		},
 		{
-			"loop": true,
 			"offsets": [120, 9],
+			"loop": true,
+			"fps": 24,
 			"anim": "shoot1-loop",
-			"fps": 24,
-			"name": "Pico shoot 1",
-			"indices": [23, 24, 25]
+			"indices": [23, 24, 25],
+			"name": "Pico shoot 1"
 		},
 		{
-			"loop": true,
 			"offsets": [120, -119],
-			"anim": "shoot2-loop",
+			"loop": true,
 			"fps": 24,
-			"name": "Pico shoot 2",
-			"indices": [57, 58, 59]
+			"anim": "shoot2-loop",
+			"indices": [57, 58, 59],
+			"name": "Pico shoot 2"
 		},
 		{
-			"loop": true,
 			"offsets": [560, -10],
-			"anim": "shoot4-loop",
+			"loop": true,
 			"fps": 24,
-			"name": "Pico shoot 4",
-			"indices": [50, 51, 52]
+			"anim": "shoot4-loop",
+			"indices": [50, 51, 52],
+			"name": "Pico shoot 4"
 		}
 	],
 	"vocals_file": "",
 	"no_antialiasing": false,
 	"image": "characters/picoSpeaker",
 	"position": [120, -125],
+	"usegridicon": false,
 	"healthicon": "pico",
 	"flip_x": false,
 	"healthbar_colors": [183, 216, 85],

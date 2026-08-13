@@ -810,6 +810,7 @@
 		}
 	],
 	"player2": "spooky",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "Spookeez Pico Mix",
 	"pauseBreakfast": "breakfast-pico",

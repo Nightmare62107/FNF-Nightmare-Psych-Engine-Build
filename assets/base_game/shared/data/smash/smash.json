@@ -2025,6 +2025,7 @@
 			}
 		],
 		"player2": "mom",
+		"skipCountdown": false,
 		"song": "Smash",
 		"needsVoices": false,
 		"validScore": true,

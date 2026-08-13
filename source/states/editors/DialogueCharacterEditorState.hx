@@ -438,10 +438,19 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 	var currentGhosts:Int = 0;
 	var lastTab:String = 'Character';
 	var transitioning:Bool = false;
-	override function update(elapsed:Float) {
+	override function update(elapsed:Float)
+	{
 		super.update(elapsed);
 		if(transitioning)
 			return;
+
+		// play a click sound any time the user left- or right-clicks in the editor
+		// this is intentionally very early so it triggers regardless of what
+		// interaction happens afterwards (even if we later ignore the click)
+		if(FlxG.mouse.justPressed || FlxG.mouse.justPressedRight)
+		{
+			FlxG.sound.play(Paths.sound('clickUp'), 0.4);
+		}
 
 		if(character.animation.curAnim != null) {
 			if(daText.finishedText) {
@@ -453,10 +462,11 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 			}
 		}
 
-		if(PsychUIInputText.focusOn == null)
+		if (PsychUIInputText.focusOn == null)
 		{
 			ClientPrefs.toggleVolumeKeys(true);
-			if(FlxG.keys.justPressed.SPACE && UI_mainbox.selectedName == 'Character') {
+			if (FlxG.keys.justPressed.SPACE && UI_mainbox.selectedName == 'Character')
+			{
 				character.playAnim(character.jsonFile.animations[curAnim].anim);
 				daText.resetDialogue();
 				updateTextBox();
@@ -465,50 +475,68 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 			//lots of Ifs lol get trolled
 			var offsetAdd:Int = 1;
 			var speed:Float = 300;
-			if(FlxG.keys.pressed.SHIFT) {
+			if (FlxG.keys.pressed.SHIFT)
+			{
 				speed = 1200;
 				offsetAdd = 10;
 			}
 
 			var negaMult:Array<Int> = [1, 1, -1, -1];
 			var controlArray:Array<Bool> = [FlxG.keys.pressed.J, FlxG.keys.pressed.I, FlxG.keys.pressed.L, FlxG.keys.pressed.K];
-			for (i in 0...controlArray.length) {
-				if(controlArray[i]) {
-					if(i % 2 == 1) {
+			for (i in 0...controlArray.length)
+			{
+				if (controlArray[i])
+				{
+					if (i % 2 == 1)
+					{
 						mainGroup.y += speed * elapsed * negaMult[i];
-					} else {
+					}
+					else
+					{
 						mainGroup.x += speed * elapsed * negaMult[i];
 					}
 				}
 			}
 
-			if(UI_mainbox.selectedName == 'Animations' && curSelectedAnim != null && character.dialogueAnimations.exists(curSelectedAnim)) {
+			if (UI_mainbox.selectedName == 'Animations' && curSelectedAnim != null && character.dialogueAnimations.exists(curSelectedAnim))
+			{
 				var moved:Bool = false;
 				var animShit:DialogueAnimArray = character.dialogueAnimations.get(curSelectedAnim);
 				var controlArrayLoop:Array<Bool> = [FlxG.keys.justPressed.A, FlxG.keys.justPressed.W, FlxG.keys.justPressed.D, FlxG.keys.justPressed.S];
 				var controlArrayIdle:Array<Bool> = [FlxG.keys.justPressed.LEFT, FlxG.keys.justPressed.UP, FlxG.keys.justPressed.RIGHT, FlxG.keys.justPressed.DOWN];
-				for (i in 0...controlArrayLoop.length) {
-					if(controlArrayLoop[i]) {
-						if(i % 2 == 1) {
+				for (i in 0...controlArrayLoop.length)
+				{
+					if (controlArrayLoop[i])
+					{
+						if (i % 2 == 1)
+						{
 							animShit.loop_offsets[1] += offsetAdd * negaMult[i];
-						} else {
+						}
+						else
+						{
 							animShit.loop_offsets[0] += offsetAdd * negaMult[i];
 						}
 						moved = true;
 					}
 				}
-				for (i in 0...controlArrayIdle.length) {
-					if(controlArrayIdle[i]) {
-						if(i % 2 == 1) {
+				for (i in 0...controlArrayIdle.length)
+				{
+					if (controlArrayIdle[i])
+					{
+						if (i % 2 == 1)
+						{
 							animShit.idle_offsets[1] += offsetAdd * negaMult[i];
-						} else {
+						}
+						else
+						{
 							animShit.idle_offsets[0] += offsetAdd * negaMult[i];
 						}
 						moved = true;
 					}
 				}
 
-				if(moved) {
+				if (moved)
+				{
 					offsetLoopText.text = 'Loop: ' + animShit.loop_offsets;
 					offsetIdleText.text = 'Idle: ' + animShit.idle_offsets;
 					ghostLoop.offset.set(animShit.loop_offsets[0], animShit.loop_offsets[1]);
@@ -516,35 +544,47 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 				}
 			}
 
-			if (FlxG.keys.pressed.Q && camGame.zoom > 0.1) {
+			if (FlxG.keys.pressed.Q && camGame.zoom > 0.1)
+			{
 				camGame.zoom -= elapsed * camGame.zoom;
-				if(camGame.zoom < 0.1) camGame.zoom = 0.1;
+				if (camGame.zoom < 0.1) camGame.zoom = 0.1;
 			}
-			if (FlxG.keys.pressed.E && camGame.zoom < 1) {
+
+			if (FlxG.keys.pressed.E && camGame.zoom < 1)
+			{
 				camGame.zoom += elapsed * camGame.zoom;
-				if(camGame.zoom > 1) camGame.zoom = 1;
+				if (camGame.zoom > 1) camGame.zoom = 1;
 			}
-			if(FlxG.keys.justPressed.H) {
-				if(UI_mainbox.selectedName == 'Animations') {
+
+			if (FlxG.keys.justPressed.H)
+			{
+				if (UI_mainbox.selectedName == 'Animations')
+				{
 					currentGhosts++;
-					if(currentGhosts > 2) currentGhosts = 0;
+					if (currentGhosts > 2) currentGhosts = 0;
 
 					ghostLoop.visible = (currentGhosts != 1);
 					ghostIdle.visible = (currentGhosts != 2);
 					ghostLoop.alpha = (currentGhosts == 2 ? 1 : 0.6);
 					ghostIdle.alpha = (currentGhosts == 1 ? 1 : 0.6);
-				} else {
+				}
+				else
+				{
 					hudGroup.visible = !hudGroup.visible;
 				}
 			}
-			if(FlxG.keys.justPressed.R) {
+
+			if (FlxG.keys.justPressed.R)
+			{
 				camGame.zoom = 1;
 				mainGroup.setPosition(0, 0);
 				hudGroup.visible = true;
 			}
 
-			if(UI_mainbox.selectedName != lastTab) {
-				if(UI_mainbox.selectedName == 'Animations') {
+			if (UI_mainbox.selectedName != lastTab)
+			{
+				if (UI_mainbox.selectedName == 'Animations')
+				{
 					hudGroup.alpha = 0;
 					mainGroup.alpha = 0;
 					ghostLoop.alpha = 0.6;
@@ -554,7 +594,9 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 					offsetIdleText.visible = true;
 					animText.visible = false;
 					currentGhosts = 0;
-				} else {
+				}
+				else
+				{
 					hudGroup.alpha = 1;
 					mainGroup.alpha = 1;
 					ghostLoop.alpha = 0;
@@ -566,8 +608,8 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 					updateTextBox();
 					daText.resetDialogue();
 					
-					if(curAnim < 0) curAnim = character.jsonFile.animations.length - 1;
-					else if(curAnim >= character.jsonFile.animations.length) curAnim = 0;
+					if (curAnim < 0) curAnim = character.jsonFile.animations.length - 1;
+					else if (curAnim >= character.jsonFile.animations.length) curAnim = 0;
 					
 					character.playAnim(character.jsonFile.animations[curAnim].anim);
 					animText.text = 'Animation: ' + character.jsonFile.animations[curAnim].anim + ' (' + (curAnim + 1) +' / ' + character.jsonFile.animations.length + ') - Press W or S to scroll';
@@ -576,21 +618,24 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 				currentGhosts = 0;
 			}
 			
-			if(UI_mainbox.selectedName == 'Character')
+			if (UI_mainbox.selectedName == 'Character')
 			{
 				var negaMult:Array<Int> = [1, -1];
 				var controlAnim:Array<Bool> = [FlxG.keys.justPressed.W, FlxG.keys.justPressed.S];
 
-				if(controlAnim.contains(true))
+				if (controlAnim.contains(true))
 				{
-					for (i in 0...controlAnim.length) {
-						if(controlAnim[i] && character.jsonFile.animations.length > 0) {
+					for (i in 0...controlAnim.length)
+					{
+						if (controlAnim[i] && character.jsonFile.animations.length > 0)
+						{
 							curAnim -= negaMult[i];
-							if(curAnim < 0) curAnim = character.jsonFile.animations.length - 1;
-							else if(curAnim >= character.jsonFile.animations.length) curAnim = 0;
+							if (curAnim < 0) curAnim = character.jsonFile.animations.length - 1;
+							else if (curAnim >= character.jsonFile.animations.length) curAnim = 0;
 
 							var animToPlay:String = character.jsonFile.animations[curAnim].anim;
-							if(character.dialogueAnimations.exists(animToPlay)) {
+							if (character.dialogueAnimations.exists(animToPlay))
+							{
 								character.playAnim(animToPlay, daText.finishedText);
 							}
 						}
@@ -599,14 +644,18 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 				}
 			}
 
-			if(FlxG.keys.justPressed.ESCAPE) {
-				if(!unsavedProgress)
+			if (FlxG.keys.justPressed.ESCAPE)
+			{
+				if (!unsavedProgress)
 				{
 					MusicBeatState.switchState(new states.editors.MasterEditorMenu());
 					FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
 					transitioning = true;
 				}
-				else openSubState(new ExitConfirmationPrompt(function() transitioning = true));
+				else
+				{
+					openSubState(new ExitConfirmationPrompt(function() transitioning = true));
+				}
 			}
 
 			ghostLoop.setPosition(character.x, character.y);
@@ -614,11 +663,15 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 			hudGroup.x = mainGroup.x;
 			hudGroup.y = mainGroup.y;
 		}
-		else ClientPrefs.toggleVolumeKeys(false);
+		else
+		{
+			ClientPrefs.toggleVolumeKeys(false);
+		}
 	}
 	
 	var _file:FileReference = null;
-	function loadCharacter() {
+	function loadCharacter()
+	{
 		var jsonFilter:FileFilter = new FileFilter('JSON', 'json');
 		_file = new FileReference();
 		_file.addEventListener(#if desktop Event.SELECT #else Event.COMPLETE #end, onLoadComplete);
@@ -636,13 +689,15 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 		#if sys
 		var fullPath:String = null;
 		@:privateAccess
-		if(_file.__path != null) fullPath = _file.__path;
+		if (_file.__path != null) fullPath = _file.__path;
 
-		if(fullPath != null) {
+		if (fullPath != null)
+		{
 			var rawJson:String = File.getContent(fullPath);
-			if(rawJson != null) {
+			if (rawJson != null)
+			{
 				var loadedChar:DialogueCharacterFile = cast Json.parse(rawJson);
-				if(loadedChar.dialogue_pos != null) //Make sure it's really a dialogue character
+				if (loadedChar.dialogue_pos != null) //Make sure it's really a dialogue character
 				{
 					var cutName:String = _file.name.substr(0, _file.name.length - 5);
 					trace("Successfully loaded file: " + cutName);
@@ -691,7 +746,8 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 		trace("Problem loading file");
 	}
 
-	function saveCharacter() {
+	function saveCharacter()
+	{
 		var data:String = haxe.Json.stringify(character.jsonFile, "\t");
 		if (data.length > 0)
 		{
@@ -738,8 +794,9 @@ class DialogueCharacterEditorState extends MusicBeatState implements PsychUIEven
 		FlxG.log.error("Problem saving file");
 	}
 
-	function ClipboardAdd(prefix:String = ''):String {
-		if(prefix.toLowerCase().endsWith('v')) //probably copy paste attempt
+	function ClipboardAdd(prefix:String = ''):String
+	{
+		if (prefix.toLowerCase().endsWith('v')) //probably copy paste attempt
 		{
 			prefix = prefix.substring(0, prefix.length-1);
 		}

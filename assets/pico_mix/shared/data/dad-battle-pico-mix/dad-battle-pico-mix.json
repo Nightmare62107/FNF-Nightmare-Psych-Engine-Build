@@ -913,6 +913,7 @@
 		}
 	],
 	"player2": "dad",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "Dad Battle Pico Mix",
 	"pauseBreakfast": "breakfast-pico",

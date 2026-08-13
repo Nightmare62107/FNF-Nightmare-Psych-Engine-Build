@@ -139,7 +139,8 @@ class HScript extends Iris
 	}
 
 	var varsToBring(default, set):Any = null;
-	override function preset() {
+	override function preset()
+	{
 		super.preset();
 
 		// Some very commonly used classes
@@ -160,6 +161,7 @@ class HScript extends Iris
 		set('FlxColor', CustomFlxColor);
 		set('Countdown', backend.BaseStage.Countdown);
 		set('PlayState', PlayState);
+		set('Screenshot', Screenshot);
 		set('Paths', Paths);
 		set('Conductor', Conductor);
 		set('ClientPrefs', ClientPrefs);
@@ -167,8 +169,10 @@ class HScript extends Iris
 		set('Achievements', Achievements);
 		#end
 		set('Character', Character);
+		set('HealthIcon', objects.HealthIcon);
 		set('Alphabet', Alphabet);
 		set('Note', objects.Note);
+		set('NoteSplash', objects.NoteSplash);
 		set('CustomSubstate', CustomSubstate);
 		#if (!flash && sys)
 		set('FlxRuntimeShader', flixel.addons.display.FlxRuntimeShader);
@@ -179,6 +183,15 @@ class HScript extends Iris
 		#if flxanimate
 		set('FlxAnimate', FlxAnimate);
 		#end
+
+        // New Additions from import.hx
+		set('BlendMode', backend.MacroBridge.exposeAbstract('openfl.display.BlendMode'));
+        set('Json', haxe.Json);
+        set('Timer', haxe.Timer);
+        set('FlxAngle', flixel.math.FlxAngle);
+        set('FlxPoint', flixel.math.FlxBasePoint);
+        set('FlxSpriteUtil', flixel.util.FlxSpriteUtil);
+        set('Lambda', Lambda);
 
 		// Functions & Variables
 		set('setVar', function(name:String, value:Dynamic) {
@@ -485,7 +498,8 @@ class HScript extends Iris
 	}
 }
 
-class CustomFlxColor {
+class CustomFlxColor
+{
 	public static var TRANSPARENT(default, null):Int = FlxColor.TRANSPARENT;
 	public static var BLACK(default, null):Int = FlxColor.BLACK;
 	public static var WHITE(default, null):Int = FlxColor.WHITE;
@@ -502,6 +516,137 @@ class CustomFlxColor {
 	public static var PINK(default, null):Int = FlxColor.PINK;
 	public static var MAGENTA(default, null):Int = FlxColor.MAGENTA;
 	public static var CYAN(default, null):Int = FlxColor.CYAN;
+
+	// Adding EVERY official standardized CSS color name that is not already present in HaxeFlixel's list.
+	// I edited my flixel haxelib in order to add these. Unless you do the same, this won't work if you simply build the game. Add them in manually. FlxColor.hx is the name of the file.
+	public static var ALICEBLUE(default, null):Int = FlxColor.ALICEBLUE;
+	public static var ANTIQUEWHITE(default, null):Int = FlxColor.ANTIQUEWHITE;
+	public static var AQUA(default, null):Int = FlxColor.AQUA;
+	public static var AQUAMARINE(default, null):Int = FlxColor.AQUAMARINE;
+	public static var AZURE(default, null):Int = FlxColor.AZURE;
+	public static var BEIGE(default, null):Int = FlxColor.BEIGE;
+	public static var BISQUE(default, null):Int = FlxColor.BISQUE;
+	public static var BLANCHEDALMOND(default, null):Int = FlxColor.BLANCHEDALMOND;
+	public static var BLUEVIOLET(default, null):Int = FlxColor.BLUEVIOLET;
+	public static var BURLYWOOD(default, null):Int = FlxColor.BURLYWOOD;
+	public static var CADETBLUE(default, null):Int = FlxColor.CADETBLUE;
+	public static var CHARTREUSE(default, null):Int = FlxColor.CHARTREUSE;
+	public static var CHOCOLATE(default, null):Int = FlxColor.CHOCOLATE;
+	public static var CORAL(default, null):Int = FlxColor.CORAL;
+	public static var CORNFLOWERBLUE(default, null):Int = FlxColor.CORNFLOWERBLUE;
+	public static var CORNSILK(default, null):Int = FlxColor.CORNSILK;
+	public static var CRIMSON(default, null):Int = FlxColor.CRIMSON;
+	public static var DARKBLUE(default, null):Int = FlxColor.DARKBLUE;
+	public static var DARKCYAN(default, null):Int = FlxColor.DARKCYAN;
+	public static var DARKGOLDENROD(default, null):Int = FlxColor.DARKGOLDENROD;
+	public static var DARKGRAY(default, null):Int = FlxColor.DARKGRAY;
+	public static var DARKGREY(default, null):Int = FlxColor.DARKGREY;
+	public static var DARKGREEN(default, null):Int = FlxColor.DARKGREEN;
+	public static var DARKKHAKI(default, null):Int = FlxColor.DARKKHAKI;
+	public static var DARKMAGENTA(default, null):Int = FlxColor.DARKMAGENTA;
+	public static var DARKOLIVEGREEN(default, null):Int = FlxColor.DARKOLIVEGREEN;
+	public static var DARKORANGE(default, null):Int = FlxColor.DARKORANGE;
+	public static var DARKORCHID(default, null):Int = FlxColor.DARKORCHID;
+	public static var DARKRED(default, null):Int = FlxColor.DARKRED;
+	public static var DARKSALMON(default, null):Int = FlxColor.DARKSALMON;
+	public static var DARKSEAGREEN(default, null):Int = FlxColor.DARKSEAGREEN;
+	public static var DARKSLATEBLUE(default, null):Int = FlxColor.DARKSLATEBLUE;
+	public static var DARKSLATEGRAY(default, null):Int = FlxColor.DARKSLATEGRAY;
+	public static var DARKSLATEGREY(default, null):Int = FlxColor.DARKSLATEGREY;
+	public static var DARKTURQUOISE(default, null):Int = FlxColor.DARKTURQUOISE;
+	public static var DARKVIOLET(default, null):Int = FlxColor.DARKVIOLET;
+	public static var DEEPPINK(default, null):Int = FlxColor.DEEPPINK;
+	public static var DEEPSKYBLUE(default, null):Int = FlxColor.DEEPSKYBLUE;
+	public static var DIMGRAY(default, null):Int = FlxColor.DIMGRAY;
+	public static var DIMGREY(default, null):Int = FlxColor.DIMGREY;
+	public static var DODGERBLUE(default, null):Int = FlxColor.DODGERBLUE;
+	public static var FIREBRICK(default, null):Int = FlxColor.FIREBRICK;
+	public static var FLORALWHITE(default, null):Int = FlxColor.FLORALWHITE;
+	public static var FORESTGREEN(default, null):Int = FlxColor.FORESTGREEN;
+	public static var FUCHSIA(default, null):Int = FlxColor.FUCHSIA;
+	public static var GAINSBORO(default, null):Int = FlxColor.GAINSBORO;
+	public static var GHOSTWHITE(default, null):Int = FlxColor.GHOSTWHITE;
+	public static var GOLD(default, null):Int = FlxColor.GOLD;
+	public static var GOLDENROD(default, null):Int = FlxColor.GOLDENROD;
+	public static var GREENYELLOW(default, null):Int = FlxColor.GREENYELLOW;
+	public static var GREY(default, null):Int = FlxColor.GREY;
+	public static var HONEYDEW(default, null):Int = FlxColor.HONEYDEW;
+	public static var HOTPINK(default, null):Int = FlxColor.HOTPINK;
+	public static var INDIANRED(default, null):Int = FlxColor.INDIANRED;
+	public static var INDIGO(default, null):Int = FlxColor.INDIGO;
+	public static var IVORY(default, null):Int = FlxColor.IVORY;
+	public static var KHAKI(default, null):Int = FlxColor.KHAKI;
+	public static var LAVENDER(default, null):Int = FlxColor.LAVENDER;
+	public static var LAVENDERBLUSH(default, null):Int = FlxColor.LAVENDERBLUSH;
+	public static var LAWNGREEN(default, null):Int = FlxColor.LAWNGREEN;
+	public static var LEMONCHIFFON(default, null):Int = FlxColor.LEMONCHIFFON;
+	public static var LIGHTBLUE(default, null):Int = FlxColor.LIGHTBLUE;
+	public static var LIGHTCORAL(default, null):Int = FlxColor.LIGHTCORAL;
+	public static var LIGHTCYAN(default, null):Int = FlxColor.LIGHTCYAN;
+	public static var LIGHTGOLDENRODYELLOW(default, null):Int = FlxColor.LIGHTGOLDENRODYELLOW;
+	public static var LIGHTGRAY(default, null):Int = FlxColor.LIGHTGRAY;
+	public static var LIGHTGREY(default, null):Int = FlxColor.LIGHTGREY;
+	public static var LIGHTGREEN(default, null):Int = FlxColor.LIGHTGREEN;
+	public static var LIGHTPINK(default, null):Int = FlxColor.LIGHTPINK;
+	public static var LIGHTSALMON(default, null):Int = FlxColor.LIGHTSALMON;
+	public static var LIGHTSEAGREEN(default, null):Int = FlxColor.LIGHTSEAGREEN;
+	public static var LIGHTSKYBLUE(default, null):Int = FlxColor.LIGHTSKYBLUE;
+	public static var LIGHTSLATEGRAY(default, null):Int = FlxColor.LIGHTSLATEGRAY;
+	public static var LIGHTSLATEGREY(default, null):Int = FlxColor.LIGHTSLATEGREY;
+	public static var LIGHTSTEELBLUE(default, null):Int = FlxColor.LIGHTSTEELBLUE;
+	public static var LIGHTYELLOW(default, null):Int = FlxColor.LIGHTYELLOW;
+	public static var LIMEGREEN(default, null):Int = FlxColor.LIMEGREEN;
+	public static var LINEN(default, null):Int = FlxColor.LINEN;
+	public static var MEDIUMAQUAMARINE(default, null):Int = FlxColor.MEDIUMAQUAMARINE;
+	public static var MEDIUMBLUE(default, null):Int = FlxColor.MEDIUMBLUE;
+	public static var MEDIUMORCHID(default, null):Int = FlxColor.MEDIUMORCHID;
+	public static var MEDIUMPURPLE(default, null):Int = FlxColor.MEDIUMPURPLE;
+	public static var MEDIUMSEAGREEN(default, null):Int = FlxColor.MEDIUMSEAGREEN;
+	public static var MEDIUMSLATEBLUE(default, null):Int = FlxColor.MEDIUMSLATEBLUE;
+	public static var MEDIUMSPRINGGREEN(default, null):Int = FlxColor.MEDIUMSPRINGGREEN;
+	public static var MEDIUMTURQUOISE(default, null):Int = FlxColor.MEDIUMTURQUOISE;
+	public static var MEDIUMVIOLETRED(default, null):Int = FlxColor.MEDIUMVIOLETRED;
+	public static var MIDNIGHTBLUE(default, null):Int = FlxColor.MIDNIGHTBLUE;
+	public static var MINTCREAM(default, null):Int = FlxColor.MINTCREAM;
+	public static var MISTYROSE(default, null):Int = FlxColor.MISTYROSE;
+	public static var MOCCASIN(default, null):Int = FlxColor.MOCCASIN;
+	public static var NAVAJOWHITE(default, null):Int = FlxColor.NAVAJOWHITE;
+	public static var OLDLACE(default, null):Int = FlxColor.OLDLACE;
+	public static var OLIVEDRAB(default, null):Int = FlxColor.OLIVEDRAB;
+	public static var ORANGERED(default, null):Int = FlxColor.ORANGERED;
+	public static var ORCHID(default, null):Int = FlxColor.ORCHID;
+	public static var PALEGOLDENROD(default, null):Int = FlxColor.PALEGOLDENROD;
+	public static var PALEGREEN(default, null):Int = FlxColor.PALEGREEN;
+	public static var PALETURQUOISE(default, null):Int = FlxColor.PALETURQUOISE;
+	public static var PALEVIOLETRED(default, null):Int = FlxColor.PALEVIOLETRED;
+	public static var PAPAYAWHIP(default, null):Int = FlxColor.PAPAYAWHIP;
+	public static var PEACHPUFF(default, null):Int = FlxColor.PEACHPUFF;
+	public static var PERU(default, null):Int = FlxColor.PERU;
+	public static var POWDERBLUE(default, null):Int = FlxColor.POWDERBLUE;
+	public static var REBECCAPURPLE(default, null):Int = FlxColor.REBECCAPURPLE;
+	public static var ROSYBROWN(default, null):Int = FlxColor.ROSYBROWN;
+	public static var ROYALBLUE(default, null):Int = FlxColor.ROYALBLUE;
+	public static var SADDLEBROWN(default, null):Int = FlxColor.SADDLEBROWN;
+	public static var SANDYBROWN(default, null):Int = FlxColor.SANDYBROWN;
+	public static var SEAGREEN(default, null):Int = FlxColor.SEAGREEN;
+	public static var SEASHELL(default, null):Int = FlxColor.SEASHELL;
+	public static var SIENNA(default, null):Int = FlxColor.SIENNA;
+	public static var SILVER(default, null):Int = FlxColor.SILVER;
+	public static var SKYBLUE(default, null):Int = FlxColor.SKYBLUE;
+	public static var SLATEBLUE(default, null):Int = FlxColor.SLATEBLUE;
+	public static var SLATEGRAY(default, null):Int = FlxColor.SLATEGRAY;
+	public static var SLATEGREY(default, null):Int = FlxColor.SLATEGREY;
+	public static var SNOW(default, null):Int = FlxColor.SNOW;
+	public static var SPRINGGREEN(default, null):Int = FlxColor.SPRINGGREEN;
+	public static var STEELBLUE(default, null):Int = FlxColor.STEELBLUE;
+	public static var TAN(default, null):Int = FlxColor.TAN;
+	public static var THISTLE(default, null):Int = FlxColor.THISTLE;
+	public static var TOMATO(default, null):Int = FlxColor.TOMATO;
+	public static var TURQUOISE(default, null):Int = FlxColor.TURQUOISE;
+	public static var VIOLET(default, null):Int = FlxColor.VIOLET;
+	public static var WHEAT(default, null):Int = FlxColor.WHEAT;
+	public static var WHITESMOKE(default, null):Int = FlxColor.WHITESMOKE;
+	public static var YELLOWGREEN(default, null):Int = FlxColor.YELLOWGREEN;
 
 	public static function fromInt(Value:Int):Int 
 		return cast FlxColor.fromInt(Value);

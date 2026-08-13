@@ -28,7 +28,7 @@ class PsychUITab extends FlxSprite
 		if(visible && text != null && text.exists && text.visible)
 		{
 			text.x = x;
-			text.y = y + height/2 - text.height/2;
+			text.y = y + height / 2 - text.height / 2;
 			text.draw();
 		}
 	}
@@ -44,6 +44,8 @@ class PsychUITab extends FlxSprite
 	{
 		if(menu != null && menu.exists && menu.active)
 		{
+			menu.x = parent.x;
+			menu.y = parent.y + parent.tabHeight;
 			menu.scrollFactor.set(parent.scrollFactor.x, parent.scrollFactor.y);
 			menu.update(elapsed);
 		}

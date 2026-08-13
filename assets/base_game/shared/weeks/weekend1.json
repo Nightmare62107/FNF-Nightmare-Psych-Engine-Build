@@ -3,7 +3,7 @@
 		["Darnell", "darnell", [115, 94, 176]],
 		["Lit Up", "darnell", [115, 94, 176]],
 		["2Hot", "darnell", [115, 94, 176]],
-		["Blazin'", "darnell", [115, 94, 176]],
+		["Blazin'", "darnell", [115, 94, 176]]
 	],
 
 	"weekCharacters": [
@@ -17,6 +17,7 @@
 	"weekBefore": "week7",
 	"weekName": "Weekend 1",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

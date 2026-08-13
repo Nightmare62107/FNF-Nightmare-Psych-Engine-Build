@@ -4,6 +4,7 @@ package psychlua;
 import backend.WeekData;
 import backend.Highscore;
 import backend.Song;
+import backend.Screenshot;
 
 import openfl.Lib;
 import openfl.utils.Assets;
@@ -57,7 +58,8 @@ import flixel.input.gamepad.FlxGamepadInputID;
 
 import haxe.Json;
 
-class FunkinLua {
+class FunkinLua
+{
 	public var lua:State = null;
 	public var camTarget:FlxCamera;
 	public var scriptName:String = '';
@@ -71,7 +73,8 @@ class FunkinLua {
 	public var callbacks:Map<String, Dynamic> = new Map<String, Dynamic>();
 	public static var customFunctions:Map<String, Dynamic> = new Map<String, Dynamic>();
 
-	public function new(scriptName:String) {
+	public function new(scriptName:String)
+	{
 		lua = LuaL.newstate();
 		LuaL.openlibs(lua);
 
@@ -178,11 +181,16 @@ class FunkinLua {
 			#if VS_SONIC_EXE_FILES
 			set('ringSystem', game.ringSystem);
 			#end
+			#if MARIOS_MADNESS_FILES
+			set('sm64LifeMeterSystem', game.sm64LifeMeterSystem);
+			set('sm64LifeMeterCoinSpawning', game.sm64LifeMeterCoinSpawning);
+			#end
 			set('maxMisses', game.maxMisses);
 			set('botPlay', game.cpuControlled);
 			set('practice', game.practiceMode);
 	
-			for (i in 0...4) {
+			for (i in 0...4)
+			{
 				set('defaultPlayerStrumX' + i, 0);
 				set('defaultPlayerStrumY' + i, 0);
 				set('defaultOpponentStrumX' + i, 0);
@@ -223,22 +231,34 @@ class FunkinLua {
 		set('pauseMusicChanges', ClientPrefs.data.pauseMusicChanges);
 		set('healthBarAlpha', ClientPrefs.data.healthBarAlpha);
 		set('healthBarBGAlpha', ClientPrefs.data.healthBarBGAlpha);
+		set('showHealthPercent', ClientPrefs.data.showHealthPercent);
+		set('pixelBorder', ClientPrefs.data.pixelBorder);
 		set('noResetButton', ClientPrefs.data.noReset);
 		set('noBotplayButton', ClientPrefs.data.noBotplay);
 		set('missSounds', ClientPrefs.data.missSounds);
 		set('lowQuality', ClientPrefs.data.lowQuality);
 		set('shadersEnabled', ClientPrefs.data.shaders);
+		set('showFPS', ClientPrefs.data.showFPS);
+		set('displayFPS', ClientPrefs.data.displayFPS);
+		set('displayMemory', ClientPrefs.data.displayMemory);
+		set('displayDate', ClientPrefs.data.displayDate);
+		set('displayTime', ClientPrefs.data.displayTime);
+		set('displayTimezone', ClientPrefs.data.displayTimezone);
+		set('displayBattery', ClientPrefs.data.displayBattery);
+		set('fpsColor', ClientPrefs.data.fpsColor);
 		set('scriptName', scriptName);
 		set('currentModDirectory', Mods.currentModDirectory);
 
-		// Noteskin/Splash
+		// Noteskin/Splash/Hitsound
 		set('noteSkin', ClientPrefs.data.noteSkin);
 		set('noteSkinPostfix', Note.getNoteSkinPostfix());
 		set('splashSkin', ClientPrefs.data.splashSkin);
 		set('splashSkinPostfix', NoteSplash.getSplashSkinPostfix());
 		set('splashAlpha', ClientPrefs.data.splashAlpha);
+		set('hitsoundSound', ClientPrefs.data.hitsoundSound);
+		set('hitsoundSoundPostfix', Paths.getHitsoundSoundPostfix());
 
-		// build target (windows, mac, linux, etc.)
+		// build target (windows, mac, linux, android, switch etc.)
 		set('buildTarget', LuaUtils.getBuildTarget());
 
 		//
@@ -804,6 +824,22 @@ class FunkinLua {
 			Mods.loadTopMod();
 			return true;
 		});
+		Lua_helper.add_callback(lua, "openChartEditor", function() {
+			if (PlayState.instance != null) {
+				var callback:Dynamic = Reflect.field(PlayState.instance, "openChartEditor");
+				if (callback != null) Reflect.callMethod(PlayState.instance, callback, []);
+				//PlayState.instance.openChartEditor();
+			}
+			return true;
+		});
+		Lua_helper.add_callback(lua, "openCharacterEditor", function() {
+			if (PlayState.instance != null) {
+				var callback:Dynamic = Reflect.field(PlayState.instance, "openCharacterEditor");
+				if (callback != null) Reflect.callMethod(PlayState.instance, callback, []);
+				//PlayState.instance.openCharacterEditor();
+			}
+			return true;
+		});
 		Lua_helper.add_callback(lua, "getSongPosition", function() {
 			return Conductor.songPosition;
 		});
@@ -870,15 +906,15 @@ class FunkinLua {
 			}
 		});
 
-		Lua_helper.add_callback(lua, "setCameraScroll", function(x:Float, y:Float) FlxG.camera.scroll.set(x - FlxG.width/2, y - FlxG.height/2));
+		Lua_helper.add_callback(lua, "setCameraScroll", function(x:Float, y:Float) FlxG.camera.scroll.set(x - FlxG.width / 2, y - FlxG.height / 2));
 		Lua_helper.add_callback(lua, "setCameraFollowPoint", function(x:Float, y:Float) game.camFollow.setPosition(x, y));
 		Lua_helper.add_callback(lua, "addCameraScroll", function(?x:Float = 0, ?y:Float = 0) FlxG.camera.scroll.add(x, y));
 		Lua_helper.add_callback(lua, "addCameraFollowPoint", function(?x:Float = 0, ?y:Float = 0) {
 			game.camFollow.x += x;
 			game.camFollow.y += y;
 		});
-		Lua_helper.add_callback(lua, "getCameraScrollX", () -> FlxG.camera.scroll.x + FlxG.width/2);
-		Lua_helper.add_callback(lua, "getCameraScrollY", () -> FlxG.camera.scroll.y + FlxG.height/2);
+		Lua_helper.add_callback(lua, "getCameraScrollX", () -> FlxG.camera.scroll.x + FlxG.width / 2);
+		Lua_helper.add_callback(lua, "getCameraScrollY", () -> FlxG.camera.scroll.y + FlxG.height / 2);
 		Lua_helper.add_callback(lua, "getCameraFollowX", () -> game.camFollow.x);
 		Lua_helper.add_callback(lua, "getCameraFollowY", () -> game.camFollow.y);
 
@@ -1615,6 +1651,7 @@ class FunkinLua {
 		CustomSubstate.implement(this);
 		ShaderFunctions.implement(this);
 		DeprecatedFunctions.implement(this);
+		CustomLuaFunctions.implement(this);
 
 		for (name => func in customFunctions)
 		{

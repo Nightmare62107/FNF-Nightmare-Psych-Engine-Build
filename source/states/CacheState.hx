@@ -12,9 +12,12 @@ import flixel.addons.transition.TransitionData;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.math.FlxPoint;
+import flixel.input.gamepad.FlxGamepad;
+import flixel.input.keyboard.FlxKey;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
-import flixel.system.FlxSound;
+//import flixel.system.FlxSound;
+import flixel.sound.FlxSound;
 import lime.app.Application;
 import openfl.display.BitmapData;
 import openfl.utils.Assets;
@@ -28,7 +31,6 @@ import sys.io.File;
 #end
 
 using StringTools;
-
 
 class CacheState extends MusicBeatState
 {
@@ -81,6 +83,16 @@ class CacheState extends MusicBeatState
 
     override function update(elapsed) 
     {
+		#if windows
+		// Pressing BACK on the title screen should close the game.
+		// This lets you exit without leaving fullscreen mode.
+		// Only applicable on windows.
+		if (controls.BACK)
+		{
+			openfl.Lib.application.window.close();
+		}
+		#end
+
         if (toBeDone != 0 && done != toBeDone)
         {
             var alpha = HelperFunctions.truncateFloat(done / toBeDone * 100,2) / 100;

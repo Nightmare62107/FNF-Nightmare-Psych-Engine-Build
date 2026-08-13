@@ -114,7 +114,7 @@ class SchoolEvil extends BaseStage
 		if (!OpenFlAssets.exists(file))
 		#end
 		{
-			startCountdown();
+			//startCountdown(); // this is handled in the schoolIntro function
 			return;
 		}
 

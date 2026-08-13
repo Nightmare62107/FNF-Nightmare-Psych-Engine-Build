@@ -1,0 +1,47 @@
+{
+	"songs": [
+		["Tutorial", "gf", [165, 0, 77]],
+		["Bopeebo", "dad", [175, 102, 206]],
+		["Fresh", "dad", [175, 102, 206]],
+		["Dad Battle", "dad", [175, 102, 206]],
+		["Spookeez", "spooky", [213, 126, 0]],
+		["South", "spooky", [213, 126, 0]],
+		["Monster", "monster", [243, 255, 110]],
+		["Pico", "pico", [183, 216, 85]],
+		["Philly Nice", "pico", [183, 216, 85]],
+		["Blammed", "pico", [183, 216, 85]],
+		["Satin Panties", "mom", [216, 85, 142]],
+		["High", "mom", [216, 85, 142]],
+		["Milf", "mom", [216, 85, 142]],
+		["Cocoa", "parents", [196, 94, 174]],
+		["Eggnog", "parents", [196, 94, 174]],
+		["Winter Horrorland", "monster", [243, 255, 110]],
+		["Senpai", "senpai-pixel", [255, 170, 111]],
+		["Roses", "senpai-pixel", [255, 170, 111]],
+		["Thorns", "spirit-pixel", [255, 60, 110]],
+		["Ugh",	"tankman", [225, 225, 225]],
+		["Guns", "tankman", [225, 225, 225]],
+		["Stress", "tankman", [225, 225, 225]],
+		["Darnell", "darnell", [115, 94, 176]],
+		["Lit Up", "darnell", [115, 94, 176]],
+		["2Hot", "darnell", [115, 94, 176]],
+		["Blazin'", "darnell", [115, 94, 176]]
+	],
+
+	"weekCharacters": [
+		"bf-normal",
+		"",
+		"pico-player-picomix"
+	],
+	"weekBackground": "blank_fullstory",
+
+	"storyName": "The Full Ass Game",
+	"weekBefore": "",
+	"weekName": "Full Story",
+	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
+
+	"hideStoryMode": false,
+	"hideFreeplay": true,
+	"difficulties": "Easy, Normal, Hard"
+}

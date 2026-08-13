@@ -1006,6 +1006,7 @@
 	],
 	"events": [],
 	"player2": "darnell-blazin",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "fabs + PhantomArcade",
 	"song": "Blazin'",

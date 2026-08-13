@@ -51,12 +51,12 @@ class ChartingGridSprite extends FlxSprite
 
 	override function draw()
 	{
-		if(!visible || alpha == 0 || y - camera.scroll.y >= FlxG.height) return;
+		if (!visible || alpha == 0 || y - camera.scroll.y >= FlxG.height) return;
 		scale.y = ChartingState.GRID_SIZE * Math.min(1, rows);
 		offset.y = -0.5 * (scale.y - 1);
 
 		super.draw();
-		if(rows <= 1)
+		if (rows <= 1)
 		{
 			_drawStripes();
 			return;
@@ -66,8 +66,10 @@ class ChartingGridSprite extends FlxSprite
 		for (i in 1...Math.ceil(rows))
 		{
 			y += ChartingState.GRID_SIZE + spacing;
-			if(y - camera.scroll.y >= FlxG.height)
+			if (y - camera.scroll.y >= FlxG.height)
+			{
 				break;
+			}
 
 			animation.play((i % 2 == 1) ? 'odd' : 'even', true);
 			scale.y = ChartingState.GRID_SIZE * Math.min(1, rows - i);
@@ -97,17 +99,21 @@ class ChartingGridSprite extends FlxSprite
 	{
 		for (i => column in stripes)
 		{
-			if(column == 0)
+			if (column == 0)
+			{
 				stripe.x = this.x;
-			else 
-				stripe.x = this.x + ChartingState.GRID_SIZE * column - stripe.width/2;
+			}
+			else
+			{
+				stripe.x = this.x + ChartingState.GRID_SIZE * column - stripe.width / 2;
+			}
 			stripe.draw();
 		}
 	}
 
 	public function updateStripes()
 	{
-		if(stripe == null || !stripe.exists) return;
+		if (stripe == null || !stripe.exists) return;
 		stripe.y = this.y;
 		stripe.setGraphicSize(2, this.height);
 		stripe.updateHitbox();

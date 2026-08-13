@@ -20,6 +20,7 @@ import shaders.ColorSwap;
 
 import states.StoryMenuState;
 import states.MainMenuState;
+import states.PlayState;
 
 typedef TitleData =
 {
@@ -62,8 +63,13 @@ class TitleState extends MusicBeatState
 	var enterPressed:Bool = false;
 
 	#if TITLE_SCREEN_EASTER_EGG
+	// Special title flag (1 in 5 chance)
+	var specialTitle:Bool = false;
+	#end
+
+	#if TITLE_SCREEN_EASTER_EGG
 	final easterEggKeys:Array<String> = [
-		'SHADOW', 'RIVEREN', 'SHUBS', 'BBPANZU', 'PESSY'
+		'SHADOW', 'RIVEREN', 'SHUBS', 'BBPANZU', 'PESSY', 'LUDUMDARE'
 	];
 	final allowedKeys:String = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	var easterEggKeysBuffer:String = '';
@@ -123,8 +129,8 @@ class TitleState extends MusicBeatState
 
 		if(!initialized)
 		{
-			//ClientPrefs.loadPrefs();
-			//Language.reloadPhrases();
+			ClientPrefs.loadPrefs();
+			Language.reloadPhrases();
 		}
 
 		curWacky = FlxG.random.getObject(getIntroTextShit());
@@ -162,6 +168,12 @@ class TitleState extends MusicBeatState
 		#end
 	}
 
+	#if TITLE_SCREEN_EASTER_EGG
+	var logoBlAlt:FlxSprite;
+	var logoAlt:FlxSprite;
+	var bg:FlxSprite;
+	#end
+
 	var logoBl:FlxSprite;
 	var gfDance:FlxSprite;
 	var danceLeft:Bool = false;
@@ -171,12 +183,48 @@ class TitleState extends MusicBeatState
 	function startIntro()
 	{
 		persistentUpdate = true;
-		if (!initialized && FlxG.sound.music == null)
+		#if TITLE_SCREEN_EASTER_EGG
+		//if (FlxG.random.int(0, 4) == 0)
+		// Was originally a 1 out of 5 chance to play, but I changed it to be triggered by a code.
+		// Special title now triggers from the Easter egg key name 'LUDUMDARE'
+		if (FlxG.save.data.psychDevsEasterEgg != null && FlxG.save.data.psychDevsEasterEgg.toUpperCase() == 'LUDUMDARE')
+		{
+			specialTitle = true;
+			skippedIntro = true;
+		}
+
+		if (specialTitle)
+		{
+			if (FlxG.sound.music != null)
+			{
+				FlxG.sound.music.stop();
+			}
+			FlxG.sound.playMusic(Paths.music('title'), 0);
+			FlxG.sound.music.fadeIn(4, 0, 0.7);
+		}
+		else if (!initialized && FlxG.sound.music == null)
+		{
+			#end
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), 0);
+			FlxG.sound.music.fadeIn(4, 0, 0.7);
+			#if TITLE_SCREEN_EASTER_EGG
+		}
+		#end
 
 		loadJsonData();
-		#if TITLE_SCREEN_EASTER_EGG easterEggData(); #end
+		#if TITLE_SCREEN_EASTER_EGG if (specialTitle == false) easterEggData(); #end
 		Conductor.bpm = musicBPM;
+
+		#if TITLE_SCREEN_EASTER_EGG
+		if (specialTitle == true)
+		{
+			// Create BG
+			bg = new FlxSprite().loadGraphic(Paths.image('stageback'));
+			bg.antialiasing = ClientPrefs.data.antialiasing;
+			bg.setGraphicSize(Std.int(bg.width * 0.6));
+			bg.updateHitbox();
+		}
+		#end
 
 		logoBl = new FlxSprite(logoPosition.x, logoPosition.y);
 		logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
@@ -185,6 +233,20 @@ class TitleState extends MusicBeatState
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.animation.play('bump');
 		logoBl.updateHitbox();
+
+		#if TITLE_SCREEN_EASTER_EGG
+		if (specialTitle == true)
+		{
+			// Logo black and logo
+			logoBlAlt = new FlxSprite().loadGraphic(Paths.image('logo'));
+			logoBlAlt.screenCenter();
+			logoBlAlt.color = FlxColor.BLACK;
+
+			logoAlt = new FlxSprite().loadGraphic(Paths.image('logo'));
+			logoAlt.screenCenter();
+			logoAlt.antialiasing = true;
+		}
+		#end
 
 		gfDance = new FlxSprite(gfPosition.x, gfPosition.y);
 		gfDance.antialiasing = ClientPrefs.data.antialiasing;
@@ -230,6 +292,14 @@ class TitleState extends MusicBeatState
 			gfDance.shader = swagShader.shader;
 			logoBl.shader = swagShader.shader;
 			titleText.shader = swagShader.shader;
+			#if TITLE_SCREEN_EASTER_EGG
+			if (specialTitle == true)
+			{
+				logoBlAlt.shader = swagShader.shader;
+				logoAlt.shader = swagShader.shader;
+				bg.shader = swagShader.shader;
+			}
+			#end
 		}
 
 		blackScreen = new FlxSprite().makeGraphic(1, 1, FlxColor.BLACK);
@@ -248,11 +318,26 @@ class TitleState extends MusicBeatState
 		ngSpr.screenCenter(X);
 		ngSpr.antialiasing = ClientPrefs.data.antialiasing;
 
-		add(gfDance);
-		add(logoBl); //FNF Logo
-		add(titleText); //"Press Enter to Begin" text
-		add(credGroup);
-		add(ngSpr);
+		#if TITLE_SCREEN_EASTER_EGG
+		if (specialTitle == false)
+		{
+			#end
+			add(gfDance);
+			add(logoBl); //FNF Logo
+			add(titleText); //"Press Enter to Begin" text
+			add(credGroup);
+			add(ngSpr);
+			#if TITLE_SCREEN_EASTER_EGG
+		}
+		else
+		{
+			add(bg);
+			add(logoBlAlt);
+			add(logoAlt);
+			FlxTween.tween(logoBlAlt, {y: logoBlAlt.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
+			FlxTween.tween(logoAlt, {y: logoBlAlt.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG, startDelay: 0.1});
+		}
+		#end
 
 		if (initialized)
 			skipIntro();
@@ -430,9 +515,33 @@ class TitleState extends MusicBeatState
 			#end
 		}
 
+		#if TITLE_SCREEN_EASTER_EGG
+		// Special-title enter handling: act like the normal Enter press (go to MainMenu)
+		// but play the titleShoot sound for effect.
+		if (specialTitle && pressedEnter && !transitioning)
+		{
+			if (titleText != null) titleText.animation.play('press');
+			FlxG.camera.flash(ClientPrefs.data.flashing ? FlxColor.WHITE : 0x4CFFFFFF, 1);
+			//FlxG.sound.play(Paths.sound('confirmMenu'), 0.7);
+			transitioning = true;
+			new FlxTimer().start(1, function(tmr:FlxTimer)
+			{
+				MusicBeatState.switchState(new MainMenuState());
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+				closedState = true;
+			});
+			try { FlxG.sound.play(Paths.music('titleShoot'), 0.7); } catch(e:Dynamic) {}
+			return;
+		}
+		#end
+
 		if (pressedEnter && transitioning && skippedIntro && !enterPressed)
 		{
 			MusicBeatState.switchState(new MainMenuState());
+			if (FlxG.sound.music == null || Reflect.field(FlxG.sound.music, "_sound") != Paths.music('freakyMenu'))
+			{
+				FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+			}
 			closedState = true;
 			enterPressed = true;
 		}
@@ -617,6 +726,7 @@ class TitleState extends MusicBeatState
 	{
 		for (i in 0...textArray.length)
 		{
+			if (textArray[i] == null) continue;
 			var money:Alphabet = new Alphabet(0, 0, textArray[i], true);
 			money.screenCenter(X);
 			money.y += (i * 60) + 200 + offset;
@@ -630,14 +740,15 @@ class TitleState extends MusicBeatState
 
 	function addMoreText(text:String, ?offset:Float = 0)
 	{
-		if (textGroup != null && credGroup != null)
+		if (text == null || textGroup == null || credGroup == null)
 		{
-			var coolText:Alphabet = new Alphabet(0, 0, text, true);
-			coolText.screenCenter(X);
-			coolText.y += (textGroup.length * 60) + 200 + offset;
-			credGroup.add(coolText);
-			textGroup.add(coolText);
+			return;
 		}
+		var coolText:Alphabet = new Alphabet(0, 0, text, true);
+		coolText.screenCenter(X);
+		coolText.y += (textGroup.length * 60) + 200 + offset;
+		credGroup.add(coolText);
+		textGroup.add(coolText);
 	}
 
 	function deleteCoolText()
@@ -684,7 +795,7 @@ class TitleState extends MusicBeatState
 			}
 		}
 
-		if (!closedState)
+		if (!closedState && !specialTitle)
 		{
 			sickBeats++;
 			switch (sickBeats)
@@ -771,6 +882,9 @@ class TitleState extends MusicBeatState
 	var increaseVolume:Bool = false;
 	function skipIntro():Void
 	{
+		#if TITLE_SCREEN_EASTER_EGG
+		if (specialTitle) return;
+		#end
 		if (!skippedIntro)
 		{
 			#if TITLE_SCREEN_EASTER_EGG
@@ -836,7 +950,7 @@ class TitleState extends MusicBeatState
 				}
 				else
 				{
-					remove(ngSpr);
+					if (ngSpr != null) remove(ngSpr);
 					remove(credGroup);
 					FlxG.camera.flash(FlxColor.WHITE, 3);
 					sound.onComplete = function()

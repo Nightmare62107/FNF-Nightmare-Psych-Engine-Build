@@ -880,6 +880,7 @@
 	],
 	"events": [],
 	"player2": "dad",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "Unknown",
 	"song": "Bopeebo Erect Old",

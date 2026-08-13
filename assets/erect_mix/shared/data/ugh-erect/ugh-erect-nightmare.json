@@ -1069,6 +1069,7 @@
 	],
 	"events": [],
 	"player2": "tankman",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "fabs + Spazkid",
 	"song": "Ugh Erect",

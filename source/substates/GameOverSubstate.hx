@@ -120,11 +120,13 @@ class GameOverSubstate extends MusicBeatSubstate
 				neneKnife.frames = Paths.getSparrowAtlas('NeneKnifeToss');
 				neneKnife.animation.addByPrefix('anim', 'knife toss', 24, false);
 				neneKnife.antialiasing = ClientPrefs.data.antialiasing;
+
 				neneKnife.animation.finishCallback = function(_)
 				{
-					remove(neneKnife);
-					neneKnife.destroy();
+					neneKnife.kill();
+					remove(neneKnife, true);
 				}
+
 				insert(0, neneKnife);
 				neneKnife.animation.play('anim', true);
 			}

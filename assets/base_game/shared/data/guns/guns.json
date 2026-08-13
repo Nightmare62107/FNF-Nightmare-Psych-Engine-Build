@@ -2,6 +2,7 @@
 	"song": {
 		"player1": "bf",
 		"player2": "tankman",
+		"skipCountdown": false,
 		"notes": [
 			{
 				"sectionBeats": 4,

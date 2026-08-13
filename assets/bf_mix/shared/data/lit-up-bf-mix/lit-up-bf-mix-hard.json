@@ -6,6 +6,7 @@
 	"stage": "phillyStreets",
 	"player1": "bf",
 	"player2": "darnell",
+	"skipCountdown": false,
 	"events": [],
 	"notes": [
 		{

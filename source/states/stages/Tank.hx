@@ -207,7 +207,7 @@ class Tank extends BaseStage
 			FlxTween.cancelTweensOf(FlxG.camera);
 			FlxTween.cancelTweensOf(camFollow);
 			game.moveCameraSection();
-			FlxG.camera.scroll.set(camFollow.x - FlxG.width/2, camFollow.y - FlxG.height/2);
+			FlxG.camera.scroll.set(camFollow.x - FlxG.width / 2, camFollow.y - FlxG.height / 2);
 			FlxG.camera.zoom = defaultCamZoom;
 			startCountdown();
 		};

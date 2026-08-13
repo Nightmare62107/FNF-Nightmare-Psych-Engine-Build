@@ -1564,6 +1564,7 @@
 			}
 		],
 		"player2": "pico",
+		"skipCountdown": false,
 		"song": "Pico",
 		"needsVoices": true,
 		"bpm": 150,

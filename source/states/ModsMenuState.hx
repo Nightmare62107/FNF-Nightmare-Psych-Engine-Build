@@ -215,20 +215,26 @@ class ModsMenuState extends MusicBeatState
 		var buttonsX = bgButtons.x + 320;
 		var buttonsY = bgButtons.y + 10;
 
-		var button = new MenuButton(buttonsX, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(0), 54, 54); //Move to the top
+		var button = new MenuButton(buttonsX - 100, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(0), 54, 54); //Move to the top
 		button.icon.animation.add('icon', [0]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
-		
-		var button = new MenuButton(buttonsX + 100, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod - 1), 54, 54); //Move up
+
+		var button = new MenuButton(buttonsX, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(modsGroup.length - 1), 54, 54); //Move to the bottom
 		button.icon.animation.add('icon', [1]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
 		
-		var button = new MenuButton(buttonsX + 200, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod + 1), 54, 54); //Move down
+		var button = new MenuButton(buttonsX + 100, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod - 1), 54, 54); //Move up
 		button.icon.animation.add('icon', [2]);
+		button.icon.animation.play('icon', true);
+		add(button);
+		buttons.push(button);
+		
+		var button = new MenuButton(buttonsX + 200, buttonsY, 80, 80, Paths.image('modsMenuButtons'), function() moveModToPosition(curSelectedMod + 1), 54, 54); //Move down
+		button.icon.animation.add('icon', [3]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
@@ -250,7 +256,7 @@ class ModsMenuState extends MusicBeatState
 			}
 		}, 54, 54);
 
-		settingsButton.icon.animation.add('icon', [3]);
+		settingsButton.icon.animation.add('icon', [4]);
 		settingsButton.icon.animation.play('icon', true);
 		add(settingsButton);
 		buttons.push(settingsButton);
@@ -282,7 +288,7 @@ class ModsMenuState extends MusicBeatState
 			checkToggleButtons();
 			FlxG.sound.play(Paths.sound('scrollMenu'), 0.6);
 		}, 54, 54);
-		button.icon.animation.add('icon', [4]);
+		button.icon.animation.add('icon', [5]);
 		button.icon.animation.play('icon', true);
 		add(button);
 		buttons.push(button);
@@ -375,7 +381,7 @@ class ModsMenuState extends MusicBeatState
 			{
 				if (FlxG.mouse.justPressed)
 				{
-					for (i in centerMod-2...centerMod+3)
+					for (i in centerMod-2...centerMod + 3)
 					{
 						var mod = modsGroup.members[i];
 						if (mod != null && mod.visible && FlxG.mouse.overlaps(mod))
@@ -445,7 +451,7 @@ class ModsMenuState extends MusicBeatState
 							if (holdingMod)
 							{
 								var moved:Bool = false;
-								for (i in centerMod-2...centerMod+3)
+								for (i in centerMod-2...centerMod + 3)
 								{
 									var mod = modsGroup.members[i];
 									if(mod != null && mod.visible && FlxG.mouse.overlaps(mod) && curSelectedMod != i)
@@ -1048,7 +1054,7 @@ class MenuButton extends FlxSpriteGroup
 
 	public function centerOnBg(spr:FlxSprite)
 	{
-		spr.x = bg.width/2 - spr.width/2;
-		spr.y = bg.height/2 - spr.height/2;
+		spr.x = bg.width / 2 - spr.width / 2;
+		spr.y = bg.height / 2 - spr.height / 2;
 	}
 }

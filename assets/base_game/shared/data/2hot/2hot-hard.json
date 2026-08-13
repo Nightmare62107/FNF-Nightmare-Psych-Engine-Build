@@ -1589,6 +1589,7 @@
 	],
 	"events": [],
 	"player2": "darnell",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "Jenny Crowe + Spazkid + ninjamuffin99",
 	"song": "2Hot",

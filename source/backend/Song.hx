@@ -28,6 +28,7 @@ typedef SwagSong =
 	@:optional var pauseBreakfast:String;
 	
 	@:optional var disableNoteRGB:Bool;
+	@:optional var skipCountdown:Bool;
 
 	@:optional var arrowSkin:String;
 	@:optional var splashSkin:String;

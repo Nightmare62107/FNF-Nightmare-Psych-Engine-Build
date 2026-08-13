@@ -1590,6 +1590,7 @@
 		}
 	],
 	"player2": "tankman",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "Stress Pico Mix",
 	"pauseBreakfast": "breakfast-pico",

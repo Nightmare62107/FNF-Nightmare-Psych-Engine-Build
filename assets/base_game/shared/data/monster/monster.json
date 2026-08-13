@@ -2501,6 +2501,7 @@
 			}
 		],
 		"player2": "monster",
+		"skipCountdown": false,
 		"song": "Monster",
 		"needsVoices": true,
 		"bpm": 95,

@@ -2089,6 +2089,7 @@
 			}
 		],
 		"player2": "spooky",
+		"skipCountdown": false,
 		"song": "South",
 		"needsVoices": true,
 		"bpm": 165,

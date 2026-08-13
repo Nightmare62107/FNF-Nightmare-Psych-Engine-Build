@@ -18,6 +18,7 @@ class DialogueBox extends FlxSpriteGroup
 	public var nextDialogueThing:Void->Void = null;
 	public var skipDialogueThing:Void->Void = null;
 
+	var face:FlxSprite;
 	var portraitLeft:FlxSprite;
 	var portraitRight:FlxSprite;
 
@@ -60,7 +61,7 @@ class DialogueBox extends FlxSpriteGroup
 				box.animation.addByPrefix('normalOpen', 'Spirit Textbox spawn', 24, false);
 				box.animation.addByIndices('normal', 'Spirit Textbox spawn instance 1', [11], '', 24);
 
-				var face:FlxSprite = new FlxSprite(320, 170).loadGraphic(Paths.image('weeb/spiritFaceForward'));
+				face = new FlxSprite(320, 170).loadGraphic(Paths.image('weeb/spiritFaceForward'));
 				face.setGraphicSize(Std.int(face.width * 6));
 				add(face);
 			default:
@@ -201,6 +202,7 @@ class DialogueBox extends FlxSpriteGroup
 			bgFade.alpha -= 1 / 5 * 0.7;
 			portraitLeft.visible = false;
 			portraitRight.visible = false;
+			if (songName == 'thorns') face.visible = false;
 			swagDialogue.alpha -= 1 / 5;
 			handSelect.alpha -= 1 / 5;
 		}, 5);

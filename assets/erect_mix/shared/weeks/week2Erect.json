@@ -1,7 +1,7 @@
 {
 	"songs": [
 		["Spookeez Erect", "spooky", [213, 126, 0]],
-		["South Erect", "spooky", [213, 126, 0]],
+		["South Erect", "spooky", [213, 126, 0]]
 	],
 
 	"weekCharacters": [
@@ -15,6 +15,7 @@
 	"weekBefore": "week1Erect",
 	"weekName": "Week 2 Erect",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

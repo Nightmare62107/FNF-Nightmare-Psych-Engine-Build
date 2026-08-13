@@ -288,12 +288,12 @@ class ReflectionFunctions
 			var index:Int = argStr.indexOf('::');
 			if(index > -1)
 			{
-				argStr = argStr.substring(index+2);
+				argStr = argStr.substring(index + 2);
 				//trace('Op1: $argStr');
 				var lastIndex:Int = argStr.lastIndexOf('::');
 
 				var split:Array<String> = (lastIndex > -1) ? argStr.substring(0, lastIndex).split('.') : argStr.split('.');
-				arg = (lastIndex > -1) ? Type.resolveClass(argStr.substring(lastIndex+2)) : PlayState.instance;
+				arg = (lastIndex > -1) ? Type.resolveClass(argStr.substring(lastIndex + 2)) : PlayState.instance;
 				for (j in 0...split.length)
 				{
 					//trace('Op2: ${Type.getClass(args[i])}, ${split[j]}');

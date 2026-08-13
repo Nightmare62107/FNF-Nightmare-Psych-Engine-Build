@@ -3,6 +3,7 @@ package shaders;
 import flixel.FlxG;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
+import openfl.Lib;
 import backend.ClientPrefs;
 
 class ColorFilters
@@ -77,7 +78,6 @@ class ColorFilters
 	public static function applyFiltersOnGame()
 	{
 		filterArray = [];
-		flixel.FlxG.game.setFilters(filterArray);
 		if (ClientPrefs.data.colorFilter != "None") //actually self explanatory, isn't it?
 		{
 			if (filterMap.get(ClientPrefs.data.colorFilter) != null) //anticrash system
@@ -89,6 +89,25 @@ class ColorFilters
 				}
 			}
 		}
-		flixel.FlxG.game.setFilters(filterArray);
+
+		// Avoid double-applying the same ColorMatrix on both the Flx game
+		// container and the OpenFL root. That caused double-inversion: the
+		// game would be inverted twice (back to normal) while overlays on the
+		// root were inverted once. To fix that, apply the ColorMatrixFilter
+		// (e.g. "Inverted") only to the OpenFL root and clear any existing
+		// FlxG.game filters so the effect is visible on both game and HUD.
+		if (ClientPrefs.data.colorFilter == "Inverted")
+		{
+			// clear flixel-side filters to prevent double application
+			try { flixel.FlxG.game.setFilters([]); } catch(e:Dynamic) {}
+			(untyped Lib.current).set_filters(filterArray);
+			return;
+		}
+
+		// For non-invert filters, apply to the Flx game container so camera
+		// effects and shader filters behave as before, and also set root
+		// filters for HUD overlays.
+		try { flixel.FlxG.game.setFilters(filterArray); } catch(e:Dynamic) {}
+		try { (untyped Lib.current).set_filters(filterArray); } catch(e:Dynamic) {}
 	}
 }

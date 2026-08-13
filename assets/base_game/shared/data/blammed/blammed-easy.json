@@ -1457,6 +1457,7 @@
 			}
 		],
 		"player2": "pico",
+		"skipCountdown": false,
 		"song": "Blammed",
 		"needsVoices": true,
 		"bpm": 165,

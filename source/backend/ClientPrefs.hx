@@ -24,7 +24,8 @@ import states.InitState;
 	];
 
 	// Adjust Delay And Combo Settings
-	public var comboOffset:Array<Int> = [0, 0, 0, 0];
+	// comboOffset: [ratingX, ratingY, numbersX, numbersY, comboImgX, comboImgY]
+	public var comboOffset:Array<Int> = [0, 0, 0, 0, 0, 0];
 	public var noteOffset:Int = 0;
 
 	// Graphics Settings
@@ -43,10 +44,11 @@ import states.InitState;
 	public var flashing:Bool = true;
 	public var camZooms:Bool = true;
 	public var scoreZoom:Bool = true;
+	public var scoreMechanicsBotplay:Bool = false;
 	public var healthBarAlpha:Float = 1;
 	public var healthBarBGAlpha:Float = 0;
+	public var showHealthPercent:Bool = false;
 	public var pixelBorder:Bool = false;
-	public var showFPS:Bool = true;
 	public var pauseMusic:String = 'Tea Time';
 	public var pauseMusicChanges:Bool = true;
 	public var checkForUpdates:Bool = true;
@@ -55,6 +57,9 @@ import states.InitState;
 	public var comboColorChange:Bool = false;
 	public var comboTrimLeadingZeros:Bool = false;
 	public var colorFilter:String = 'None';
+	public var threeDMode:String = 'None'; // Options: 'None', 'Cross-Eye 3D', 'Anaglyph (Red/Cyan)'
+	public var threeDIntensity:Float = 0.008;
+	public var threeDSeparation:Float = 0.5;
 
 	// Gameplay Settings
 	public var downScroll:Bool = false;
@@ -66,6 +71,7 @@ import states.InitState;
 	public var noBotplay:Bool = false;
 	public var guitarHeroSustains:Bool = true;
 	public var missSounds:Bool = true;
+	public var hitsoundSound:String = 'Default';
 	public var hitsoundVolume:Float = 0;
 	public var ratingOffset:Int = 0;
 	public var sickWindow:Float = 45.0;
@@ -73,6 +79,16 @@ import states.InitState;
 	public var badWindow:Float = 135.0;
 	public var safeFrames:Float = 10.0;
 	public var scrollType:String = "Upscroll";
+
+	// Display Counter Settings
+	public var showFPS:Bool = true;
+	public var displayFPS:Bool = true;
+	public var displayMemory:Bool = true;
+	public var displayDate:Bool = false;
+	public var displayTime:Bool = false;
+	public var displayTimezone:Bool = false;
+	public var displayBattery:Bool = false;
+	public var fpsColor:String = 'White';
 	
 	// Language Settings
 	public var language:String = 'en-US';
@@ -98,6 +114,9 @@ import states.InitState;
 		'healthdrain' => false,
 		#if VS_SONIC_EXE_FILES
 		'ringsystem' => false,
+		#end
+		#if MARIOS_MADNESS_FILES
+		'sm64lifemetersystem' => false,
 		#end
 		'maxmisses' => false,
 		'instakill' => false,
@@ -240,6 +259,7 @@ class ClientPrefs
 		if (Main.fpsVar != null)
 		{
 			Main.fpsVar.visible = data.showFPS;
+			Main.applySavedFPSColor();
 		}
 
 		#if (!html5 && !switch)
@@ -248,7 +268,7 @@ class ClientPrefs
 		if (FlxG.save.data.framerate == null)
 		{
 			final refreshRate:Int = FlxG.stage.application.window.displayMode.refreshRate;
-			data.framerate = Std.int(FlxMath.bound(refreshRate, 60, 240));
+			data.framerate = Std.int(FlxMath.bound(refreshRate, 30, 960));
 		}
 		#end
 

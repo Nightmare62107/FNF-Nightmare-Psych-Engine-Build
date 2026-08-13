@@ -87,7 +87,7 @@ Nightmare's Build V6:
 
 - Pressing "BACKSPACE" on your keyboard now closes the Controls Substate (just like ESCAPE). So now you can use either one to close it.
 
-- Added an option to trim leading zeros from the combo numbers (so if its "0 0 3" it will only show "3". This option also changes the note offset state's numbers.
+- Added an option to trim leading zeros from the combo numbers (so if its "0 0 3" it will only show "3". This option also changes the note offset state's numbers).
 
 - Changed the combo numbers in note offset state to have a 4th digit.
 
@@ -185,6 +185,109 @@ Nightmare's Build V7:
 
 
 
+Nightmare's Build V8:
+
+- Added the current device's date and time to the FPS Counter. Automatically checks computer's current date and time.
+
+- Added a "Skip Countdown" variable to charting state that goes directly into all charts. This can still be overridden by the gameplay changers version of it, so if gameplay changers Skip Countdown is on, it will always skip the countdown regardless of the chart.
+
+- FPS Counter's Time now displays your time zone.
+
+- Changed the Control Settings menu's alignment so longer named keybinds can be seen.
+
+- Added Battery percentage to the FPS Counter to track your device's battery during gameplay.
+
+- Added a new options menu that allows you to individually choose what does and does not display on the Display Counter (AKA FPS Counter).
+
+- Changed the FPS caps to 30 Min and 960 Max (original was 60 Min and 240 Max).
+
+- Fixed the Color Filters and the Display Counter so the filters now affect the Counter.
+
+- Added a title screen code for the title screen from the original Ludum Dare Prototype to appear (LUDUMDARE).
+
+- Completely uncapped the Playback Rate so you can set it to whatever you want.
+
+- Added percentages to sides of the health bar, it tells you the exact percentage of health the player and opponent are at on the bar.
+
+- Added the word Botplay to the top right of the pause menu when it's turned on (also fixed up the way they fade in).
+
+- Fixed the lock icons in the Story Menu so they no longer clip past the yellow background on the top of the screen while scrolling down.
+
+- Added support for iconGrid's to be used within Psych Engine, separate from regular icons! (using "iconGrid.txt"). (WIP, WONT WORK WITH MODS).
+
+- Re-added the unused Hide Ghost button in the Character Editor menu.
+
+- Added custom hit sounds (used similar to note skins).
+
+- Added MS to all time bar settings.
+
+- Re-added the combo image into the game, included with its own x and y cord in the delay/combo options menu.
+
+- Added the SM64 Life Meter mechanic (from Mario's Madness) and their coin notes. Enable it within gameplay changers (if you dont want the coins to spawn by themselves, disable it through lua (sm64LifeMeterCoinSpawning)).
+
+- Added the Lil' Buddies to the chart editor from FPS+. (You can toggle them through the View section).
+
+- Added commas where applicable (for example scores, misses, those digits now use commas).
+
+- Added flxcolor support for ALL official standardized CSS color name that is not already present in HaxeFlixel's list. This brings the color total up to 143 default color names.
+
+- Upgraded almost all of the haxelib's to their newest versions, this should help the game run better internally.
+
+- Fixed crash on Freeplay when pressing SPACE to listen to a song while on Random.
+
+- Added the ratingFC to the freeplay Personal Best score so it displays your FC rating.
+
+- Added the merch link from base game into the main menu.
+
+- Updated the Display Counter's color option to have its own submenus to house all of the options for colors.
+
+- Added your current note Combo to the score text in between Score and Misses (also added it in the editorplaystate in the chart editor).
+
+- Added a Macro to the backend of the game to convert abstracts like blend mode to hscript. BlendMode, Json, Timer, FlxAngle, FlxPoint, FlxSpriteUtil, and Lambda can all now be used within hscript.
+
+- Added a lot more Lua functions into the game using a new .hx built into the code (CustomLuaFunctions.hx).
+
+- Fixed/added some more keybind names within InputFormatter.hx, so it displays keybinds like "#/" instead of a longer basic flixel name for them.
+
+- Added a new option within visuals settings that allows you to use score text and mechanics normally during botplay (good for gameplay showcases).
+
+- Added a Force Debug Crash keybind (Control+Alt+Shift+L) into the game. This is from the official fnf engine, just ported it over for fun.
+
+- Added Commas to the numScore (the combo numbers). Also added a period (.) in the files, it currently goes unused. There are also pixel versions, which I made myself for this build.
+
+- Removed the 9999 combo limit. I don't know why it was even there in the first place.
+
+- Fixed the combo num images themselves, they should all be aligned properly now. Had to go into each one individually.
+
+- Increased the Charting State's Autosave File Limit from 50 to 100.
+
+- Added Philly Glow's event to Week 4. I'll be adding it to other weeks within updates.
+
+- Fixed the play state within the chart editor so the score text actually updates during the song instead of only when you miss.
+
+- Fixed the Combo number trim always being active reguardless of its visual setting.
+
+- Added/Fixed the EditorPlayState's combo number logic so it uses the same stuff as PlayState does (for example the commas).
+
+- Hide HUD Option in Visuals Settings now hides ALL hud instead of most of them. (Including Time Bar & Botplay Text).
+
+- All numeric steppers within the game now support multiply and divide. Had to fix everything's positioning to make room for the buttons, but it works now.
+
+- Added a button on the Mods Menu to move a mod directly to the bottom. No clue why there wasn't one to begin with.
+
+- Playable Pico now has his Hey animation.
+
+- Stress Pico Mix now has the correct picospeaker chart.
+
+- Added support for 3D effects in Visuals Settings.
+
+- Added a "Crash The Game" option in the master editor menu. Why? Because it's funny. Also I saw it in iris legacy engine and wanted to use the idea.
+
+- Updated Flixel's Haxelib (from 6.1.2 to 6.2.0).
+
+- Fixed a crash on pico's game over with the nene knife becoming a null object reference.
+
+
 
 BUILDS/MODS/ENGINES I'VE TAKEN FROM:
 
@@ -198,3 +301,6 @@ BUILDS/MODS/ENGINES I'VE TAKEN FROM:
 - Modernized Psych Engine (My Old Build): https://github.com/Nightmare62107/FNF-ModernizedPsychEngine
 - Corruption Reimagined: https://github.com/Honton129/Funkin-Corruption-Reimagined-LegacyMain
 - Triple Trouble Ring (Psych Engine Port): https://gamebanana.com/mods/402437
+- Corruption Engine: https://gamebanana.com/mods/633097
+- Mario's Madness V2: https://github.com/Dewott2501/Mario-Madness
+- FPS Plus: https://github.com/ThatRozebudDude/FPS-Plus-Public

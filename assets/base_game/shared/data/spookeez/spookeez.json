@@ -4,6 +4,7 @@
 		"events": [],
 		"gfVersion": "gf",
 		"player2": "spooky",
+		"skipCountdown": false,
 		"notes": [
 			{
 				"sectionBeats": 4,

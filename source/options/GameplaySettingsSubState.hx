@@ -24,7 +24,7 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		*/
 
-		var option:Option = new Option('Scroll Type',
+		var option:Option = new Option('Scroll Type:',
 			'Changes the scroll direction of the notes.\nNOTE: Leftscroll and Rightscroll are a WIP!',
 			'scrollType',
 			STRING,
@@ -73,6 +73,24 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 			'missSounds',
 			BOOL);
 		addOption(option);
+
+		var hitSounds:Array<String> = Mods.mergeAllTextsNamed('sounds/hitSounds/list.txt');
+		if (hitSounds.length > 0)
+		{
+			if (!hitSounds.contains(ClientPrefs.data.hitsoundSound))
+			{
+				ClientPrefs.data.hitsoundSound = ClientPrefs.defaultData.hitsoundSound; //Reset to default if saved hitsound couldnt be found
+			}
+
+			hitSounds.insert(0, ClientPrefs.defaultData.hitsoundSound); //Default hitsound always comes first
+			var option:Option = new Option('Hitsound:',
+				"Select your prefered hitsound.",
+				'hitsoundSound',
+				STRING,
+				hitSounds);
+			addOption(option);
+			option.onChange = onChangeHitsound;
+		}
 
 		var option:Option = new Option('Hitsound Volume',
 			'Funny notes does \"Tick!\" when you hit them.',
@@ -143,6 +161,9 @@ class GameplaySettingsSubState extends BaseOptionsMenu
 	}
 
 	function onChangeHitsoundVolume()
+		FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
+
+	function onChangeHitsound()
 		FlxG.sound.play(Paths.sound('hitsound'), ClientPrefs.data.hitsoundVolume);
 
 	function onChangeAutoPause()

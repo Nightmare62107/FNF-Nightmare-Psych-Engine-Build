@@ -85,7 +85,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.onChange = playNoteSplashes;
 
 		var option:Option = new Option('Hide HUD',
-			'If checked, hides most HUD elements.',
+			'If checked, hides all HUD elements.',
 			'hideHud',
 			BOOL);
 		addOption(option);
@@ -115,6 +115,12 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			BOOL);
 		addOption(option);
 
+		var option:Option = new Option('Score & Mechanics During Botplay',
+			'If checked, score text and mechanics will work normally during botplay.\n Good for gameplay showcases and videos.',
+			'scoreMechanicsBotplay',
+			BOOL);
+		addOption(option);
+
 		var option:Option = new Option('Health Bar Opacity',
 			'How much transparent should the health bar and icons be.',
 			'healthBarAlpha',
@@ -137,12 +143,20 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		option.decimals = 1;
 		addOption(option);
 
+		var option:Option = new Option('Player/Opponent Health %',
+			"If checked, adds health tracking %\non each side of the health bar.",
+			'showHealthPercent',
+			BOOL);
+		addOption(option);
+
 		var option:Option = new Option('Pixel Border',
 			'If checked, shows a Pixel Border around the screen in Pixel Stages.',
 			'pixelBorder',
 			BOOL);
 		addOption(option);
 		
+		//Moved this to Display Counter Settings.
+		/*
 		#if !mobile
 		var option:Option = new Option('FPS Counter',
 			'If unchecked, hides FPS Counter.',
@@ -151,6 +165,7 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 		addOption(option);
 		option.onChange = onChangeFPSCounter;
 		#end
+		*/
 		
 		var option:Option = new Option('Pause Music:',
 			"What song do you prefer for the Pause Screen?",
@@ -206,6 +221,35 @@ class VisualsSettingsSubState extends BaseOptionsMenu
 			STRING,
 			['None', 'Deuteranopia', 'Protanopia', 'Tritanopia', 'Greyscale', 'Inverted']);
 		option.onChange = ColorFilters.applyFiltersOnGame;
+		addOption(option);
+
+		var option:Option = new Option('3D Filter:',
+			'Choose a stereoscopic 3D rendering mode.',
+			'threeDMode',
+			STRING,
+			['None', 'Cross-Eye 3D', 'Anaglyph (Red/Cyan)']);
+		addOption(option);
+
+		option = new Option('3D Depth Intensity:',
+			'How strong the 3D depth effect is.',
+			'threeDIntensity',
+			FLOAT);
+		option.scrollSpeed = 0.001;
+		option.minValue = 0.001;
+		option.maxValue = 0.015;
+		option.changeValue = 0.001;
+		option.decimals = 3;
+		addOption(option);
+
+		option = new Option('UI Parallax Separation:',
+			'Adjusts the 3D depth gap between the stage and the HUD/notes.',
+			'threeDSeparation',
+			FLOAT);
+		option.scrollSpeed = 0.1;
+		option.minValue = 0.0; // 0.0 = completely flat together
+		option.maxValue = 2.0; // 2.0 = maximum layer separation
+		option.changeValue = 0.1;
+		option.decimals = 1;
 		addOption(option);
 
 		super();

@@ -7,6 +7,7 @@
 		"stage": "phillyBlazin",
 		"player1": "pico-blazin",
 		"player2": "darnell-blazin",
+		"skipCountdown": false,
 		"events": [],
 		"notes": [
 			{

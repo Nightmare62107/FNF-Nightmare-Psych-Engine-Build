@@ -163,7 +163,7 @@ class NoteSplash extends FlxSprite
 		{
 			for (v in Note.colArray)
 			{
-				if (!checkForAnim('$anim $v ${maxAnims+1}'))
+				if (!checkForAnim('$anim $v ${maxAnims + 1}'))
 				{
 					failedToFind = true;
 					break;

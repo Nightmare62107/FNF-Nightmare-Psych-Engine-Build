@@ -215,7 +215,7 @@ end
 function onEvent(name, value1, value2, value3, value4, value5, strumTime)
 	-- Event note triggered
 
-	-- print('Event triggered: ', name, value1, value2, strumTime);
+	-- print('Event triggered: ', name, value1, value2, value3, value4, value5, strumTime);
 end
 
 function onEventPushed(name, value1, value2, value3, value4, value5, strumTime)

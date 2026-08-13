@@ -122,6 +122,20 @@ class CoolUtil
 		return dumbArray;
 	}
 
+	inline public static function formatWithCommas(value:Int):String
+	{
+		var text:String = Std.string(value);
+		var negative:Bool = text.charAt(0) == '-';
+		if (negative) text = text.substr(1);
+		var formatted:String = "";
+		while (text.length > 3)
+		{
+			formatted = "," + text.substr(text.length - 3) + formatted;
+			text = text.substr(0, text.length - 3);
+		}
+		return (if (negative) "-" else "") + text + formatted;
+	}
+
 	inline public static function browserLoad(site:String) {
 		#if linux
 		Sys.command('/usr/bin/xdg-open', [site]);

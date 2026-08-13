@@ -2,6 +2,7 @@
 	"song": {
 		"player1": "bf-pixel",
 		"player2": "senpai",
+		"skipCountdown": false,
 		"notes": [
 			{
 				"sectionBeats": 4,

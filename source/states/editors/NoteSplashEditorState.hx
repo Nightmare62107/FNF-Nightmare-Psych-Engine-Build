@@ -66,7 +66,7 @@ class NoteSplashEditorState extends MusicBeatState
 
         shaderUI = new PsychUIBox(0, 0, 0, 0, ["Shader"]);
         shaderUI.canMove = shaderUI.canMinimize = false;
-        shaderUI.resize(160, 180);
+        shaderUI.resize(160, 250);
         shaderUI.x = FlxG.width - shaderUI.width - 10;
         shaderUI.y = UI.y + UI.height + 10;
         add(shaderUI);
@@ -136,24 +136,24 @@ class NoteSplashEditorState extends MusicBeatState
         curAnimText = name_input;
         UI.add(name_input);
 
-        UI.add(new FlxText(name_input.x, name_input.y + 30, 0, "Animation Prefix:", 8));
-        var prefix_input:PsychUIInputText = new PsychUIInputText(20, name_input.y + 47.5, 100, "", 8);
+        UI.add(new FlxText(name_input.x, name_input.y + 30 + 5, 0, "Animation Prefix:", 8));
+        var prefix_input:PsychUIInputText = new PsychUIInputText(20, name_input.y + 47.5 + 5, 100, "", 8);
         UI.add(prefix_input);
 
         UI.add(new FlxText(150, 20, 0, "Note Data:"));
         numericStepperData = new PsychUINumericStepper(150, 37.5, 1, .0, .0, 999, 0);
         UI.add(numericStepperData);
 
-        UI.add(new FlxText(150, name_input.y + 30, 0, "Indices (OPTIONAL):"));
-        var indices_input:PsychUIInputText = new PsychUIInputText(150, name_input.y + 47.5, 100, "", 8);
+        UI.add(new FlxText(150, name_input.y + 30 + 5, 0, "Indices (OPTIONAL):"));
+        var indices_input:PsychUIInputText = new PsychUIInputText(150, name_input.y + 47.5 + 5, 100, "", 8);
         UI.add(indices_input);
 
-        UI.add(new FlxText(20, 110, 0, "Minimum FPS:"));
-        var minFps:PsychUINumericStepper = new PsychUINumericStepper(20, 127.5, 1, 22, 1, 120);
+        UI.add(new FlxText(20, 110 + 5, 0, "Minimum FPS:"));
+        var minFps:PsychUINumericStepper = new PsychUINumericStepper(20, 127.5 + 5, 1, 22, 1, 120);
         UI.add(minFps);
 
-        UI.add(new FlxText(150, 110, 0, "Maximum FPS:"));
-        var maxFps:PsychUINumericStepper = new PsychUINumericStepper(150, 127.5, 1, 26, 1, 120);
+        UI.add(new FlxText(150, 110 + 5, 0, "Maximum FPS:"));
+        var maxFps:PsychUINumericStepper = new PsychUINumericStepper(150, 127.5 + 5, 1, 26, 1, 120);
         UI.add(maxFps);
 
         animDropDown = new PsychUIDropDownMenu(-155, 57, [""], function(id:Int, name:String)
@@ -398,8 +398,8 @@ class NoteSplashEditorState extends MusicBeatState
 
         tab.add(new FlxText(40, 10, "Replacing Color:"));
         tab.add(new FlxText(25, 30, "Red:"));
-        tab.add(new FlxText(25, 50, "Green:"));
-        tab.add(new FlxText(25, 70, "Blue:"));
+        tab.add(new FlxText(25, 50 + 20, "Green:"));
+        tab.add(new FlxText(25, 70 + 40, "Blue:"));
 
         var red = new PsychUINumericStepper(60, 30, 1, redShader[0], 0, 255, 0);
         red.onValueChange = () -> {
@@ -413,7 +413,7 @@ class NoteSplashEditorState extends MusicBeatState
         };
         tab.add(red);
 
-        var green = new PsychUINumericStepper(60, 50, 1, redShader[1], 0, 255, 0);
+        var green = new PsychUINumericStepper(60, 50 + 20, 1, redShader[1], 0, 255, 0);
         green.onValueChange = () -> {
             var shader = switch (changeShader.selectedLabel)
             {
@@ -425,7 +425,7 @@ class NoteSplashEditorState extends MusicBeatState
         };
         tab.add(green);
 
-        var blue = new PsychUINumericStepper(60, 70, 1, redShader[2], 0, 255, 0);
+        var blue = new PsychUINumericStepper(60, 70 + 40, 1, redShader[2], 0, 255, 0);
         blue.onValueChange = () -> {
             var shader = switch (changeShader.selectedLabel)
             {
@@ -455,8 +455,8 @@ class NoteSplashEditorState extends MusicBeatState
             setConfigRGB();
         }
 
-        add(new FlxText(shaderUI.x + 20, shaderUI.y + 135, 0, "Color to Replace:"));
-        changeShader = new PsychUIDropDownMenu(shaderUI.x + 20, shaderUI.y + 150, ["Red", "Green", "Blue"], function(id:Int, name:String)
+        add(new FlxText(shaderUI.x + 20, shaderUI.y + 135 + 70, 0, "Color to Replace:"));
+        changeShader = new PsychUIDropDownMenu(shaderUI.x + 20, shaderUI.y + 150 + 70, ["Red", "Green", "Blue"], function(id:Int, name:String)
         {
             var shader = switch (name)
             {
@@ -479,7 +479,7 @@ class NoteSplashEditorState extends MusicBeatState
         });
         add(changeShader);
         
-        defaultButton = new PsychUICheckBox(shaderUI.x + 30, shaderUI.y + 115, "Do not replace", 100, () -> onCheck());
+        defaultButton = new PsychUICheckBox(shaderUI.x + 30, shaderUI.y + 115 + 60, "Do not replace", 100, () -> onCheck());
         defaultButton.text.y += 2.5;
         add(defaultButton);
 
@@ -574,11 +574,11 @@ class NoteSplashEditorState extends MusicBeatState
                 if(holdingArrowsTime > 0.6)
                 {
                     holdingArrowsElapsed += elapsed;
-                    while(holdingArrowsElapsed > (1/60))
+                    while(holdingArrowsElapsed > (1 / 60))
                     {
                         config.animations[curAnim].offsets[0] += ((moveKeys[0] ? 1 : 0) - (moveKeys[1] ? 1 : 0)) * multiplier;
                         config.animations[curAnim].offsets[1] += ((moveKeys[2] ? 1 : 0) - (moveKeys[3] ? 1 : 0)) * multiplier;
-                        holdingArrowsElapsed -= (1/60);
+                        holdingArrowsElapsed -= (1 / 60);
                         changedOffset = true;
                     }
                 }
@@ -591,9 +591,15 @@ class NoteSplashEditorState extends MusicBeatState
         if (!blockInput)
         {
             if (controls.BACK)
+            {
                 MusicBeatState.switchState(new MasterEditorMenu());
+                FlxG.sound.playMusic(Paths.music('freakyMenu'), 0.7);
+            }
+
             if (FlxG.keys.justPressed.F1)
+            {
                 openSubState(new NoteSplashEditorHelpSubState());
+            }
         }
 
         if (FlxG.mouse.overlaps(strums))
@@ -960,7 +966,7 @@ class NoteSplashEditorHelpSubState extends MusicBeatSubstate
             helpText.borderSize = 1;
             helpText.screenCenter();
             add(helpText);
-            helpText.y += ((i - str.length/2) * 32) + 16;
+            helpText.y += ((i - str.length / 2) * 32) + 16;
             helpTexts.add(helpText);
         }
         add(helpTexts);

@@ -11,7 +11,8 @@ class OptionsState extends MusicBeatState
 		'Adjust Delay and Combo',
 		'Graphics',
 		'Visuals',
-		'Gameplay'
+		'Gameplay',
+		'Display Counter'
 		#if TRANSLATIONS_ALLOWED , 'Language' #end
 	];
 	private var grpOptions:FlxTypedGroup<Alphabet>;
@@ -33,6 +34,11 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.ControlsSubState());
 			}
 
+			case 'Adjust Delay and Combo':
+			{
+				MusicBeatState.switchState(new options.NoteOffsetState());
+			}
+
 			case 'Graphics':
 			{
 				openSubState(new options.GraphicsSettingsSubState());
@@ -48,9 +54,9 @@ class OptionsState extends MusicBeatState
 				openSubState(new options.GameplaySettingsSubState());
 			}
 
-			case 'Adjust Delay and Combo':
+			case 'Display Counter':
 			{
-				MusicBeatState.switchState(new options.NoteOffsetState());
+				openSubState(new options.DisplayCounterSettingsSubState());
 			}
 
 			case 'Language':

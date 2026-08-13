@@ -1344,6 +1344,7 @@
 	],
 	"events": [],
 	"player2": "darnell",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "Jenny Crowe + Spazkid",
 	"song": "Lit Up",

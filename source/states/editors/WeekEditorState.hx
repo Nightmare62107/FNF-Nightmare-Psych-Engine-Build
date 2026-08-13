@@ -215,7 +215,7 @@ class WeekEditorState extends MusicBeatState implements PsychUIEventHandler.Psyc
 		
 		tab_group.add(new FlxText(weekBeforeInputText.x, weekBeforeInputText.y - 28, 0, 'Week File name of the Week you have\nto finish for Unlocking:'));
 		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y - 20, 0, 'Difficulties:'));
-		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'Default difficulties are "Easy, Normal, Hard"\nwithout quotes.'));
+		tab_group.add(new FlxText(difficultiesInputText.x, difficultiesInputText.y + 20, 0, 'Default difficulties are\n"Easy, Normal, Hard' #if ERECT_MIX_FILES + ', Erect, Nightmare' #end + '"\nwithout quotes.'));
 		tab_group.add(weekBeforeInputText);
 		tab_group.add(difficultiesInputText);
 		tab_group.add(hiddenUntilUnlockCheckbox);
@@ -393,6 +393,14 @@ class WeekEditorState extends MusicBeatState implements PsychUIEventHandler.Psyc
 			loadedWeek = null;
 
 			reloadAllShit();
+		}
+
+		// play a click sound any time the user left- or right-clicks in the editor
+		// this is intentionally very early so it triggers regardless of what
+		// interaction happens afterwards (even if we later ignore the click)
+		if(FlxG.mouse.justPressed || FlxG.mouse.justPressedRight)
+		{
+			FlxG.sound.play(Paths.sound('clickUp'), 0.4);
 		}
 
 		if(PsychUIInputText.focusOn == null)
@@ -596,9 +604,9 @@ class WeekEditorFreeplayState extends MusicBeatState implements PsychUIEventHand
 		var tabs = [
 			{name: 'Freeplay', label: 'Freeplay'},
 		];
-		UI_box = new PsychUIBox(FlxG.width, FlxG.height, 250, 200, ['Freeplay']);
+		UI_box = new PsychUIBox(FlxG.width, FlxG.height, 250, 220, ['Freeplay']);
 		UI_box.x -= UI_box.width + 100;
-		UI_box.y -= UI_box.height + 60;
+		UI_box.y -= UI_box.height + 80;
 		UI_box.scrollFactor.set();
 		addFreeplayUI();
 		add(UI_box);
@@ -657,7 +665,7 @@ class WeekEditorFreeplayState extends MusicBeatState implements PsychUIEventHand
 		bgColorStepperG = new PsychUINumericStepper(80, 40, 20, 255, 0, 255, 0);
 		bgColorStepperB = new PsychUINumericStepper(150, 40, 20, 255, 0, 255, 0);
 
-		var copyColor:PsychUIButton = new PsychUIButton(10, bgColorStepperR.y + 25, "Copy Color", function() Clipboard.text = bg.color.red + ',' + bg.color.green + ',' + bg.color.blue);
+		var copyColor:PsychUIButton = new PsychUIButton(10, bgColorStepperR.y + 40, "Copy Color", function() Clipboard.text = bg.color.red + ',' + bg.color.green + ',' + bg.color.blue);
 
 		var pasteColor:PsychUIButton = new PsychUIButton(140, copyColor.y, "Paste Color", function()
 		{
@@ -686,7 +694,7 @@ class WeekEditorFreeplayState extends MusicBeatState implements PsychUIEventHand
 			}
 		});
 
-		iconInputText = new PsychUIInputText(10, bgColorStepperR.y + 70, 100, '', 8);
+		iconInputText = new PsychUIInputText(10, bgColorStepperR.y + 90, 100, '', 8);
 
 		var hideFreeplayCheckbox:PsychUICheckBox = new PsychUICheckBox(10, iconInputText.y + 30, "Hide Week from Freeplay?", 100);
 		hideFreeplayCheckbox.checked = weekFile.hideFreeplay;

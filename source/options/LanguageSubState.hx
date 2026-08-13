@@ -123,29 +123,31 @@ class LanguageSubState extends MusicBeatSubstate
 		super.update(elapsed);
 
 		var mult:Int = (FlxG.keys.pressed.SHIFT) ? 4 : 1;
-		if(controls.UI_UP_P)
+		if (controls.UI_UP_P)
 		{
 			changeSelected(-1 * mult);
 			holdTime = 0;
 		}
 
-		if(controls.UI_DOWN_P)
+		if (controls.UI_DOWN_P)
 		{
 			changeSelected(1 * mult);
 			holdTime = 0;
 		}
 
-		if(controls.UI_UP || controls.UI_DOWN)
+		if (controls.UI_UP || controls.UI_DOWN)
 		{
 			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
 			holdTime += elapsed;
 			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
 
-			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			if (holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
 				changeSelected((checkNewHold - checkLastHold) * (controls.UI_UP ? (-1 * mult) : (1 * mult)));
+			}
 		}
 
-		if(FlxG.mouse.wheel != 0)
+		if (FlxG.mouse.wheel != 0)
 		{
 			changeSelected(FlxG.mouse.wheel * mult);
 		}

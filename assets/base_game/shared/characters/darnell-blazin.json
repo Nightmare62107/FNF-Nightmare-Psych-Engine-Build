@@ -141,6 +141,7 @@
 	"image": "characters/darnellBlazin",
 	"position": [400, 650],
 	"healthicon": "darnell",
+	"usegridicon": false,
 	"flip_x": false,
 	"healthbar_colors": [115, 94, 176],
 	"camera_position": [-150, 100],

@@ -24,7 +24,7 @@ class Conductor
 
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
 
-	public static function judgeNote(arr:Array<Rating>, diff:Float=0):Rating // die
+	public static function judgeNote(arr:Array<Rating>, diff:Float = 0):Rating // die
 	{
 		var data:Array<Rating> = arr;
 		for (i in 0...data.length-1) //skips last window (Shit)
@@ -41,7 +41,7 @@ class Conductor
 	public static function getCrotchetAtTime(time:Float)
 	{
 		var lastChange = getBPMFromSeconds(time);
-		return lastChange.stepCrochet*4;
+		return lastChange.stepCrochet * 4;
 	}
 
 	public static function getBPMFromSeconds(time:Float)
@@ -88,7 +88,7 @@ class Conductor
 	{
 		var step = beat * 4;
 		var lastChange = getBPMFromStep(step);
-		return lastChange.songTime + ((step - lastChange.stepTime) / (lastChange.bpm / 60)/4) * 1000; // TODO: make less shit and take BPM into account PROPERLY
+		return lastChange.songTime + ((step - lastChange.stepTime) / (lastChange.bpm / 60) / 4) * 1000; // TODO: make less shit and take BPM into account PROPERLY
 	}
 
 	public static function getStep(time:Float)
@@ -105,12 +105,12 @@ class Conductor
 
 	public static function getBeat(time:Float)
 	{
-		return getStep(time)/4;
+		return getStep(time) / 4;
 	}
 
 	public static function getBeatRounded(time:Float):Int
 	{
-		return Math.floor(getStepRounded(time)/4);
+		return Math.floor(getStepRounded(time) / 4);
 	}
 
 	public static function mapBPMChanges(song:SwagSong)
@@ -129,7 +129,7 @@ class Conductor
 					stepTime: totalSteps,
 					songTime: totalPos,
 					bpm: curBPM,
-					stepCrochet: calculateCrochet(curBPM)/4
+					stepCrochet: calculateCrochet(curBPM) / 4
 				};
 				bpmChangeMap.push(event);
 			}
@@ -150,7 +150,7 @@ class Conductor
 
 	inline public static function calculateCrochet(bpm:Float)
 	{
-		return (60/bpm)*1000;
+		return (60/bpm) * 1000;
 	}
 
 	public static function set_bpm(newBPM:Float):Float

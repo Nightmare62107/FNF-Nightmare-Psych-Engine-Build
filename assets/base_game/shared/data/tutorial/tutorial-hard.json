@@ -267,6 +267,7 @@
 		}
 	],
 	"player2": "gf",
+	"skipCountdown": false,
 	"gfVersion": "gf",
 	"events": [],
 	"song": "Tutorial",

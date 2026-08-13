@@ -21,6 +21,8 @@ import sys.io.*;
 import js.html.*;
 #end
 
+import debug.FPSCounter;
+
 import backend.Paths;
 import backend.Controls;
 import backend.CoolUtil;
@@ -35,6 +37,13 @@ import backend.Difficulty;
 import backend.Mods;
 import backend.Language;
 import backend.Screenshot;
+import backend.PsychCamera;
+import backend.Song;
+import backend.StageData;
+import backend.WeekData;
+import backend.Highscore;
+import backend.Rating;
+import backend.Native;
 
 import backend.ui.*; //Psych-UI
 
@@ -43,11 +52,26 @@ import objects.BGSprite;
 
 import states.PlayState;
 import states.LoadingState;
+import states.CacheState;
+import states.TitleState;
+#if BALDIS_BASICS_IN_FUNKIN_FILES
+import states.CreeperScreenState;
+#end
+import states.MainMenuState;
+import states.InitState;
 
 #if flxanimate
 import flxanimate.*;
 import flxanimate.PsychFlxAnimate as FlxAnimate;
 #end
+
+import animation.*;
+import psychlua.*;
+import shaders.*;
+
+import openfl.display.BlendMode;
+import haxe.Json;
+import haxe.Timer;
 
 //Flixel
 import flixel.sound.FlxSound;
@@ -56,6 +80,7 @@ import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
+import flixel.math.FlxAngle;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.text.FlxText;
@@ -66,4 +91,6 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.addons.transition.FlxTransitionableState;
 
 using StringTools;
+using flixel.util.FlxSpriteUtil;
+using Lambda;
 #end

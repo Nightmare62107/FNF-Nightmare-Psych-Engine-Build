@@ -841,6 +841,7 @@
 		}
 	],
 	"player2": "parents-christmas",
+	"skipCountdown": false,
 	"player3": null,
 	"song": "Eggnog",
 	"stage": "mall",

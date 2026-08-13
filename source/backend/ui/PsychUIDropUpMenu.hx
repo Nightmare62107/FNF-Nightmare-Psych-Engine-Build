@@ -268,7 +268,7 @@ class PsychUIDropUpItem extends FlxSpriteGroup
 		}
 		
 		text.x = bg.x;
-		text.y = bg.y + bg.height/2 - text.height/2;
+		text.y = bg.y + bg.height / 2 - text.height / 2;
 	}
 
 	public var label(default, set):String;

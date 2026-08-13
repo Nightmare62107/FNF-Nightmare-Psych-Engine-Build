@@ -1,6 +1,6 @@
 {
 	"player1": "bf",
-	"gfVersion": "gf",
+	"gfVersion": "gf-ludumdare",
 	"notes": [
 		{
 			"sectionBeats": 4,
@@ -874,6 +874,7 @@
 	],
 	"events": [],
 	"player2": "bf-pixel-opponent",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "ninjamuffin99",
 	"song": "Test",

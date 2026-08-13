@@ -53,21 +53,25 @@ class FlashingState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if(leftState) {
+		if (leftState)
+		{
 			super.update(elapsed);
 			return;
 		}
 		var back:Bool = controls.BACK;
-		if (controls.UI_LEFT_P || controls.UI_RIGHT_P) {
+		if (controls.UI_LEFT_P || controls.UI_RIGHT_P)
+		{
 			FlxG.sound.play(Paths.sound("scrollMenu"), 0.7);
 			isYes = !isYes;
 			updateItems();
 		}
-		if (controls.ACCEPT || back) {
+		if (controls.ACCEPT || back)
+		{
 			leftState = true;
 			FlxTransitionableState.skipNextTransIn = true;
 			FlxTransitionableState.skipNextTransOut = true;
-			if(!back) {
+			if (!back)
+			{
 				ClientPrefs.data.flashing = !isYes;
 				ClientPrefs.saveSettings();
 				FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -79,7 +83,9 @@ class FlashingState extends MusicBeatState
 						});
 					});
 				});
-			} else {
+			}
+			else
+			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				FlxTween.tween(texts, {alpha: 0}, 1, {
 					onComplete: (_) -> MusicBeatState.switchState(new TitleState())
@@ -89,7 +95,8 @@ class FlashingState extends MusicBeatState
 		super.update(elapsed);
 	}
 
-	function updateItems() {
+	function updateItems()
+	{
 		// it's clunky but it works.
 		texts.members[1].alpha = isYes ? 1.0 : 0.6;
 		texts.members[2].alpha = isYes ? 0.6 : 1.0;

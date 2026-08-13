@@ -42,8 +42,8 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		#if FLX_PITCH
 		var option:GameplayOption = new GameplayOption('Playback Rate', 'songspeed', FLOAT, 1);
 		option.scrollSpeed = 1;
-		option.minValue = 0.5;
-		option.maxValue = 3.0;
+		option.minValue = Math.NEGATIVE_INFINITY;
+		option.maxValue = Math.POSITIVE_INFINITY;
 		option.changeValue = 0.05;
 		option.displayFormat = '%vX';
 		option.decimals = 2;
@@ -71,6 +71,9 @@ class GameplayChangersSubstate extends MusicBeatSubstate
 		optionsArray.push(new GameplayOption('Skip Countdown', 'skipcountdown', BOOL, false));
 		#if VS_SONIC_EXE_FILES
 		optionsArray.push(new GameplayOption('Ring System', 'ringsystem', BOOL, false));
+		#end
+		#if MARIOS_MADNESS_FILES
+		optionsArray.push(new GameplayOption('SM64 Life Meter System', 'sm64lifemetersystem', BOOL, false));
 		#end
 		optionsArray.push(new GameplayOption('Max Misses', 'maxmisses', BOOL, false));
 		optionsArray.push(new GameplayOption('Instakill on Miss', 'instakill', BOOL, false));

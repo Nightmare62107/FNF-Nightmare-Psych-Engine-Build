@@ -1,5 +1,7 @@
 package states.stages.objects;
 
+import states.PlayState;
+
 class PhillyGlowParticle extends FlxSprite
 {
 	var lifeTime:Float = 0;
@@ -10,7 +12,14 @@ class PhillyGlowParticle extends FlxSprite
 		super(x, y);
 		this.color = color;
 
-		loadGraphic(Paths.image('philly/particle'));
+		var currentStage:String = PlayState.SONG != null ? PlayState.SONG.stage : null;
+		switch(currentStage)
+		{
+			case 'philly': loadGraphic(Paths.image('philly/particle'));
+			case 'limo': loadGraphic(Paths.image('limo/particle'));
+			default: loadGraphic(Paths.image('philly/particle'));
+		}
+		
 		antialiasing = ClientPrefs.data.antialiasing;
 		start();
 	}

@@ -180,10 +180,35 @@ class NotesColorSubState extends MusicBeatSubstate
     var _storedColor:FlxColor;
     var changingNote:Bool = false;
     var holdingOnObj:FlxSprite;
-    var allowedTypeKeys:Map<FlxKey, String> = [
-        ZERO => '0', ONE => '1', TWO => '2', THREE => '3', FOUR => '4', FIVE => '5', SIX => '6', SEVEN => '7', EIGHT => '8', NINE => '9',
-        NUMPADZERO => '0', NUMPADONE => '1', NUMPADTWO => '2', NUMPADTHREE => '3', NUMPADFOUR => '4', NUMPADFIVE => '5', NUMPADSIX => '6',
-        NUMPADSEVEN => '7', NUMPADEIGHT => '8', NUMPADNINE => '9', A => 'A', B => 'B', C => 'C', D => 'D', E => 'E', F => 'F'];
+    var allowedTypeKeys:Map<FlxKey, String> =
+    [
+        ZERO => '0',
+        ONE => '1',
+        TWO => '2',
+        THREE => '3',
+        FOUR => '4',
+        FIVE => '5',
+        SIX => '6',
+        SEVEN => '7',
+        EIGHT => '8',
+        NINE => '9',
+        NUMPADZERO => '0',
+        NUMPADONE => '1',
+        NUMPADTWO => '2',
+        NUMPADTHREE => '3',
+        NUMPADFOUR => '4',
+        NUMPADFIVE => '5',
+        NUMPADSIX => '6',
+        NUMPADSEVEN => '7',
+        NUMPADEIGHT => '8',
+        NUMPADNINE => '9',
+        A => 'A',
+        B => 'B',
+        C => 'C',
+        D => 'D',
+        E => 'E',
+        F => 'F'
+    ];
 
     override function update(elapsed:Float)
     {
@@ -521,10 +546,10 @@ class NotesColorSubState extends MusicBeatSubstate
                 }
                 else if (holdingOnObj == colorWheel)
                 {
-                    var center:FlxPoint = new FlxPoint(colorWheel.x + colorWheel.width/2, colorWheel.y + colorWheel.height/2);
+                    var center:FlxPoint = new FlxPoint(colorWheel.x + colorWheel.width / 2, colorWheel.y + colorWheel.height / 2);
                     var mouse:FlxPoint = pointerFlxPoint();
                     var hue:Float = FlxMath.wrap(FlxMath.wrap(Std.int(mouse.degreesTo(center)), 0, 360) - 90, 0, 360);
-                    var sat:Float = FlxMath.bound(mouse.dist(center) / colorWheel.width*2, 0, 1);
+                    var sat:Float = FlxMath.bound(mouse.dist(center) / colorWheel.width * 2, 0, 1);
                     //trace('$hue, $sat');
                     if (sat != 0)
                     {
@@ -818,12 +843,12 @@ class NotesColorSubState extends MusicBeatSubstate
         }
 
         colorWheel.color = FlxColor.fromHSB(0, 0, color.brightness);
-        colorWheelSelector.setPosition(colorWheel.x + colorWheel.width/2, colorWheel.y + colorWheel.height/2);
+        colorWheelSelector.setPosition(colorWheel.x + colorWheel.width / 2, colorWheel.y + colorWheel.height / 2);
         if (wheelColor.brightness != 0)
         {
             var hueWrap:Float = wheelColor.hue * Math.PI / 180;
-            colorWheelSelector.x += Math.sin(hueWrap) * colorWheel.width/2 * wheelColor.saturation;
-            colorWheelSelector.y -= Math.cos(hueWrap) * colorWheel.height/2 * wheelColor.saturation;
+            colorWheelSelector.x += Math.sin(hueWrap) * colorWheel.width / 2 * wheelColor.saturation;
+            colorWheelSelector.y -= Math.cos(hueWrap) * colorWheel.height / 2 * wheelColor.saturation;
         }
         colorGradientSelector.y = colorGradient.y + colorGradient.height * (1 - color.brightness);
 

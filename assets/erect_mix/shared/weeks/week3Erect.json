@@ -16,6 +16,7 @@
 	"weekBefore": "week2Erect",
 	"weekName": "Week 3 Erect",
 	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
 
 	"hideStoryMode": false,
 	"hideFreeplay": false,

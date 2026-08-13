@@ -1083,6 +1083,7 @@
 	],
 	"events": [],
 	"player2": "darnell",
+	"skipCountdown": false,
 	"offset": 0,
 	"charter": "fabs",
 	"song": "Darnell",

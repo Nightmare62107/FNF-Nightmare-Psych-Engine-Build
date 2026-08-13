@@ -1,0 +1,28 @@
+{
+	"songs": [
+		["Bopeebo Pico Mix", "dad", [175, 102, 206]],
+		["Fresh Pico Mix", "dad", [175, 102, 206]],
+		["Dad Battle Pico Mix", "dad", [175, 102, 206]],
+		["Spookeez Pico Mix", "spooky", [213, 126, 0]],
+		["South Pico Mix", "spooky", [213, 126, 0]],
+		["Ugh Pico Mix", "tankman", [225, 225, 225]],
+		["Stress Pico Mix", "tankman", [225, 225, 225]]
+	],
+
+	"weekCharacters": [
+		"",
+		"pico-player-picomix",
+		""
+	],
+	"weekBackground": "blank_picomix",
+
+	"storyName": "All Pico Mixes",
+	"weekBefore": "",
+	"weekName": "Pico Mix",
+	"startUnlocked": true,
+	"hiddenUntilUnlocked": false,
+
+	"hideStoryMode": false,
+	"hideFreeplay": true,
+	"difficulties": "Easy, Normal, Hard"
+}

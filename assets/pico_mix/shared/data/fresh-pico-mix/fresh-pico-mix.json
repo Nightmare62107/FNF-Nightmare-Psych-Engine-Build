@@ -588,6 +588,7 @@
 		}
 	],
 	"player2": "dad",
+	"skipCountdown": false,
 	"offset": 0,
 	"song": "Fresh Pico Mix",
 	"pauseBreakfast": "breakfast-pico",

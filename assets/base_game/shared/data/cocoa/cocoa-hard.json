@@ -744,6 +744,7 @@
 		}
 	],
 	"player2": "parents-christmas",
+	"skipCountdown": false,
 	"player3": null,
 	"song": "Cocoa",
 	"stage": "mall",

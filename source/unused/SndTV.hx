@@ -185,7 +185,7 @@ class SndTV {
 				0.0,
 				0.0,
 				vartype,
-				1 / ( duration_ms*fps/1000 ), // une seconde
+				1 / ( duration_ms * fps / 1000 ), // une seconde
 				from,
 				to,
 				tp,
@@ -196,12 +196,7 @@ class SndTV {
 		}
 		else {
 			t = pool.pop();
-			t.reset(
-				p,
-				0.0,
-				0.0,
-				vartype,
-				1 / ( duration_ms*fps/1000 ), // une seconde
+			t.reset(p, 0.0, 0.0, vartype, 1 / (duration_ms * fps / 1000), // une seconde
 				from,
 				to,
 				tp,
@@ -212,8 +207,10 @@ class SndTV {
 			
 		}
 
-		if( t.from==t.to )
+		if (t.from == t.to)
+		{
 			t.ln = 1; // tweening inutile : mais on s'assure ainsi qu'un update() et un end() seront bien appelés
+		}
 
 		t.man = this;
 		tlist.push(t);
@@ -221,39 +218,44 @@ class SndTV {
 		return t;
 	}
 
-	public static inline 
-	function fastPow2(n:Float):Float {
-		return n*n;
+	public static inline function fastPow2(n:Float):Float
+	{
+		return n * n;
 	}
 	
-	public static inline 
-	function fastPow3(n:Float):Float {
-		return n*n*n;
+	public static inline function fastPow3(n:Float):Float
+	{
+		return n * n * n;
 	}
 
-	public static inline 
-	function bezier(t:Float, p0:Float, p1:Float,p2:Float, p3:Float) {
-		return
-			fastPow3(1-t)*p0 +
-			3*( t*fastPow2(1-t)*p1 + fastPow2(t)*(1-t)*p2 ) +
-			fastPow3(t)*p3;
+	public static inline function bezier(t:Float, p0:Float, p1:Float,p2:Float, p3:Float)
+	{
+		return fastPow3(1 - t) * p0 + 3 * (t * fastPow2(1 - t) * p1 + fastPow2(t) * (1 - t) * p2) + fastPow3(t) * p3;
 	}
 	
 	// suppression du tween sans aucun appel aux callbacks onUpdate, onUpdateT et onEnd (!)
-	public function killWithoutCallbacks(parent:Snd) {
+	public function killWithoutCallbacks(parent:Snd)
+	{
 		for (t in tlist.backWardIterator())
-			if (t.parent==parent ){
+		{
+			if (t.parent == parent)
+			{
 				forceTerminateTween(t);
 				return true;
 			}
+		}
 		return false;
 	}
 	
-	public function terminate(parent:Snd) {
+	public function terminate(parent:Snd)
+	{
 		for (t in tlist.backWardIterator())
-			if (t.parent==parent){
+		{
+			if (t.parent==parent)
+			{
 				forceTerminateTween(t);
 			}
+		}
 	}
 	
 	public function forceTerminateTween(t:TweenV) {
